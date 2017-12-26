@@ -1,14 +1,15 @@
 import React from "react";
 import { appName } from "../constants";
+import { Navbar, Container, NavbarBrand, NavbarItem } from "bloomer";
 
 export default () => (
-  <nav className="navbar">
-    <div className="container">
-      <div className="navbar-brand">
-        <div className="navbar-item">
+  <Navbar isTransparent className="is-light">
+    <Container>
+      <NavbarBrand>
+        <NavbarItem>
           <strong>{appName}</strong>
-        </div>
-      </div>
-    </div>
-  </nav>
+        </NavbarItem>
+      </NavbarBrand>
+    </Container>
+  </Navbar>
 );

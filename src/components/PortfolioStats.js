@@ -1,12 +1,13 @@
 import React from "react";
+import { Level, LevelItem, Heading, Title } from "bloomer";
 
 export default () => (
-  <nav className="level is-mobile">
-    <div className="level-item has-text-centered">
+  <Level isMobile>
+    <LevelItem hasTextAlign="centered">
       <div>
-        <p className="heading">value</p>
-        <p className="title">$ 123 567</p>
+        <Heading>value</Heading>
+        <Title>$ 123 567</Title>
       </div>
-    </div>
-  </nav>
+    </LevelItem>
+  </Level>
 );

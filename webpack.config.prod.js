@@ -191,7 +191,7 @@ module.exports = {
               presets: [require.resolve("babel-preset-react-app")],
               // @remove-on-eject-end
               compact: true,
-              plugins: [["lodash", { id: ["lodash", "recompose"] }]]
+              plugins: [["lodash", { id: ["lodash", "recompose", "bloomer"] }]]
             }
           },
           // The notation here is somewhat confusing.

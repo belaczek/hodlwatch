@@ -1,7 +1,8 @@
 import React from "react";
+import { Content } from "bloomer";
 
 export default () => (
-  <div className="content has-text-centered">
+  <Content hasTextAlign="centered">
     <h1>chart</h1>
-  </div>
+  </Content>
 );

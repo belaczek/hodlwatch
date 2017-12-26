@@ -1,7 +1,9 @@
 import React from "react";
-import AppLayout from "./AppLayout";
-import Chart from "../components/Chart";
-import PortfolioStats from "../components/PortfolioStats";
+import { Container, Section, Columns, Column, Title } from "bloomer";
+
+import AppLayout from "../AppLayout";
+import Chart from "../../components/Chart";
+import PortfolioStats from "../../components/PortfolioStats";
 import {
   compose,
   lifecycle,
@@ -14,8 +16,8 @@ import { connect } from "react-redux";
 import {
   exchangesDataSelector,
   selectExchangeByName
-} from "../store/selectors";
-import { fetchCcxtExchanges } from "../store/modules/marketData";
+} from "../../store/selectors";
+import { fetchCcxtExchanges } from "../../store/modules/marketData";
 
 const Spinner = () => (
   <div className="Spinner">
@@ -34,14 +36,14 @@ const renderMainScreen = ({
 }) => (
   <AppLayout>
     <PortfolioStats />
-    <div className="container">
+    <Container>
       <Chart />
-    </div>
-    <section className="section">
-      <div className="container">
-        <div className="columns">
-          <div className="column">
-            <h1 className="title is-5">Exchanges</h1>
+    </Container>
+    <Section>
+      <Container>
+        <Columns>
+          <Column>
+            <Title isSize={5}>Exchanges</Title>
             {exchangesIsLoading && <Spinner />}
             {exchangesError && (
               <p className="has-text-danger">Failed to get exchanges</p>
@@ -55,18 +57,18 @@ const renderMainScreen = ({
                 ))}
               </ul>
             ) : null}
-          </div>
-          <div className="column">
-            <h1 className="title is-5">Currency pairs</h1>
+          </Column>
+          <Column>
+            <Title isSize={5}>Currency pairs</Title>
             {marketsIsLoading && <Spinner />}
             {marketsIsError && (
               <p className="has-text-danger">{marketsIsError}</p>
             )}
             <ul>{markets.map(t => <li key={t}>{t}</li>)}</ul>
-          </div>
-        </div>
-      </div>
-    </section>
+          </Column>
+        </Columns>
+      </Container>
+    </Section>
   </AppLayout>
 );
 

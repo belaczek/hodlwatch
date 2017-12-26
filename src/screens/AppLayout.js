@@ -1,12 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 const AppLayout = ({ children }) => (
-  <div>
+  <Fragment>
     <Navbar />
     {children}
     <Footer />
-  </div>
+  </Fragment>
 );
 
 export default AppLayout;

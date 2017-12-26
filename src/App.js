@@ -1,5 +1,5 @@
 import React from "react";
-import Intro from "./screens/Intro";
+import Intro from "./screens/Intro/";
 import { compose, withState, withHandlers } from "recompose";
 import { Provider } from "react-redux";
 
@@ -17,7 +17,7 @@ const App = compose(
   withState("MainScreen", "setMainScreen", null),
   withHandlers({
     loadMainScreen: ({ setMainScreen }) => async () => {
-      const { default: ChildScreen } = await import("./screens/Main");
+      const { default: ChildScreen } = await import("./screens/Main/");
       setMainScreen(() => ChildScreen);
     }
   })
