@@ -5,17 +5,17 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "predeployy": "npm run build",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm-run-all build-css build-js",
     "deploy": "gh-pages -d build",
+    "test": "react-scripts test --env=jsdom",
+    "start-js": "react-scripts start",
+    "build-js": "react-scripts build",
+    "predeploy": "npm run build",
     "build-css":
       "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css":
       "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js",
-    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config"
@@ -26,7 +26,7 @@
   "dependencies": {
     "bloomer": "^0.6.3",
     "bulma": "^0.6.1",
-    "ccxt": "^1.10.487",
+    "ccxt": "^1.10.508",
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
@@ -45,6 +45,7 @@
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.9.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "uglifyjs-webpack-plugin": "^1.1.5"
   }
 }
