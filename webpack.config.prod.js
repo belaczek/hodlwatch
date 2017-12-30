@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+//@ts-nocheck
+
 /**
  * This is a customized version of webpack.config.prod.js from react-scripts
  * Changes were made to enable babel-lodash-plugin and also to avoid minification issues caused byt ccxt package
@@ -200,11 +202,9 @@ module.exports = {
                   {
                     root: ['./'],
                     alias: {
-                      bulma: './node_modules/bulma',
+                      src: './src',
                       store: './src/store',
                       utils: './src/utils',
-                      examples: './examples',
-                      public: './public',
                       components: './src/components'
                     }
                   }

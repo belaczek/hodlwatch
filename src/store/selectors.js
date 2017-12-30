@@ -1,10 +1,17 @@
-import { get } from 'lodash'
+import { getOr, get, pipe, find } from 'lodash/fp'
 
-export const exchangesDataSelector = state =>
-  get(state, ['marketData', 'exchanges'], {})
+// core
+export const getAppState = getOr(false, ['core', 'isAppInitialized'])
+export const getServiceWorker = getOr(false, ['core', 'serviceWorkerUpdated'])
 
-export const selectExchangeByName = name => state => {
-  const { data } = exchangesDataSelector(state)
-  const exchange = data.find(ex => ex.name === name || ex.id === name)
-  return exchange
-}
+// portfolio
+
+// marketData
+export const exchangesDataSelector = getOr({}, ['marketData', 'exchanges'])
+
+export const selectExchangeByName = name =>
+  pipe(
+    exchangesDataSelector,
+    get('data'),
+    find(ex => ex.name === name || ex.id === name)
+  )

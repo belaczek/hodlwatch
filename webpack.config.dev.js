@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+//@ts-nocheck
+
 // @remove-on-eject-begin
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -178,11 +180,9 @@ module.exports = {
                   {
                     root: ['./'],
                     alias: {
-                      bulma: './node_modules/bulma',
+                      src: './src',
                       store: './src/store',
                       utils: './src/utils',
-                      examples: './examples',
-                      public: './public',
                       components: './src/components'
                     }
                   }

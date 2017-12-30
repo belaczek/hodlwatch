@@ -1,18 +1,21 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { throttle, pick } from 'lodash'
 import thunk from 'redux-thunk'
-import { combineReducers } from 'redux'
-import portfolio from './modules/portfolio'
-import marketData from './modules/marketData'
-import { loadState, saveState } from '../localStorage'
-import throttle from 'lodash/throttle'
 
-const reducer = combineReducers({ portfolio, marketData })
+import core from 'store/modules/core'
+import portfolio from 'store/modules/portfolio'
+import marketData from 'store/modules/marketData'
+import { loadState, saveState } from 'utils/localStorage'
+
+const reducer = combineReducers({ core, portfolio, marketData })
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const emptyState = {
-  portfolio: {}
+  portfolio: {},
+  marketData: {},
+  core: {}
 }
 
 export const configureStore = () => {
@@ -28,7 +31,8 @@ export const configureStore = () => {
   store.subscribe(
     // save state max once per 500ms to avoid performance issues
     throttle(() => {
-      saveState({ portfolio: store.getState().portfolio })
+      const { portfolio, core } = store.getState()
+      saveState({ portfolio, core: pick(core, ['isAppInitialized']) })
     }, 500)
   )
 

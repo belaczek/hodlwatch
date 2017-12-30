@@ -1,7 +1,18 @@
-import { Button, Container, Hero, HeroBody, Subtitle, Title } from 'bloomer'
+import {
+  Button,
+  Container,
+  Hero,
+  HeroBody,
+  HeroFooter,
+  Subtitle,
+  Title
+} from 'bloomer'
 import { compose, withHandlers, withState } from 'recompose'
+import { connect } from 'react-redux'
 import React from 'react'
+
 import { appName } from '../../constants'
+import { setAppInitialized } from 'store/modules/core'
 
 const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
   <Hero isFullHeight isColor='light'>
@@ -19,15 +30,25 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
         <p className='is-size-5 mt-10'>under heavy development</p>
       </Container>
     </HeroBody>
+    <HeroFooter>
+      <Container hasTextAlign='centered'>
+        <i>
+          hodl.watch uses browsers local storage to ensure its functionality
+        </i>
+      </Container>
+    </HeroFooter>
   </Hero>
 )
 
 const Intro = compose(
+  connect(null, dispatch => ({
+    setAppInitialized: () => dispatch(setAppInitialized())
+  })),
   withState('btnIsLoading', 'setBtnLoading', false),
   withHandlers({
-    handleBtnClick: ({ setBtnLoading, loadApp }) => () => {
+    handleBtnClick: ({ setBtnLoading, loadApp, setAppInitialized }) => () => {
       setBtnLoading(true)
-      loadApp()
+      setAppInitialized()
     }
   })
 )(renderIntro)
