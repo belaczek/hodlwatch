@@ -16,9 +16,6 @@ const withStore = Component => ({ store, ...props }) => (
 )
 
 const getRoute = async isInitialized => {
-  console.log(isInitialized)
-  // const { default: ChildScreen } = await import('./screens/Main/')
-  // return ChildScreen
   if (isInitialized) {
     const { default: ChildScreen } = await import('./screens/Main/')
     return ChildScreen
@@ -52,7 +49,6 @@ const App = compose(
     componentWillReceiveProps (nextProps) {
       const { loadScreen, appIsInitialized } = this.props
       if (nextProps.appIsInitialized !== appIsInitialized) {
-        console.log('updating')
         loadScreen()
       }
     }
