@@ -1,1 +1,1 @@
-export const appName = "hodl.watch";
+export const appName = 'hodl.watch'

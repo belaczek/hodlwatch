@@ -1,35 +1,35 @@
-import React from "react";
-import { compose, withState, withHandlers } from "recompose";
-import { appName } from "../../constants";
-import { Hero, HeroBody, Container, Title, Subtitle, Button } from "bloomer";
+import { Button, Container, Hero, HeroBody, Subtitle, Title } from 'bloomer'
+import { compose, withHandlers, withState } from 'recompose'
+import React from 'react'
+import { appName } from '../../constants'
 
 const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
-  <Hero isFullHeight isColor="light">
+  <Hero isFullHeight isColor='light'>
     <HeroBody>
-      <Container hasTextAlign="centered">
+      <Container hasTextAlign='centered'>
         <Title isSize={1}>{appName}</Title>
         <Subtitle>crypto portfolio tracking app</Subtitle>
         <Button
-          isColor="warning"
+          isColor='warning'
           onClick={handleBtnClick}
           isLoading={btnIsLoading}
         >
           OPEN
         </Button>
-        <p className="is-size-5 mt-10">under heavy development</p>
+        <p className='is-size-5 mt-10'>under heavy development</p>
       </Container>
     </HeroBody>
   </Hero>
-);
+)
 
 const Intro = compose(
-  withState("btnIsLoading", "setBtnLoading", false),
+  withState('btnIsLoading', 'setBtnLoading', false),
   withHandlers({
     handleBtnClick: ({ setBtnLoading, loadApp }) => () => {
-      setBtnLoading(true);
-      loadApp();
+      setBtnLoading(true)
+      loadApp()
     }
   })
-)(renderIntro);
+)(renderIntro)
 
-export default Intro;
+export default Intro

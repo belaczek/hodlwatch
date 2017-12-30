@@ -1,7 +1,17 @@
-# __[hodl.watch](https://hodl.watch)__
-Extensible web application for crypto portfolio tracking. With charts!
+
+<h1 align="center"><strong>hodl.watch</strong></h1>
+
+<p align="center">
+  <strong>Secure web application for cryptocurrency portfolio tracking </strong>
+</p>
+<p align="center">
+  <strong>With fancy chart!</strong>
+</p>
+
 
 The main idea behind this project is to create portfolio tracking web application which is easy to use, easy to modify or extend and where user is an owner of his own data. That means everyone can make a fork of this project and run it in his own environment. Or they can just use the hosted app at [hodl.watch](https://hodl.watch)
+
+All user data are stored in browser local storage, nothing is being sent out of your device.
 
 ### __Project is under heavy development__
 
@@ -10,6 +20,7 @@ The main idea behind this project is to create portfolio tracking web applicatio
 ## Features
 
 ### Advanced charting
+Track your portfolio value in an intuitive chart containing all your assets, stacked together.
 
 ### Automatic exchange data import
 Thanks to awesome [ccxt](https://github.com/ccxt/ccxt) library it has become fair simple to support many exchanges through unified API.
@@ -17,7 +28,7 @@ Thanks to awesome [ccxt](https://github.com/ccxt/ccxt) library it has become fai
 ### Private data storage
 The app stores all its data in browser localstorage, not sending it to any third party. 
 
-One of the planned future features is optional dropbox sync so that user can work with the same data on multiple devices.
+One of the planned future features is optional dropbox/onedrive sync so that user can work with the same data on multiple devices.
 
 ### Easy to modify
 hodl.watch being powered by React and Redux which is one of the most popular stacks
@@ -34,6 +45,8 @@ A developer wiki is planned to provide some instructions about how to work with 
  - [recompose](https://github.com/acdlite/recompose)
  - [lodash](https://github.com/lodash/lodash)
  - [ccxt](https://github.com/ccxt/ccxt)
+
+ [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
  <!-- - d3
  - nvd3
  - bulma -->

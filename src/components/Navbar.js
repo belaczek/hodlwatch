@@ -1,9 +1,9 @@
-import React from "react";
-import { appName } from "../constants";
-import { Navbar, Container, NavbarBrand, NavbarItem } from "bloomer";
+import React from 'react'
+import { appName } from '../constants'
+import { Navbar, Container, NavbarBrand, NavbarItem } from 'bloomer'
 
 export default () => (
-  <Navbar isTransparent className="is-light">
+  <Navbar isTransparent className='is-light'>
     <Container>
       <NavbarBrand>
         <NavbarItem>
@@ -12,4 +12,4 @@ export default () => (
       </NavbarBrand>
     </Container>
   </Navbar>
-);
+)

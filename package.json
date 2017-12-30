@@ -9,25 +9,44 @@
     "build": "npm-run-all build-css build-js",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
+    "format": "prettier-standard 'src/**/*.js'",
+    "format:single": "prettier-standard",
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
     "predeploy": "npm run build",
-    "build-css":
-      "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "watch-css":
-      "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
-    "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config"
+    "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
+    "prestart": "cp webpack.config.dev.js node_modules/react-scripts/config"
   },
   "lint-staged": {
-    "*.{js,json,css,scss}": ["prettier --write", "git add"]
+    "*.{js}": [
+      "format:single",
+      "eslint --max-warnings=0",
+      "git add"
+    ]
   },
   "dependencies": {
+    "@vx/axis": "0.0.147",
+    "@vx/event": "0.0.143",
+    "@vx/gradient": "0.0.143",
+    "@vx/grid": "0.0.147",
+    "@vx/group": "0.0.143",
+    "@vx/mock-data": "0.0.147",
+    "@vx/pattern": "0.0.143",
+    "@vx/responsive": "0.0.150",
+    "@vx/scale": "0.0.143",
+    "@vx/shape": "0.0.147",
+    "@vx/tooltip": "0.0.148",
     "bloomer": "^0.6.3",
     "bulma": "^0.6.1",
-    "ccxt": "^1.10.508",
+    "ccxt": "^1.10.524",
     "classnames": "^2.2.5",
+    "d3-array": "^1.2.0",
+    "d3-format": "^1.2.0",
+    "d3-time-format": "^2.0.5",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -38,13 +57,19 @@
   },
   "devDependencies": {
     "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "jest-cli": "^21.2.1",
     "lint-staged": "^4.3.0",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
-    "prettier": "^1.9.2",
+    "prettier-standard": "^8.0.0",
     "react-scripts": "1.0.17",
     "uglifyjs-webpack-plugin": "^1.1.5"
   }
