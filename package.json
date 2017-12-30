@@ -22,7 +22,7 @@
     "prestart": "cp webpack.config.dev.js node_modules/react-scripts/config"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.js": [
       "format:single",
       "eslint --max-warnings=0",
       "git add"

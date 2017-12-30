@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 /**
  * This is a customized version of webpack.config.prod.js from react-scripts
  * Changes were made to enable babel-lodash-plugin and also to avoid minification issues caused byt ccxt package
@@ -13,7 +14,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @remove-on-eject-end
-
 
 const autoprefixer = require('autoprefixer')
 const path = require('path')
@@ -59,7 +59,7 @@ const cssFilename = 'static/css/[name].[contenthash:8].css'
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
-  { publicPath: Array(cssFilename.split('/').length).join('../') }
+    { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {}
 
 // This is the production configuration.
@@ -368,7 +368,7 @@ module.exports = {
       // about it being stale, and the cache-busting can be skipped.
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       filename: 'service-worker.js',
-      logger (message) {
+      logger(message) {
         if (message.indexOf('Total precache size is') === 0) {
           // This message occurs for every build and is a bit too noisy.
           return
