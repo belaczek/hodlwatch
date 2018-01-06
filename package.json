@@ -42,7 +42,7 @@
     "@vx/tooltip": "0.0.148",
     "bloomer": "^0.6.3",
     "bulma": "^0.6.1",
-    "ccxt": "^1.10.524",
+    "ccxt": "^1.10.579",
     "classnames": "^2.2.5",
     "d3-array": "^1.2.0",
     "d3-format": "^1.2.0",
@@ -71,6 +71,6 @@
     "npm-run-all": "^4.1.2",
     "prettier-standard": "^8.0.0",
     "react-scripts": "1.0.17",
-    "uglifyjs-webpack-plugin": "^1.1.5"
+    "uglifyjs-webpack-plugin": "^1.1.6"
   }
 }
