@@ -173,21 +173,22 @@ module.exports = {
               // @remove-on-eject-begin
               babelrc: false,
               presets: [require.resolve('babel-preset-react-app')],
-              plugins: [
-                ['lodash', { id: ['lodash', 'recompose', 'bloomer'] }],
-                [
-                  'module-resolver',
-                  {
-                    root: ['./'],
-                    alias: {
-                      src: './src',
-                      store: './src/store',
-                      utils: './src/utils',
-                      components: './src/components'
-                    }
-                  }
-                ]
-              ],
+              // plugins: [
+              //   ['lodash', { id: ['lodash', 'recompose', 'bloomer'] }],
+              //   [
+              //     'module-resolver',
+              //     {
+              //       root: ['./src'],
+              //       alias: {
+              //         src: './src',
+              //         store: './src/store',
+              //         utils: './src/utils',
+              //         components: './src/components',
+              //         datasources: './src/datasources'
+              //       }
+              //     }
+              //   ]
+              // ],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

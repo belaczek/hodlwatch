@@ -11,7 +11,7 @@ import { compose, withHandlers, withState } from 'recompose'
 import { connect } from 'react-redux'
 import React from 'react'
 
-import { appName } from '../../constants'
+import { appName } from 'appConstants'
 import { setAppInitialized } from 'store/modules/core'
 
 const renderIntro = ({ handleBtnClick, btnIsLoading }) => (

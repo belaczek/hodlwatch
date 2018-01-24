@@ -3,7 +3,7 @@ import { Navbar, Container, NavbarBrand, NavbarItem, Button } from 'bloomer'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 
-import { appName } from 'src/constants'
+import { appName } from 'appConstants'
 import { getServiceWorker } from 'store/selectors'
 
 const renderNavbar = ({ showUpdate, refresh }) => (

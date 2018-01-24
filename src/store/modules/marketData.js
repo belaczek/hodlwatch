@@ -56,16 +56,15 @@ export const fetchCcxtExchanges = () => async dispatch => {
 
   try {
     const ccxtModule = await ccxt()
-    // const exchanges = ccxtModule.exchanges.((acc, ex) => {
-    //   const exchange = new ccxtModule[ex]();
-    //   return exchange.hasFetchOHLCV ? [...acc, exchange] : acc;
-    // }, []);
-    const exchanges = ccxtModule.exchanges.map(ex => {
-      const exchange = new ccxtModule[ex]()
-      // exchange.proxy = "enable-cors.org";
-      // exchange.proxy = "localhost:8080";
-      return exchange
-    })
+
+    /** Instantiate all exchanges and filter to only include those which are fully compatible with our usecase:
+     *  - receives cross-origin requests
+     *  - supports private api to fetch balance info
+     */
+    const exchanges = ccxtModule.exchanges
+      .map(ex => new ccxtModule[ex]())
+      .filter(ex => ex.has.CORS && ex.has.privateAPI && ex.has.fetchBalance)
+
     dispatch({ type: FETCH_EXCHANGES_RECEIVED, payload: { exchanges } })
   } catch (error) {
     dispatch({ type: FETCH_EXCHANGES_FAILED, payload: { error } })

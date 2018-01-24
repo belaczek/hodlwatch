@@ -2,8 +2,10 @@ import React from 'react'
 import { Content } from 'bloomer'
 import { withParentSize, withScreenSize } from '@vx/responsive'
 import { compose, withState, lifecycle } from 'recompose'
+import format from 'date-fns/format'
 
 import BitcoinPrice from './chart/bitcoinprice'
+import { fetchOHLCV } from 'datasources'
 
 const renderChart = ({ parentWidth, screenHeight, chartData }) => (
   <Content hasTextAlign='centered'>
@@ -15,13 +17,13 @@ export default compose(
   withState('chartData', 'setChartData', {}),
   lifecycle({
     componentDidMount () {
-      fetch('https://api.coindesk.com/v1/bpi/historical/close.json')
-        .then(res => {
-          return res.json()
-        })
-        .then(json => {
-          this.props.setChartData(json)
-        })
+      fetchOHLCV({ baseSymbol: 'BTC', timeframe: 'DAY' }).then(data => {
+        const strippedData = data.map(({ time, close }) => ({
+          time: format(new Date(time * 1000), 'YYYY-MM-DD'),
+          price: close
+        }))
+        this.props.setChartData(strippedData)
+      })
     }
   }),
   withParentSize,

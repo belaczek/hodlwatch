@@ -19,7 +19,7 @@
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
-    "prestart": "cp webpack.config.dev.js node_modules/react-scripts/config"
+    "_prestart": "cp webpack.config.dev.js node_modules/react-scripts/config"
   },
   "lint-staged": {
     "*.js": [
@@ -40,13 +40,15 @@
     "@vx/scale": "0.0.143",
     "@vx/shape": "0.0.147",
     "@vx/tooltip": "0.0.148",
+    "axios": "^0.17.1",
     "bloomer": "^0.6.3",
-    "bulma": "^0.6.1",
-    "ccxt": "^1.10.579",
+    "bulma": "^0.6.2",
+    "ccxt": "^1.10.835",
     "classnames": "^2.2.5",
     "d3-array": "^1.2.0",
-    "d3-format": "^1.2.0",
+    "d3-format": "^1.2.2",
     "d3-time-format": "^2.0.5",
+    "date-fns": "^1.29.0",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -70,7 +72,7 @@
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
     "prettier-standard": "^8.0.0",
-    "react-scripts": "1.0.17",
+    "react-scripts": "1.1.0",
     "uglifyjs-webpack-plugin": "^1.1.6"
   }
 }

@@ -5,13 +5,10 @@ import Spinner from 'components/Spinner'
 
 import './bitcoinprice.css'
 
-export default function BitcoinPrice ({ data = {}, width, height }) {
-  if (!data.bpi) return <Spinner />
+export default function BitcoinPrice ({ data, width, height }) {
+  if (!data || !data.length) return <Spinner />
 
-  const prices = Object.keys(data.bpi).map(k => ({
-    time: k,
-    price: data.bpi[k]
-  }))
+  const prices = data || []
 
   const currentPrice = prices[prices.length - 1].price
   const firstPrice = prices[0].price

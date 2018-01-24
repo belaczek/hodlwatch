@@ -161,13 +161,13 @@ module.exports = {
         include: paths.appSrc
       },
       // Fix build error caused by ccxt
-      {
-        test: require.resolve('ccxt'),
-        loader: require.resolve('babel-loader'),
-        options: {
-          compact: true
-        }
-      },
+      // {
+      //   test: require.resolve('ccxt'),
+      //   loader: require.resolve('babel-loader'),
+      //   options: {
+      //     compact: true
+      //   }
+      // },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -196,19 +196,20 @@ module.exports = {
               // @remove-on-eject-end
               compact: true,
               plugins: [
-                ['lodash', { id: ['lodash', 'recompose', 'bloomer'] }],
-                [
-                  'module-resolver',
-                  {
-                    root: ['./'],
-                    alias: {
-                      src: './src',
-                      store: './src/store',
-                      utils: './src/utils',
-                      components: './src/components'
-                    }
-                  }
-                ]
+                ['lodash', { id: ['lodash', 'recompose', 'bloomer'] }]
+                // [
+                //   'module-resolver',
+                //   {
+                //     root: ['./'],
+                //     alias: {
+                //       src: './src',
+                //       store: './src/store',
+                //       utils: './src/utils',
+                //       components: './src/components',
+                //       datasources: './src/datasources'
+                //     }
+                //   }
+                // ]
               ]
             }
           },

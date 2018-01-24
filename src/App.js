@@ -2,10 +2,8 @@ import React from 'react'
 import { compose, withState, withHandlers, lifecycle } from 'recompose'
 import { Provider, connect } from 'react-redux'
 
-// import Intro from './screens/Intro/'
-import Spinner from 'components/Spinner'
 import { getAppState } from 'store/selectors'
-
+import Spinner from 'components/Spinner'
 // Small routing. Since we currently have only two routes, there is no need for react-router at the moment
 const renderApp = ({ Screen }) => (Screen ? <Screen /> : <Spinner />)
 

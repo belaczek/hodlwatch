@@ -1,5 +1,15 @@
 import React from 'react'
-import { Column, Columns, Container, Section, Title } from 'bloomer'
+import {
+  Column,
+  Columns,
+  Container,
+  Section,
+  Title,
+  Field,
+  Select,
+  Label,
+  Control
+} from 'bloomer'
 
 import AppLayout from '../AppLayout'
 import Chart from '../../components/Chart'
@@ -13,59 +23,11 @@ import {
   withState
 } from 'recompose'
 import { connect } from 'react-redux'
-import {
-  exchangesDataSelector,
-  selectExchangeByName
-} from '../../store/selectors'
-import { fetchCcxtExchanges } from '../../store/modules/marketData'
-import Spinner from '../../components/Spinner'
+import { exchangesDataSelector, selectExchangeByName } from 'store/selectors'
+import { fetchCcxtExchanges } from 'store/modules/marketData'
+import Spinner from 'components/Spinner'
 
-const renderMainScreen = ({
-  exchanges = [],
-  exchangesIsLoading,
-  exchangesError,
-  markets = [],
-  marketsIsLoading,
-  marketsIsError,
-  getMarkets
-}) => (
-  <AppLayout>
-    <PortfolioStats />
-    <Container>
-      <Chart />
-    </Container>
-    <Section>
-      <Container>
-        <Columns>
-          <Column>
-            <Title isSize={5}>Exchanges</Title>
-            {exchangesIsLoading && <Spinner />}
-            {exchangesError &&
-              <p className='has-text-danger'>Failed to get exchanges</p>}
-            {exchanges.length
-              ? <ul>
-                {exchanges.map(({ name }) => (
-                  <li key={name}>
-                    <a onClick={() => getMarkets(name)}>{name}</a>
-                  </li>
-                  ))}
-              </ul>
-              : null}
-          </Column>
-          <Column>
-            <Title isSize={5}>Currency pairs</Title>
-            {marketsIsLoading && <Spinner />}
-            {marketsIsError &&
-              <p className='has-text-danger'>{marketsIsError}</p>}
-            <ul>{markets.map(t => <li key={t}>{t}</li>)}</ul>
-          </Column>
-        </Columns>
-      </Container>
-    </Section>
-  </AppLayout>
-)
-
-const Main = compose(
+const enhance = compose(
   connect(
     state => ({
       exchangesData: exchangesDataSelector(state),
@@ -128,6 +90,60 @@ const Main = compose(
     }
   }),
   pure
-)(renderMainScreen)
+)
+
+const renderMainScreen = ({
+  exchanges = [],
+  exchangesIsLoading,
+  exchangesError,
+  markets = [],
+  marketsIsLoading,
+  marketsIsError,
+  getMarkets
+}) => (
+  <AppLayout>
+    <PortfolioStats />
+    <Container>
+      <Chart />
+    </Container>
+    <Section>
+      <Container>
+        <Columns>
+          <Column>
+            <Title isSize={5}>Exchanges</Title>
+            {exchangesIsLoading && <Spinner />}
+            {exchangesError && (
+              <p className='has-text-danger'>Failed to get exchanges</p>
+            )}
+            {exchanges.length && (
+              <Field>
+                <Label>Select:</Label>
+                <Control>
+                  <Select onChange={e => getMarkets(e.target.value)}>
+                    {exchanges.map(({ name }) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </Select>
+                </Control>
+              </Field>
+            )}
+          </Column>
+          <Column>
+            <Title isSize={5}>Currency pairs</Title>
+            {marketsIsLoading && <Spinner />}
+            {marketsIsError && (
+              <p className='has-text-danger'>{marketsIsError}</p>
+            )}
+            <ul>{markets.map(t => <li key={t}>{t}</li>)}</ul>
+          </Column>
+        </Columns>
+      </Container>
+    </Section>
+  </AppLayout>
+)
+
+const Main = enhance(renderMainScreen)
 
 export default Main

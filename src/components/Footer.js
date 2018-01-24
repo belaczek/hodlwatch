@@ -14,7 +14,7 @@ import { compose, withState } from 'recompose'
 import { connect } from 'react-redux'
 
 import { resetApp } from 'store/modules/core'
-import { appName } from 'src/constants'
+import { appName } from 'appConstants'
 import { getAppState } from 'store/selectors'
 
 const renderFooter = ({
