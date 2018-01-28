@@ -30,8 +30,11 @@ export const configureStore = () => {
     composeEnhancers(applyMiddleware(thunk))
   )
 
+  /**
+   * Preserve all state changes in local storage
+   */
   store.subscribe(
-    // save state max once per 500ms to avoid performance issues
+    // save only max once per 500ms to avoid performance issues
     throttle(() => {
       const { apiKeys, portfolio, core } = store.getState()
       saveState({ apiKeys, portfolio, core: pick(core, ['isAppInitialized']) })

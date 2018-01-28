@@ -24,17 +24,75 @@ import {
 } from 'recompose'
 import { connect } from 'react-redux'
 import { exchangesDataSelector, selectExchangeByName } from 'store/selectors'
-import { fetchCcxtExchanges } from 'store/modules/marketData'
 import Spinner from 'components/Spinner'
+import ExchangeApiForm from '../../components/ExchangeApiForm'
+import { fetchInitData } from '../../store/modules/marketData'
 
-const enhance = compose(
+const renderMainScreen = ({
+  exchanges = [],
+  exchangesIsLoading,
+  exchangesError,
+  markets = [],
+  marketsIsLoading,
+  marketsIsError,
+  getMarkets
+}) => (
+  <AppLayout>
+    <PortfolioStats />
+    <Container>
+      <Chart />
+    </Container>
+    <Section>
+      <Container>
+        <ExchangeApiForm />
+      </Container>
+    </Section>
+    <Section>
+      <Container>
+        <Columns>
+          <Column>
+            <Title isSize={5}>Exchanges</Title>
+            {exchangesIsLoading && <Spinner />}
+            {exchangesError && (
+              <p className='has-text-danger'>Failed to get exchanges</p>
+            )}
+            {exchanges.length && (
+              <Field>
+                <Label>Select:</Label>
+                <Control>
+                  <Select onChange={e => getMarkets(e.target.value)}>
+                    {exchanges.map(({ name }) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </Select>
+                </Control>
+              </Field>
+            )}
+          </Column>
+          <Column>
+            <Title isSize={5}>Currency pairs</Title>
+            {marketsIsLoading && <Spinner />}
+            {marketsIsError && (
+              <p className='has-text-danger'>{marketsIsError}</p>
+            )}
+            <ul>{markets.map(t => <li key={t}>{t}</li>)}</ul>
+          </Column>
+        </Columns>
+      </Container>
+    </Section>
+  </AppLayout>
+)
+
+const Main = compose(
   connect(
     state => ({
       exchangesData: exchangesDataSelector(state),
       getExchangeByName: name => selectExchangeByName(name)(state)
     }),
     dispatch => ({
-      fetchExchanges: async () => dispatch(fetchCcxtExchanges())
+      fetchInitData: () => dispatch(fetchInitData())
     })
   ),
   withState('markets', 'setMarkets', {
@@ -86,64 +144,10 @@ const enhance = compose(
   ),
   lifecycle({
     componentWillMount () {
-      this.props.fetchExchanges()
+      this.props.fetchInitData()
     }
   }),
   pure
-)
-
-const renderMainScreen = ({
-  exchanges = [],
-  exchangesIsLoading,
-  exchangesError,
-  markets = [],
-  marketsIsLoading,
-  marketsIsError,
-  getMarkets
-}) => (
-  <AppLayout>
-    <PortfolioStats />
-    <Container>
-      <Chart />
-    </Container>
-    <Section>
-      <Container>
-        <Columns>
-          <Column>
-            <Title isSize={5}>Exchanges</Title>
-            {exchangesIsLoading && <Spinner />}
-            {exchangesError && (
-              <p className='has-text-danger'>Failed to get exchanges</p>
-            )}
-            {exchanges.length && (
-              <Field>
-                <Label>Select:</Label>
-                <Control>
-                  <Select onChange={e => getMarkets(e.target.value)}>
-                    {exchanges.map(({ name }) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                  </Select>
-                </Control>
-              </Field>
-            )}
-          </Column>
-          <Column>
-            <Title isSize={5}>Currency pairs</Title>
-            {marketsIsLoading && <Spinner />}
-            {marketsIsError && (
-              <p className='has-text-danger'>{marketsIsError}</p>
-            )}
-            <ul>{markets.map(t => <li key={t}>{t}</li>)}</ul>
-          </Column>
-        </Columns>
-      </Container>
-    </Section>
-  </AppLayout>
-)
-
-const Main = enhance(renderMainScreen)
+)(renderMainScreen)
 
 export default Main

@@ -47,6 +47,9 @@ export default function reducer (state = initialState, action) {
 
 // Action creators and actions
 
+const exchangeIsCompatible = ex =>
+  ex.has.CORS && ex.has.privateAPI && ex.has.fetchBalance
+
 /**
  * Fetch list of exchanges from ccxt
  * The list is filtered by support of historical data fetching (hasFetchOHLCV)
@@ -63,10 +66,21 @@ export const fetchCcxtExchanges = () => async dispatch => {
      */
     const exchanges = ccxtModule.exchanges
       .map(ex => new ccxtModule[ex]())
-      .filter(ex => ex.has.CORS && ex.has.privateAPI && ex.has.fetchBalance)
+      .filter(exchangeIsCompatible)
 
     dispatch({ type: FETCH_EXCHANGES_RECEIVED, payload: { exchanges } })
   } catch (error) {
     dispatch({ type: FETCH_EXCHANGES_FAILED, payload: { error } })
   }
+}
+
+export const fetchPortfolioData = () => dispatch => {}
+
+export const fetchPriceData = () => dispatch => {}
+
+/**
+ * Fetch all data required for app initialization
+ */
+export const fetchInitData = () => dispatch => {
+  dispatch(fetchCcxtExchanges())
 }
