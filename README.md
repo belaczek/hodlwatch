@@ -13,7 +13,7 @@ The main idea behind this project is to create portfolio tracking web applicatio
 
 All user data are stored in browser local storage, nothing is being sent out of your device.
 
-### __Project is under heavy development__
+### __Project is under heavy development. Not production ready.__
 
 
 
