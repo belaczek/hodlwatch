@@ -5,7 +5,7 @@ import { compose, withState, lifecycle } from 'recompose'
 import format from 'date-fns/format'
 
 import BitcoinPrice from './chart/bitcoinprice'
-import { fetchOHLCV } from 'datasources'
+import { fetchOHLCV } from 'utils/histoDataService'
 
 const renderChart = ({ parentWidth, screenHeight, chartData }) => (
   <Content hasTextAlign='centered'>

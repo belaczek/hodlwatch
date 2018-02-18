@@ -19,7 +19,7 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
     <HeroBody>
       <Container hasTextAlign='centered'>
         <Title isSize={1}>{appName}</Title>
-        <Subtitle>crypto portfolio tracking app</Subtitle>
+        <Subtitle>cryptocurrency portfolio tracking app</Subtitle>
         <Button
           isColor='warning'
           onClick={handleBtnClick}

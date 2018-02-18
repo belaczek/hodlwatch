@@ -1,23 +1,25 @@
+import { deletePortfolioData } from './portfolio'
+
 // Action constants
 
-const SET_EXCHANGE_DATA = 'SET_EXCHANGE_DATA'
-const DELETE_EXCHANGE_DATA = 'DELETE_EXCHANGE_DATA'
+const SET_EXCHANGE_CREDENTIALS = 'SET_EXCHANGE_CREDENTIALS'
+const DELETE_EXCHANGE_CREDENTIALS = 'DELETE_EXCHANGE_CREDENTIALS'
 
 const initialState = {}
 
 // Reducer
 export default function reducer (state = initialState, action) {
   switch (action.type) {
-    case SET_EXCHANGE_DATA: {
-      const { exchange, apiKey, secret } = action.payload
+    case SET_EXCHANGE_CREDENTIALS: {
+      const { exchangeId, apiKey, secret, uid, password } = action.payload
       return {
         ...state,
-        [exchange]: { name: exchange, apiKey, secret }
+        [exchangeId]: { exchangeId, apiKey, secret, uid, password }
       }
     }
-    case DELETE_EXCHANGE_DATA: {
-      const { exchange } = action.payload
-      const { [exchange]: deleted, ...newState } = state
+    case DELETE_EXCHANGE_CREDENTIALS: {
+      const { exchangeId } = action.payload
+      const { [exchangeId]: deleted, ...newState } = state
       return newState
     }
 
@@ -27,18 +29,30 @@ export default function reducer (state = initialState, action) {
 }
 
 // Action creators and actions
-export const setExchangeData = ({ exchange, apiKey, secret }) => ({
-  name: SET_EXCHANGE_DATA,
+export const setExchangeCredentials = ({
+  exchangeId,
+  apiKey,
+  secret,
+  uid,
+  password
+}) => ({
+  type: SET_EXCHANGE_CREDENTIALS,
   payload: {
-    exchange,
+    exchangeId,
     apiKey,
-    secret
+    secret,
+    uid,
+    password
   }
 })
 
-export const deleteExchangeData = ({ exchange }) => ({
-  name: SET_EXCHANGE_DATA,
-  payload: {
-    exchange
-  }
-})
+export const deleteExchangeCredentials = ({ exchangeId }) => dispatch => {
+  dispatch({
+    type: SET_EXCHANGE_CREDENTIALS,
+    payload: {
+      exchangeId
+    }
+  })
+
+  dispatch(deletePortfolioData(exchangeId))
+}

@@ -1,11 +1,20 @@
 import React from 'react'
-import { compose, withState, withHandlers, lifecycle } from 'recompose'
+import {
+  compose,
+  withState,
+  withHandlers,
+  lifecycle,
+  branch,
+  renderComponent
+} from 'recompose'
 import { Provider, connect } from 'react-redux'
+// @ts-ignore
+import { isEmpty } from 'lodash/fp'
 
-import { getAppState } from 'store/selectors'
+import { appStateSelector } from 'store/selectors'
 import Spinner from 'components/Spinner'
 // Small routing. Since we currently have only two routes, there is no need for react-router at the moment
-const renderApp = ({ Screen }) => (Screen ? <Screen /> : <Spinner />)
+const renderApp = ({ Screen }) => <Screen />
 
 const withStore = Component => ({ store, ...props }) => (
   <Provider store={store}>
@@ -15,10 +24,10 @@ const withStore = Component => ({ store, ...props }) => (
 
 const getRoute = async isInitialized => {
   if (isInitialized) {
-    const { default: ChildScreen } = await import('./screens/Main/')
+    const { default: ChildScreen } = await import('./screens/MainScreen/')
     return ChildScreen
   } else {
-    const { default: ChildScreen } = await import('./screens/Intro/')
+    const { default: ChildScreen } = await import('./screens/IntroScreen/')
     return ChildScreen
   }
 }
@@ -28,7 +37,7 @@ const App = compose(
   connect(
     // state selectors
     state => ({
-      appIsInitialized: getAppState(state)
+      appIsInitialized: appStateSelector(state)
     })
   ),
   withState('Screen', 'setScreen', null),
@@ -36,7 +45,6 @@ const App = compose(
     loadScreen: ({ setScreen, initApp, appIsInitialized }) => async () => {
       // If the app was already initialized before, automatically load Main screen
       const route = await getRoute(appIsInitialized)
-      // const { default: ChildScreen } = await import(routeSrc)
       setScreen(() => route)
     }
   }),
@@ -50,7 +58,8 @@ const App = compose(
         loadScreen()
       }
     }
-  })
+  }),
+  branch(({ Screen }) => isEmpty(Screen), renderComponent(Spinner))
 )(renderApp)
 
 export default App

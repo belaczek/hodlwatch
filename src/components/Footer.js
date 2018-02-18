@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 
 import { resetApp } from 'store/modules/core'
 import { appName } from 'appConstants'
-import { getAppState } from 'store/selectors'
+import { appStateSelector } from 'store/selectors'
 
 const renderFooter = ({
   isInit,
@@ -63,7 +63,7 @@ const renderFooter = ({
 
 export default compose(
   connect(
-    store => ({ isInit: getAppState(store) }),
+    store => ({ isInit: appStateSelector(store) }),
     dispatch => ({
       handleResetApp: () => dispatch(resetApp())
     })

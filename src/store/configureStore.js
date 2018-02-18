@@ -5,24 +5,24 @@ import thunk from 'redux-thunk'
 import core from 'store/modules/core'
 import portfolio from 'store/modules/portfolio'
 import apiKeys from 'store/modules/apiKeys'
-import marketData from 'store/modules/marketData'
+import exchanges from 'store/modules/exchanges'
+import histoData from 'store/modules/histoData'
 import { loadState, saveState } from 'utils/localStorage'
 
-const reducer = combineReducers({ core, portfolio, marketData, apiKeys })
+const reducer = combineReducers({
+  core,
+  portfolio,
+  exchanges,
+  apiKeys,
+  histoData
+})
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const emptyState = {
-  portfolio: {},
-  marketData: {},
-  core: {},
-  apiKeys: {}
-}
-
 export const configureStore = () => {
   // load state from localStorage
-  const persistedState = loadState() || emptyState
+  const persistedState = loadState() || {}
 
   const store = createStore(
     reducer,
@@ -36,8 +36,8 @@ export const configureStore = () => {
   store.subscribe(
     // save only max once per 500ms to avoid performance issues
     throttle(() => {
-      const { apiKeys, portfolio, core } = store.getState()
-      saveState({ apiKeys, portfolio, core: pick(core, ['isAppInitialized']) })
+      const { portfolio, core, apiKeys } = store.getState()
+      saveState({ portfolio, core: pick(core, ['init']), apiKeys })
     }, 500)
   )
 
