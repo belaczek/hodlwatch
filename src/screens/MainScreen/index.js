@@ -3,13 +3,7 @@ import { Columns, Container, Section, Title } from 'bloomer'
 
 import AppLayout from '../AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
-import {
-  compose,
-  lifecycle,
-  pure,
-  withProps,
-  withState
-} from 'recompose'
+import { compose, lifecycle, pure, withProps, withState } from 'recompose'
 import { connect } from 'react-redux'
 import { exchangesDataSelector } from 'store/selectors'
 // import Spinner from 'components/Spinner'
@@ -17,6 +11,7 @@ import ExchangeApiForm from 'components/ExchangeApiForm'
 import { fetchInitData } from 'store/actions'
 import ChartSection from 'sections/ChartSection'
 import ExchangeSection from 'sections/ExchangeSection'
+import PortfolioSection from 'sections/PortfolioSection'
 
 const renderMainScreen = ({
   exchanges = [],
@@ -30,6 +25,7 @@ const renderMainScreen = ({
   <AppLayout>
     <PortfolioStats />
     <ChartSection />
+    <PortfolioSection />
     <Section>
       <Container>
         <Title isSize={4}>Add new exchange connection</Title>
@@ -104,7 +100,7 @@ const Main = compose(
     })
   ),
   lifecycle({
-    componentWillMount () {
+    componentDidMount () {
       this.props.fetchInitData()
     }
   }),

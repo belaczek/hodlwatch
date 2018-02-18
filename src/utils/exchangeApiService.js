@@ -1,5 +1,5 @@
 // @ts-ignore
-import { pipe, map, filter, pick } from 'lodash/fp'
+import { pipe, map, filter, pick, get } from 'lodash/fp'
 
 /**
  * Asynchronously load ccxt module to reduce initial page load
@@ -47,7 +47,15 @@ export default async function getExchangeApiService () {
    */
   const fetchExchangeAccountBalance = async (exchangeId, apiCredentials) => {
     const exchangeInstance = getExchangeInstance(exchangeId, apiCredentials)
-    return exchangeInstance.fetchBalance()
+    const data = await exchangeInstance.fetchBalance()
+
+    // Some exchanges return 200 even when they are failure. This check tries to detect those failures
+    const error = get(['info', 'error'], data)
+    if (error) {
+      throw new Error(error)
+    } else {
+      return data
+    }
   }
 
   /**
