@@ -10,12 +10,12 @@ export default ({ data, yScale, xScale, yText, label, x, y }) => {
         xScale={xScale}
         y={y}
         x={x}
-        stroke='#6086d6'
+        stroke="#6086d6"
         strokeWidth={1}
-        strokeDasharray='4,4'
-        strokeOpacity='.3'
+        strokeDasharray="4,4"
+        strokeOpacity=".3"
       />
-      <text fill='#6086d6' y={yText} dy='-.5em' dx='10px' fontSize='12'>
+      <text fill="#6086d6" y={yText} dy="-.5em" dx="10px" fontSize="12">
         {label}
       </text>
     </g>

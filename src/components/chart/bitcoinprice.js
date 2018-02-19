@@ -16,22 +16,22 @@ export default function BitcoinPrice ({ data, width, height }) {
   const hasIncreased = diffPrice > 0
 
   return (
-    <div className='bitcoin'>
-      <div className='chartTitle'>
+    <div className="bitcoin">
+      <div className="chartTitle">
         <div>
           Bitcoin Price<br />
           <small>last 30 days</small>
         </div>
-        <div className='spacer' />
-        <div className='stats'>
-          <div className='current'>{formatPrice(currentPrice)}</div>
+        <div className="spacer" />
+        <div className="stats">
+          <div className="current">{formatPrice(currentPrice)}</div>
           <div className={hasIncreased ? 'diffIncrease' : 'diffDecrease'}>
             {hasIncreased ? '+' : '-'}
             {formatPrice(diffPrice)}
           </div>
         </div>
       </div>
-      <div className='chart'>
+      <div className="chart">
         <Chart
           data={prices}
           parentWidth={width}

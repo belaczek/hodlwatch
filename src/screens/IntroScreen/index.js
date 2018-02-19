@@ -15,23 +15,23 @@ import { appName } from 'appConstants'
 import { setAppInitialized } from 'store/modules/core'
 
 const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
-  <Hero isFullHeight isColor='light'>
+  <Hero isFullHeight isColor="light">
     <HeroBody>
-      <Container hasTextAlign='centered'>
+      <Container hasTextAlign="centered">
         <Title isSize={1}>{appName}</Title>
         <Subtitle>cryptocurrency portfolio tracking app</Subtitle>
         <Button
-          isColor='warning'
+          isColor="warning"
           onClick={handleBtnClick}
           isLoading={btnIsLoading}
         >
           OPEN
         </Button>
-        <p className='is-size-5 mt-10'>under heavy development</p>
+        <p className="is-size-5 mt-10">under heavy development</p>
       </Container>
     </HeroBody>
     <HeroFooter>
-      <Container hasTextAlign='centered'>
+      <Container hasTextAlign="centered">
         <i>
           hodl.watch uses browsers local storage to ensure its functionality
         </i>

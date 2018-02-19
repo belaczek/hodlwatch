@@ -45,12 +45,12 @@ const renderExchangeApiForm = ({
             <Label>Exchange</Label>
             <Control>
               <Select
-                name='exchangeId'
+                name="exchangeId"
                 value={exchangeId}
                 onChange={handleChange}
                 required
               >
-                <option value='' key='placeholder' disabled>
+                <option value="" key="placeholder" disabled>
                   Select exchange
                 </option>
                 {exchanges.map(({ name, id }) => (
@@ -67,9 +67,9 @@ const renderExchangeApiForm = ({
               <Label>Public api key</Label>
               <Control>
                 <Input
-                  name='apiKey'
-                  type='text'
-                  placeholder='Public api key'
+                  name="apiKey"
+                  type="text"
+                  placeholder="Public api key"
                   required
                   value={apiKey}
                   onChange={handleChange}
@@ -83,10 +83,10 @@ const renderExchangeApiForm = ({
               <Label>Private api key (secret)</Label>
               <Control>
                 <Input
-                  name='secret'
-                  type='password'
+                  name="secret"
+                  type="password"
                   required
-                  placeholder='secret'
+                  placeholder="secret"
                   value={secret}
                   onChange={handleChange}
                 />
@@ -99,9 +99,9 @@ const renderExchangeApiForm = ({
               <Label>Client ID</Label>
               <Control>
                 <Input
-                  name='uid'
-                  type='text'
-                  placeholder='uid'
+                  name="uid"
+                  type="text"
+                  placeholder="uid"
                   value={uid}
                   onChange={handleChange}
                   required
@@ -115,10 +115,10 @@ const renderExchangeApiForm = ({
               <Label>Password</Label>
               <Control>
                 <Input
-                  name='password'
-                  type='password'
+                  name="password"
+                  type="password"
                   required
-                  placeholder='password'
+                  placeholder="password"
                   value={password}
                   onChange={handleChange}
                 />
@@ -127,17 +127,17 @@ const renderExchangeApiForm = ({
           )}
 
           {submitError && (
-            <Notification isColor='danger'>{submitError}</Notification>
+            <Notification isColor="danger">{submitError}</Notification>
           )}
 
           <Field isGrouped>
             <Control>
-              <Button isColor='primary' isLoading={submitting} type='submit'>
+              <Button isColor="primary" isLoading={submitting} type="submit">
                 Save
               </Button>
             </Control>
             <Control>
-              <Button isColor='light'>Cancel</Button>
+              <Button isColor="light">Cancel</Button>
             </Control>
           </Field>
         </Fragment>

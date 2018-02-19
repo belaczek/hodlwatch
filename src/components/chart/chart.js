@@ -62,17 +62,17 @@ const Chart = ({
     <div>
       <svg ref={s => (this.svg = s)} width={parentWidth} height={parentHeight}>
         <LinearGradient
-          id='fill'
-          from='#6086d6'
-          to='#6086d6'
+          id="fill"
+          from="#6086d6"
+          to="#6086d6"
           fromOpacity={0.2}
           toOpacity={0}
         />
         <PatternLines
-          id='dLines'
+          id="dLines"
           height={6}
           width={6}
-          stroke='#27273f'
+          stroke="#27273f"
           strokeWidth={1}
           orientation={['diagonal']}
         />
@@ -88,11 +88,11 @@ const Chart = ({
             hideAxisLine
             tickLabelComponent={
               <text
-                fill='#ffffff'
-                dy='.33em'
+                fill="#ffffff"
+                dy=".33em"
                 fillOpacity={0.3}
                 fontSize={11}
-                textAnchor='middle'
+                textAnchor="middle"
               />
             }
           />
@@ -106,22 +106,22 @@ const Chart = ({
             y={y}
           />
           <AreaClosed
-            stroke='transparent'
+            stroke="transparent"
             data={data}
             yScale={yScale}
             xScale={xScale}
             x={x}
             y={y}
-            fill='url(#fill)'
+            fill="url(#fill)"
           />
           <AreaClosed
-            stroke='transparent'
+            stroke="transparent"
             data={data}
             yScale={yScale}
             xScale={xScale}
             x={x}
             y={y}
-            fill='url(#dLines)'
+            fill="url(#dLines)"
           />
           <LinePath
             data={data}
@@ -129,8 +129,8 @@ const Chart = ({
             xScale={xScale}
             y={y}
             x={x}
-            stroke='#6086d6'
-            strokeOpacity='0.8'
+            stroke="#6086d6"
+            strokeOpacity="0.8"
             strokeWidth={1}
           />
           <MinPrice
@@ -146,7 +146,7 @@ const Chart = ({
             data={data}
             width={width}
             height={height - margin.bottom}
-            fill='transparent'
+            fill="transparent"
             onMouseLeave={data => event => hideTooltip()}
             onMouseMove={data => event => {
               const { x: xPoint } = localPoint(this.svg, event)

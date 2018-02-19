@@ -8,7 +8,7 @@ import BitcoinPrice from './chart/bitcoinprice'
 import { fetchOHLCV } from 'utils/histoDataService'
 
 const renderChart = ({ parentWidth, screenHeight, chartData }) => (
-  <Content hasTextAlign='centered'>
+  <Content hasTextAlign="centered">
     <BitcoinPrice data={chartData} width={parentWidth} height={screenHeight} />
   </Content>
 )

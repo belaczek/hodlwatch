@@ -25,17 +25,17 @@ const renderFooter = ({
 }) => (
   <Footer>
     <Container>
-      <Content hasTextAlign='centered'>
+      <Content hasTextAlign="centered">
         <p>
           <strong>{appName}</strong> by{' '}
-          <a href='https://tomasbelada.com'>Tomas Belada</a>. The source code is
+          <a href="https://tomasbelada.com">Tomas Belada</a>. The source code is
           licensed{' '}
-          <a href='http://opensource.org/licenses/mit-license.php'>MIT</a>.
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
         </p>
         {isInit && (
           <Button
-            isSize='small'
-            isColor='danger'
+            isSize="small"
+            isColor="danger"
             onClick={() => toggleModal(true)}
           >
             RESET
@@ -46,12 +46,12 @@ const renderFooter = ({
     <Modal isActive={modalIsActive}>
       <ModalBackground onClick={() => toggleModal(false)} />
       <ModalContent>
-        <Box hasTextAlign='centered'>
-          <p className='mb-10'>
+        <Box hasTextAlign="centered">
+          <p className="mb-10">
             Are you sure you want to delete all your data? This step can not be
             undone.
           </p>
-          <Button isColor='danger' onClick={handleResetApp}>
+          <Button isColor="danger" onClick={handleResetApp}>
             Confirm reset
           </Button>
         </Box>

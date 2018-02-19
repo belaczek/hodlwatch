@@ -17,7 +17,7 @@ import { appName } from 'appConstants'
 import { serviceWorkerIsUpdatedSelector } from 'store/selectors'
 
 const renderNavbar = ({ showUpdate, refresh }) => (
-  <Navbar isTransparent className='is-light'>
+  <Navbar isTransparent className="is-light">
     <Container>
       <NavbarBrand>
         <NavbarItem>
@@ -25,7 +25,7 @@ const renderNavbar = ({ showUpdate, refresh }) => (
         </NavbarItem>
         {showUpdate && (
           <NavbarItem>
-            <Button isSize='small' isColor='warning' onClick={refresh}>
+            <Button isSize="small" isColor="warning" onClick={refresh}>
               UPDATE APP
             </Button>
           </NavbarItem>
@@ -34,7 +34,7 @@ const renderNavbar = ({ showUpdate, refresh }) => (
       </NavbarBrand>
       <NavbarMenu>
         <NavbarEnd>
-          <NavbarLink href='#'>Options</NavbarLink>
+          <NavbarLink href="#">Options</NavbarLink>
         </NavbarEnd>
       </NavbarMenu>
     </Container>
