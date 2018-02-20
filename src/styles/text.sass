@@ -1,0 +1,220 @@
+/**
+ * @description
+ * Prevent text from wrapping onto multiple lines, and truncate with an
+ * ellipsis.
+ *
+ * 1. Ensure that the node has a maximum width after which truncation can
+ *    occur.
+ * 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+ *    nodes.
+ *
+ * @example
+  <example module="textTruncateExample>
+    <file name="index.html">
+      <p class="u-textTruncate">
+        Sed posuere consectetur est at lobortis.
+      </p>
+    </file>
+  </example>
+ */
+.u-textTruncate
+  overflow: hidden !important
+  max-width: 100% !important /* 1 */
+
+  text-overflow: ellipsis !important
+  white-space: nowrap !important
+  word-wrap: normal !important /* 2 */
+
+/**
+ * @description
+ * Break strings when their length exceeds the width of their container.
+ *
+ * @example
+  <example module="textTruncateExample>
+    <file name="index.html">
+      <p class="u-textBreak">
+        <a href="#">
+         https://github.com/bits-sass/utils-text
+        </a>
+      </p>
+    </file>
+  </example>
+ */
+.u-textBreak
+  word-wrap: break-word !important
+
+/**
+ * @description
+ * Prevent whitespace wrapping.
+ */
+.u-textNoWrap
+  white-space: nowrap !important
+
+/**
+ * @description
+ * Align text to left.
+ */
+.u-textLeft
+  text-align: left !important
+
+/**
+ * @description
+ * Center the text.
+ */
+.u-textCenter
+  text-align: center !important
+
+/**
+ * @description
+ * Align text to right.
+ */
+.u-textRight
+  text-align: right !important
+
+/**
+ * @description
+ * Inherit the ancestor's text color.
+ */
+.u-textInheritColor
+  color: inherit !important
+
+/**
+ * @description
+ * Inherit the ancestor's text color for all states.
+ */
+.u-textInheritAllColor
+  &,
+  &:hover,
+  &:focus,
+  &:active
+    color: inherit !important
+
+/**
+ * @description
+ * Decorate text as light.
+ */
+.u-textLight
+  font-weight: light
+
+/**
+  * @description
+  * Decorate text as normal.
+  */
+.u-textNormal
+  font-weight: normal
+
+/**
+ * @description
+ * Decorate text as bold.
+ */
+.u-textBold
+  font-weight: 600 !important
+
+/**
+ * @description
+ * Decorate text as italics.
+ */
+.u-textItalics
+  font-style: italic
+
+/**
+ * @description
+ * Decorate text as underlined.
+ */
+.u-textUnderlined
+  text-decoration: underline !important
+
+/**
+ * @description
+ * Transform text to upper case.
+ */
+.u-textUpperCase
+  text-transform: uppercase !important
+
+/**
+ * @description
+ * Transform text to lower case.
+ */
+.u-textLowerCase
+  text-transform: lowercase !important
+
+/**
+ * @description
+ * Make line height of text match its font size.
+ */
+.u-textLineHeightMatch
+  line-height: 1 !important
+
+/**
+ * @description
+ * Make line height of text 1.5
+ */
+.u-textLineHeight1\.5
+  line-height: 1.5 !important
+
+/**
+ * Font sizing
+ */
+.u-text8px
+  font-size: 8px !important
+
+.u-text9px
+  font-size: 9px !important
+
+.u-text10px
+  font-size: 10px !important
+
+.u-text11px
+  font-size: 11px !important
+
+.u-text12px
+  font-size: 12px !important
+
+.u-text13px
+  font-size: 13px !important
+
+.u-text14px
+  font-size: 14px !important
+
+.u-text15px
+  font-size: 15px !important
+
+.u-text16px
+  font-size: 16px !important
+
+.u-text18px
+  font-size: 18px !important
+
+.u-text20px
+  font-size: 20px !important
+
+.u-text22px
+  font-size: 22px !important
+
+.u-text24px
+  font-size: 24px !important
+
+.u-text26px
+  font-size: 26px !important
+
+.u-text30px
+  font-size: 30px !important
+
+.u-text36px
+  font-size: 36px !important
+
+.u-text42px
+  font-size: 42px !important
+
+.u-text50px
+  font-size: 50px !important
+
+.u-text60px
+  font-size: 60px !important
+
+/**
+ * @description
+ * Don't allow text selection.
+ */
+.u-userSelectNone
+  user-select: none

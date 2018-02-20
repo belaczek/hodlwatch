@@ -1,27 +1,14 @@
 import React from 'react'
-import {
-  Footer,
-  Container,
-  Content,
-  Button,
-  Box,
-  Modal,
-  ModalContent,
-  ModalClose,
-  ModalBackground
-} from 'bloomer'
-import { compose, withState } from 'recompose'
-import { connect } from 'react-redux'
+import { Footer, Container, Content, Button } from 'bloomer'
+import { compose } from 'recompose'
 
-import { resetApp } from 'store/modules/core'
 import { appName } from 'appConstants'
-import { appStateSelector } from 'store/selectors'
 
 const renderFooter = ({
   isInit,
   handleResetApp,
   modalIsActive,
-  toggleModal
+  openResetModal
 }) => (
   <Footer>
     <Container>
@@ -33,40 +20,13 @@ const renderFooter = ({
           <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
         </p>
         {isInit && (
-          <Button
-            isSize="small"
-            isColor="danger"
-            onClick={() => toggleModal(true)}
-          >
+          <Button isSize="small" isColor="danger" onClick={openResetModal}>
             RESET
           </Button>
         )}
       </Content>
     </Container>
-    <Modal isActive={modalIsActive}>
-      <ModalBackground onClick={() => toggleModal(false)} />
-      <ModalContent>
-        <Box hasTextAlign="centered">
-          <p className="mb-10">
-            Are you sure you want to delete all your data? This step can not be
-            undone.
-          </p>
-          <Button isColor="danger" onClick={handleResetApp}>
-            Confirm reset
-          </Button>
-        </Box>
-      </ModalContent>
-      <ModalClose onClick={() => toggleModal(false)} />
-    </Modal>
   </Footer>
 )
 
-export default compose(
-  connect(
-    store => ({ isInit: appStateSelector(store) }),
-    dispatch => ({
-      handleResetApp: () => dispatch(resetApp())
-    })
-  ),
-  withState('modalIsActive', 'toggleModal', false)
-)(renderFooter)
+export default compose()(renderFooter)

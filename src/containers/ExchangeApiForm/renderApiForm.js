@@ -21,6 +21,7 @@ const renderExchangeApiForm = ({
   exchanges = [],
   handleSubmit,
   handleChange,
+  handleCancel,
   formFields: {
     apiKey: apiKeyField,
     secret: secretField,
@@ -137,7 +138,7 @@ const renderExchangeApiForm = ({
               </Button>
             </Control>
             <Control>
-              <Button isColor="light">Cancel</Button>
+              <Button isColor="light" onClick={handleCancel}>Cancel</Button>
             </Control>
           </Field>
         </Fragment>

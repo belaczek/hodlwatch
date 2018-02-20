@@ -4,9 +4,10 @@ import { isFunction } from 'lodash/fp'
 import { connect } from 'react-redux'
 import { setExchangeCredentials } from 'store/modules/apiKeys'
 import renderExchangeApiForm from './renderApiForm'
-import { defaultErrorMessage } from 'components/ExchangeApiForm/constants'
+import { defaultErrorMessage } from './constants'
 import withExchangeApiService from 'utils/decorators/withExchangeApiService'
 import { unusedExchangesListSelector } from 'store/selectors'
+import { toast } from 'react-toastify'
 
 const defaultFormDataState = {
   exchangeId: '',
@@ -16,6 +17,10 @@ const defaultFormDataState = {
   password: '',
   submitError: null,
   submitting: false
+}
+
+const castApiCredsSuccess = () => {
+  toast.success(`Exchange connected!`)
 }
 
 const ExchangeApiForm = compose(

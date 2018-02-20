@@ -7,16 +7,17 @@ import {
   Button,
   NavbarEnd,
   NavbarBurger,
-  NavbarMenu,
-  NavbarLink
+  NavbarMenu
 } from 'bloomer'
-import { compose, withHandlers } from 'recompose'
-import { connect } from 'react-redux'
-
 import { appName } from 'appConstants'
-import { serviceWorkerIsUpdatedSelector } from 'store/selectors'
 
-const renderNavbar = ({ showUpdate, refresh }) => (
+const AppNavbar = ({
+  showUpdate,
+  refresh,
+  burgerIsActive,
+  handleToggleBurgerMenu,
+  openSettingsModal
+}) => (
   <Navbar isTransparent className="is-light">
     <Container>
       <NavbarBrand>
@@ -30,20 +31,17 @@ const renderNavbar = ({ showUpdate, refresh }) => (
             </Button>
           </NavbarItem>
         )}
-        <NavbarBurger />
+        <NavbarBurger isActive={burgerIsActive} onClick={openSettingsModal} />
       </NavbarBrand>
-      <NavbarMenu>
+      <NavbarMenu isActive={burgerIsActive} onClick={handleToggleBurgerMenu}>
         <NavbarEnd>
-          <NavbarLink href="#">Options</NavbarLink>
+          <NavbarItem href="#/" onClick={openSettingsModal}>
+            Settings
+          </NavbarItem>
         </NavbarEnd>
       </NavbarMenu>
     </Container>
   </Navbar>
 )
 
-export default compose(
-  connect(store => ({ showUpdate: serviceWorkerIsUpdatedSelector(store) })),
-  withHandlers({
-    refresh: () => () => window.location.reload()
-  })
-)(renderNavbar)
+export default AppNavbar

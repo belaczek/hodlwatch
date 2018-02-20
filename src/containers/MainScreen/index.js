@@ -1,17 +1,16 @@
 import React from 'react'
 import { Columns, Container, Section, Title } from 'bloomer'
 
-import AppLayout from '../AppLayout'
+import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
 import { compose, lifecycle, pure, withProps, withState } from 'recompose'
 import { connect } from 'react-redux'
 import { exchangesDataSelector } from 'store/selectors'
-// import Spinner from 'components/Spinner'
-import ExchangeApiForm from 'components/ExchangeApiForm'
+import ExchangeApiForm from 'containers/ExchangeApiForm'
 import { fetchInitData } from 'store/actions'
-import ChartSection from 'sections/ChartSection'
-import ExchangeSection from 'sections/ExchangeSection'
-import PortfolioSection from 'sections/PortfolioSection'
+import ChartSection from 'containers/ChartSection'
+import ExchangeSection from 'containers/ExchangeSection'
+import PortfolioSection from 'containers/PortfolioSection'
 
 const renderMainScreen = ({
   exchanges = [],

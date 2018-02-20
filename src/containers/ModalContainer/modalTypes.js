@@ -1,0 +1,7 @@
+export const RESET_APP_MODAL = 'RESET_APP_MODAL'
+export const SETTINGS_MODAL = 'SETTINGS_MODAL'
+
+export default {
+  RESET_APP_MODAL,
+  SETTINGS_MODAL
+}

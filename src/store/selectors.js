@@ -69,3 +69,6 @@ export const totalSumPortfolioSelector = createSelector(
     }, {})
   )
 )
+
+export const modalTypeSelector = get('modals.modalType')
+export const modalPropsSelector = get('modals.props')

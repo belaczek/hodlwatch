@@ -7,6 +7,7 @@ import portfolio from 'store/modules/portfolio'
 import apiKeys from 'store/modules/apiKeys'
 import exchanges from 'store/modules/exchanges'
 import histoData from 'store/modules/histoData'
+import modals from 'store/modules/modals'
 import { loadState, saveState } from 'utils/localStorage'
 
 const reducer = combineReducers({
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   portfolio,
   exchanges,
   apiKeys,
-  histoData
+  histoData,
+  modals
 })
 
 // @ts-ignore

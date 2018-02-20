@@ -3,27 +3,33 @@ import { connect } from 'react-redux'
 // @ts-ignore
 import { map, toPairs } from 'lodash/fp'
 import { Section, Container } from 'bloomer'
-import { compose, withProps } from 'recompose'
+import { compose, withProps, pure, withPropsOnChange } from 'recompose'
 import {
   totalSumPortfolioSelector,
   allPortfolioDataSelector
 } from 'store/selectors'
 import { Title } from 'bloomer/lib/elements/Title'
+import { Table } from 'bloomer/lib/elements/Table'
+
+import './index.css'
 
 // TODO
 const renderPortfolioSection = ({ total }) => (
-  <Section>
+  <Section className="PortfolioSection">
     <Container>
       <Title isSize={4}>Total holdings</Title>
-      {total &&
-        map(
-          ([name, value]) => (
-            <p>
-              {name}: {value}
-            </p>
-          ),
-          total
-        )}
+      <Table className="PortfolioSection--table">
+        {total &&
+          map(
+            ([name, value]) => (
+              <tr className="bg-light">
+                <td className="bg-light u-textRight"> {value}</td>{' '}
+                <td className="u-textBold">{name}</td>
+              </tr>
+            ),
+            total
+          )}
+      </Table>
     </Container>
   </Section>
 )
@@ -33,10 +39,10 @@ const PortfolioSection = compose(
     total: totalSumPortfolioSelector(state),
     allData: allPortfolioDataSelector(state)
   })),
-  withProps(({ total }) => {
-    console.log(total)
+  withPropsOnChange(['total'], ({ total }) => {
     return { total: toPairs(total) }
-  })
+  }),
+  pure
 )
 
 export default PortfolioSection(renderPortfolioSection)

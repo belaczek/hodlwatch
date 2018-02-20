@@ -24,10 +24,10 @@ const withStore = Component => ({ store, ...props }) => (
 
 const getRoute = async isInitialized => {
   if (isInitialized) {
-    const { default: ChildScreen } = await import('./screens/MainScreen/')
+    const { default: ChildScreen } = await import('./containers/MainScreen/')
     return ChildScreen
   } else {
-    const { default: ChildScreen } = await import('./screens/IntroScreen/')
+    const { default: ChildScreen } = await import('./containers/IntroScreen/')
     return ChildScreen
   }
 }
