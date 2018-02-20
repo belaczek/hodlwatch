@@ -1,3 +1,5 @@
+// @ts-ignore
+import { getOr } from 'lodash/fp'
 import { clearStorage } from 'utils/localStorage'
 
 // Action constants
@@ -38,3 +40,11 @@ export const resetApp = () => dispatch => {
   clearStorage()
   window.location.reload()
 }
+
+// Selectors
+
+export const appStateSelector = getOr(false, ['core', 'init'])
+export const serviceWorkerIsUpdatedSelector = getOr(false, [
+  'core',
+  'serviceWorkerUpdated'
+])

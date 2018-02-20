@@ -32,14 +32,17 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
     </HeroBody>
     <HeroFooter>
       <Container hasTextAlign="centered">
-        <i>
+        <span>
           hodl.watch uses browsers local storage to ensure its functionality
-        </i>
+        </span>
       </Container>
     </HeroFooter>
   </Hero>
 )
 
+/**
+ * Intro screen which is displayed the first time user visits the page
+ */
 const Intro = compose(
   connect(null, dispatch => ({
     setAppInitialized: () => dispatch(setAppInitialized())

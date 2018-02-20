@@ -1,15 +1,6 @@
 // @ts-ignore
 import { pipe, map, filter, pick, get } from 'lodash/fp'
-
-/**
- * Asynchronously load ccxt module to reduce initial page load
- * After the first load, module is cached in browser and served imediately
- * @returns {Promise<Object>} ccxt instance
- */
-const getCcxt = async () => {
-  const ccxt = await import('ccxt')
-  return ccxt
-}
+import { importCcxt } from './asyncImportService'
 
 const defaultApiCredentials = {
   apiKey: true,
@@ -23,7 +14,7 @@ const defaultApiCredentials = {
  * @returns {Promise<Object|Error>} List of supported service functions
  */
 export default async function getExchangeApiService () {
-  const service = await getCcxt()
+  const service = await importCcxt()
 
   /**
    * Instantiate exchange

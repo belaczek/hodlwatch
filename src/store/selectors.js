@@ -14,15 +14,6 @@ import Big from 'big.js'
 
 import { createSelector } from 'reselect'
 
-// core
-export const appStateSelector = getOr(false, ['core', 'init'])
-export const serviceWorkerIsUpdatedSelector = getOr(false, [
-  'core',
-  'serviceWorkerUpdated'
-])
-
-// portfolio
-
 // exchanges
 export const exchangesDataSelector = getOr({}, ['exchanges'])
 export const exchangesListSelector = get(['exchanges', 'data'])

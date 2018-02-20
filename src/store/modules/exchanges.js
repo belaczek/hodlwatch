@@ -1,6 +1,6 @@
 // @ts-ignore
 import { get } from 'lodash/fp'
-import getExchangeApiService from 'utils/exchangeApiService'
+import { importExchangeApiServiceInstance } from 'utils/asyncImportService'
 
 // Action constants
 const EXCHANGES_LOADING = 'EXCHANGES_LOADING'
@@ -52,7 +52,7 @@ export default function reducer (state = initialState, action) {
 export const initExchangesList = () => async dispatch => {
   dispatch({ type: EXCHANGES_LOADING })
   try {
-    const { getExchangesList } = await getExchangeApiService()
+    const { getExchangesList } = await importExchangeApiServiceInstance()
     const exchangesList = getExchangesList()
 
     dispatch({ type: EXCHANGES_SUCCESS, payload: { exchangesList } })

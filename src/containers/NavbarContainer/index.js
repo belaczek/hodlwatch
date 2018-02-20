@@ -1,7 +1,7 @@
 import { compose, withState, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import Navbar from 'components/Navbar'
-import { serviceWorkerIsUpdatedSelector } from 'store/selectors'
+import { serviceWorkerIsUpdatedSelector } from 'store/modules/core'
 import { SETTINGS_MODAL } from 'containers/ModalContainer/modalTypes'
 import { openModal } from 'store/modules/modals'
 

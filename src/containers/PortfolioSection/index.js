@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // @ts-ignore
 import { map, toPairs } from 'lodash/fp'
 import { Section, Container } from 'bloomer'
-import { compose, withProps, pure, withPropsOnChange } from 'recompose'
+import { compose, pure, withPropsOnChange } from 'recompose'
 import {
   totalSumPortfolioSelector,
   allPortfolioDataSelector

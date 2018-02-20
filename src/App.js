@@ -11,8 +11,14 @@ import { Provider, connect } from 'react-redux'
 // @ts-ignore
 import { isEmpty } from 'lodash/fp'
 
-import { appStateSelector } from 'store/selectors'
+import { appStateSelector } from 'store/modules/core'
 import Spinner from 'components/Spinner'
+import IntroScreen from 'containers/IntroScreenContainer'
+import {
+  importMainAppScreen,
+  prefetchAllAssets
+} from 'utils/asyncImportService'
+
 // Small routing. Since we currently have only two routes, there is no need for react-router at the moment
 const renderApp = ({ Screen }) => <Screen />
 
@@ -24,11 +30,10 @@ const withStore = Component => ({ store, ...props }) => (
 
 const getRoute = async isInitialized => {
   if (isInitialized) {
-    const { default: ChildScreen } = await import('./containers/MainScreen/')
-    return ChildScreen
+    const MainAppScreen = await importMainAppScreen()
+    return MainAppScreen
   } else {
-    const { default: ChildScreen } = await import('./containers/IntroScreen/')
-    return ChildScreen
+    return IntroScreen
   }
 }
 
@@ -51,6 +56,12 @@ const App = compose(
   lifecycle({
     componentWillMount () {
       this.props.loadScreen()
+    },
+    componentDidMount () {
+      /**
+       * After initial page load prefetch all remaining assets
+       */
+      prefetchAllAssets()
     },
     componentWillReceiveProps (nextProps) {
       const { loadScreen, appIsInitialized } = this.props

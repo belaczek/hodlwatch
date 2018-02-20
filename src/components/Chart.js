@@ -5,7 +5,7 @@ import { compose, withState, lifecycle } from 'recompose'
 import format from 'date-fns/format'
 
 import BitcoinPrice from './chart/bitcoinprice'
-import { fetchOHLCV } from 'utils/histoDataService'
+import { importHistoDataApiService } from 'utils/asyncImportService'
 
 const renderChart = ({ parentWidth, screenHeight, chartData }) => (
   <Content hasTextAlign="centered">
@@ -16,7 +16,8 @@ const renderChart = ({ parentWidth, screenHeight, chartData }) => (
 export default compose(
   withState('chartData', 'setChartData', {}),
   lifecycle({
-    componentDidMount () {
+    async componentDidMount () {
+      const { fetchOHLCV } = await importHistoDataApiService()
       fetchOHLCV({ baseSymbol: 'BTC', timeframe: 'DAY' }).then(data => {
         const strippedData = data.map(({ time, close }) => ({
           time: format(new Date(time * 1000), 'YYYY-MM-DD'),

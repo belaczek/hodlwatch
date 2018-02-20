@@ -1,4 +1,3 @@
-import getExchangeApiService from 'utils/exchangeApiService'
 // @ts-ignore
 import { pipe, omit, map, get, find } from 'lodash/fp'
 import {
@@ -6,7 +5,11 @@ import {
   apiKeysSelector,
   exchangesListSelector
 } from '../selectors'
-import { toast } from 'react-toastify'
+// import { toast } from 'react-toastify'
+import {
+  importExchangeApiServiceInstance,
+  importToastService
+} from 'utils/asyncImportService'
 
 // Action constants
 // const SET_PORTFOLIO_DATA = 'SET_PORTFOLIO_DATA'
@@ -91,14 +94,15 @@ export const deletePortfolioData = exchangeId => ({
 /**
  * Show notification about failed portfolio fetch
  */
-const castFetchError = (exchangeId, getState) => {
+const castFetchError = async (exchangeId, getState) => {
+  const { toast } = await importToastService()
   const state = getState()
   const exchangeName = pipe(
     exchangesListSelector,
     find({ id: exchangeId }),
     get('name')
   )(state)
-  toast(`Failed to fetch data from ${exchangeName}`, { type: toast.TYPE.ERROR })
+  toast.error(`Failed to fetch data from ${exchangeName}`)
 }
 
 /**
@@ -109,7 +113,9 @@ export const fetchPortfolioData = exchangeId => async (dispatch, getState) => {
   if (exchangeId) {
     dispatch({ type: PORTFOLIO_DATA_LOADING, payload: { exchangeId } })
     try {
-      const { fetchExchangeAccountBalance } = await getExchangeApiService()
+      const {
+        fetchExchangeAccountBalance
+      } = await importExchangeApiServiceInstance()
       const state = getState()
       const apiKeys = pipe(apiKeysByIdSelector(exchangeId), omit('exchangeId'))(
         state

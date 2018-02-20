@@ -10,14 +10,13 @@ import {
 } from 'recompose'
 // @ts-ignore
 import { isEmpty, omit } from 'lodash/fp'
-import getExchangeApiService from 'utils/exchangeApiService'
-// import Spinner from 'components/Spinner';
+import { importExchangeApiServiceInstance } from '../asyncImportService'
 
 export default compose(
   withState('exchangeApiMethods', 'setExchangeApiMethods', {}),
   lifecycle({
     async componentDidMount () {
-      const exchangeApiMethods = await getExchangeApiService()
+      const exchangeApiMethods = await importExchangeApiServiceInstance()
       this.props.setExchangeApiMethods(exchangeApiMethods)
     }
   }),

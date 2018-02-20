@@ -7,7 +7,7 @@ import renderExchangeApiForm from './renderApiForm'
 import { defaultErrorMessage } from './constants'
 import withExchangeApiService from 'utils/decorators/withExchangeApiService'
 import { unusedExchangesListSelector } from 'store/selectors'
-import { toast } from 'react-toastify'
+// import { importToastService } from 'utils/asyncImportService'
 
 const defaultFormDataState = {
   exchangeId: '',
@@ -19,9 +19,10 @@ const defaultFormDataState = {
   submitting: false
 }
 
-const castApiCredsSuccess = () => {
-  toast.success(`Exchange connected!`)
-}
+// const castApiCredsSuccess = async () => {
+//   const { toast } = await importToastService()
+//   toast.success(`Exchange connected!`)
+// }
 
 const ExchangeApiForm = compose(
   withExchangeApiService,
