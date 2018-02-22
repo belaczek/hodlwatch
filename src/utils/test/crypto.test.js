@@ -1,4 +1,4 @@
-import { encryptObject, decryptToObject } from 'utils/crypto'
+import { encrypt, decrypt } from 'utils/crypto'
 
 test('should encrypt and decrypt to the same value', () => {
   const passphrase = 'password'
@@ -10,8 +10,8 @@ test('should encrypt and decrypt to the same value', () => {
     }
   }
 
-  const cipher = encryptObject(testObject, passphrase)
-  const newObject = decryptToObject(cipher, passphrase)
+  const cipher = encrypt(testObject, passphrase)
+  const newObject = decrypt(cipher, passphrase)
 
   expect(newObject).toEqual(testObject)
 })
@@ -25,8 +25,8 @@ test('should encrypt and decrypt using no password', () => {
     }
   }
 
-  const cipher = encryptObject(testObject)
-  const newObject = decryptToObject(cipher)
+  const cipher = encrypt(testObject)
+  const newObject = decrypt(cipher)
 
   expect(newObject).toEqual(testObject)
 })
@@ -35,8 +35,8 @@ test('should encrypt/decrypt non-object value', () => {
   const passphrase = 'password'
   const testObject = 25
 
-  const cipher = encryptObject(testObject, passphrase)
-  const newObject = decryptToObject(cipher, passphrase)
+  const cipher = encrypt(testObject, passphrase)
+  const newObject = decrypt(cipher, passphrase)
 
   expect(newObject).toEqual(testObject)
 })
@@ -45,8 +45,8 @@ test('should encrypt/decrypt empty value', () => {
   const passphrase = 'password'
   const testObject = null
 
-  const cipher = encryptObject(testObject, passphrase)
-  const newObject = decryptToObject(cipher, passphrase)
+  const cipher = encrypt(testObject, passphrase)
+  const newObject = decrypt(cipher, passphrase)
 
   expect(newObject).toEqual(testObject)
 })

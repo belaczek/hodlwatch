@@ -7,7 +7,7 @@ import Utf8 from 'crypto-js/enc-utf8'
  * @param {string} [passphrase]
  * @returns {string} encrypted object
  */
-export const encryptObject = (value = {}, passphrase = '') => {
+export const encrypt = (value = {}, passphrase = '') => {
   const stringified = JSON.stringify(value)
   return AES.encrypt(stringified, passphrase).toString()
 }
@@ -18,7 +18,7 @@ export const encryptObject = (value = {}, passphrase = '') => {
  * @param {string} passphrase
  * @returns {Object}
  */
-export const decryptToObject = (value, passphrase = '') => {
+export const decrypt = (value, passphrase = '') => {
   const decrypted = AES.decrypt(value, passphrase)
   return JSON.parse(decrypted.toString(Utf8))
 }
@@ -28,6 +28,6 @@ export const decryptToObject = (value, passphrase = '') => {
  * To be used mainly to encrypt persisted redux store
  */
 export default {
-  encryptObject,
-  decryptToObject
+  encrypt,
+  decrypt
 }
