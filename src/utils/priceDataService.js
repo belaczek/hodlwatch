@@ -105,7 +105,10 @@ const parseCurrentPriceResult = (resData, quoteSymbol) =>
  * @param {string} path url subpath
  * @param {Object} params
  */
-const getHistoDataApiInstance = (path, params) => async baseSymbol => {
+const getHistoDataApiInstance = (path, params) => async (
+  // TODO delete default 'BTC' later
+  baseSymbol = 'BTC'
+) => {
   const res = await makePriceApiCall(path, {
     ...params,
     fsym: baseSymbol
@@ -183,7 +186,8 @@ export const fetchCurrentPrice = async ({ baseSymbols, quoteSymbol }) => {
   const path = CURRENT_PRICE_URL_SUBPATH
 
   const res = await makePriceApiCall(path, {
-    fsyms: baseSymbols,
+    // TODO delete default 'BTC' later
+    fsyms: baseSymbols || 'BTC',
     tsyms: quoteSymbol
   })
 
