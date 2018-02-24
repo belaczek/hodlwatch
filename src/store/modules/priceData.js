@@ -192,9 +192,7 @@ export const fetchHistoData = () => async (dispatch, getState) => {
 
     dispatch({ type: HISTO_PRICE_DATA_SUCCESS, payload: data })
   } catch (error) {
-    notifyError(
-      'Failed to fetch historical price data. Check console for more details'
-    )
+    notifyError('Failed to fetch chart data. Check console for more details')
     console.log('histo data fetch error: ', error)
     dispatch({ type: HISTO_PRICE_DATA_FAILURE, payload: error })
   }
