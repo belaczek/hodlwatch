@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Title, Section } from 'bloomer'
+import { Box, Button, Title, Field, Label, Control, TextArea } from 'bloomer'
 import ModalWrapper from './ModalWrapper'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
@@ -7,20 +7,28 @@ import { RESET_APP_MODAL } from 'containers/ModalContainer/modalTypes'
 import { openModal } from 'store/modules/modals'
 
 const renderResetAppModalBody = ({ openResetModal }) => (
-  <Box hasTextAlign="centered">
+  <Box hasTextAlign="left">
     <Title>Settings</Title>
 
-    <Section>
-      <Title isSize={4}>Import/Export Data</Title>
-      <p>TODO</p>
-    </Section>
+    <Field>
+      <Label>
+        <Title isSize={5}>Import/Export Data</Title>
+      </Label>
+      <Control>
+        <TextArea placeholder={'Paste your exported settings'} />
+      </Control>
+    </Field>
 
-    <Section>
-      <Title isSize={4}>Reset App</Title>
-      <Button isSize="small" isColor="danger" onClick={openResetModal}>
-        RESET
-      </Button>
-    </Section>
+    <Field>
+      <Label>
+        <Title isSize={5}>Reset App</Title>
+      </Label>
+      <Control>
+        <Button isSize="small" isColor="danger" onClick={openResetModal}>
+          RESET
+        </Button>
+      </Control>
+    </Field>
   </Box>
 )
 

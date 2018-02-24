@@ -1,6 +1,7 @@
 // @ts-ignore
-import { get } from 'lodash/fp'
+import { get, getOr, find } from 'lodash/fp'
 import { importExchangeApiServiceInstance } from 'utils/asyncImportService'
+import { createSelector } from 'reselect'
 
 // Action constants
 const EXCHANGES_LOADING = 'EXCHANGES_LOADING'
@@ -30,15 +31,14 @@ export default function reducer (state = initialState, action) {
         loading: false,
         error: null,
         data: [...get(['payload', 'exchangesList'], action)],
-        lastUpdated: new Date()
+        lastUpdated: new Date().getTime()
       }
     }
     case EXCHANGES_FAILURE: {
       return {
         ...state,
         loading: false,
-        error: get(['payload', 'error'], action),
-        lastUpdated: new Date()
+        error: get(['payload', 'error'], action)
       }
     }
 
@@ -61,3 +61,11 @@ export const initExchangesList = () => async dispatch => {
     throw error
   }
 }
+
+// Selectors
+export const exchangesDataSelector = getOr({}, ['exchanges'])
+
+export const exchangesListSelector = get(['exchanges', 'data'])
+
+export const exchangeByIdSelector = id =>
+  createSelector(exchangesListSelector, list => (id ? find({ id }) : null))

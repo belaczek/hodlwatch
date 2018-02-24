@@ -7,8 +7,7 @@ const HIDE_MODAL = 'HIDE_MODAL'
 
 /** Initial State */
 const initialState = {
-  modalType: null,
-  props: {}
+  modalType: null
 }
 
 /** Modal reducer */
@@ -46,3 +45,9 @@ export const closeModal = () => {
     type: HIDE_MODAL
   }
 }
+
+// Selectors
+
+export const modalTypeSelector = get('modals.modalType')
+
+export const modalPropsSelector = get('modals.props')

@@ -1,11 +1,15 @@
 import React from 'react'
+import { compose } from 'recompose'
 import Chart from './chart'
 import formatPrice from 'utils/formatPrice'
 import Spinner from 'components/Spinner'
 
 import './bitcoinprice.css'
 
-export default function BitcoinPrice ({ data, width, height }) {
+// @ts-ignore
+import { withParentSize, withScreenSize } from '@vx/responsive'
+
+function BitcoinPrice ({ data, parentWidth, screenHeight }) {
   if (!data || !data.length) return <Spinner />
 
   const prices = data || []
@@ -34,8 +38,8 @@ export default function BitcoinPrice ({ data, width, height }) {
       <div className="chart">
         <Chart
           data={prices}
-          parentWidth={width}
-          parentHeight={height * 0.4}
+          parentWidth={parentWidth}
+          parentHeight={screenHeight * 0.4}
           margin={{
             top: 0,
             left: 0,
@@ -47,3 +51,5 @@ export default function BitcoinPrice ({ data, width, height }) {
     </div>
   )
 }
+
+export default compose(withParentSize, withScreenSize)(BitcoinPrice)

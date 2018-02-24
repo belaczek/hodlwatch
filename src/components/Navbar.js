@@ -9,11 +9,14 @@ import {
   NavbarBurger,
   NavbarMenu
 } from 'bloomer'
-import { appName } from 'appConstants'
+import { APP_NAME } from 'appConstants'
 
 const AppNavbar = ({
   showUpdate,
+  showBackButton = true,
   refresh,
+  isActiveFilter,
+  handleResetFilter,
   burgerIsActive,
   handleToggleBurgerMenu,
   openSettingsModal
@@ -22,8 +25,20 @@ const AppNavbar = ({
     <Container>
       <NavbarBrand>
         <NavbarItem>
-          <strong>{appName}</strong>
+          <strong>{APP_NAME}</strong>
         </NavbarItem>
+        {isActiveFilter && (
+          <NavbarItem>
+            <Button
+              isOutlined
+              isSize="small"
+              isColor="black"
+              onClick={handleResetFilter}
+            >
+              back to all
+            </Button>
+          </NavbarItem>
+        )}
         {showUpdate && (
           <NavbarItem>
             <Button isSize="small" isColor="warning" onClick={refresh}>
@@ -36,7 +51,7 @@ const AppNavbar = ({
       <NavbarMenu isActive={burgerIsActive} onClick={handleToggleBurgerMenu}>
         <NavbarEnd>
           <NavbarItem href="#/" onClick={openSettingsModal}>
-            Settings
+            Options
           </NavbarItem>
         </NavbarEnd>
       </NavbarMenu>

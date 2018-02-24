@@ -31,9 +31,9 @@ export const importExchangeApiServiceInstance = async () => {
  * After the first load, module is cached in browser and served imediately
  * @returns {Promise<Object>} histoDataApiService instance
  */
-export const importHistoDataApiService = async () => {
-  const histoDataService = await import('utils/histoDataService')
-  return histoDataService
+export const importPriceDataApiService = async () => {
+  const priceDataService = await import('utils/priceDataService')
+  return priceDataService
 }
 
 /**
@@ -63,7 +63,7 @@ export const prefetchAllAssets = async () => {
   await Promise.all([
     // importMainAppScreen(),
     importExchangeApiServiceInstance(),
-    importHistoDataApiService(),
+    importPriceDataApiService(),
     importToastService(),
     importCcxt()
   ])

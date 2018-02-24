@@ -1,5 +1,8 @@
 const STATE = 'state'
 
+/**
+ * Load state from storage
+ */
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem(STATE)
@@ -12,6 +15,10 @@ export const loadState = () => {
   }
 }
 
+/**
+ * Persist state in localStorage
+ * @param {object | string} state
+ */
 export const saveState = state => {
   try {
     const serializedState = JSON.stringify(state)
@@ -23,4 +30,10 @@ export const clearStorage = () => {
   try {
     localStorage.removeItem(STATE)
   } catch (e) {}
+}
+
+export default {
+  saveState,
+  loadState,
+  clearStorage
 }

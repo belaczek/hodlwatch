@@ -1,3 +1,5 @@
+// @ts-ignore
+import { get, pipe } from 'lodash/fp'
 import { deletePortfolioData } from './portfolio'
 
 // Action constants
@@ -18,7 +20,7 @@ export default function reducer (state = initialState, action) {
       }
     }
     case DELETE_EXCHANGE_CREDENTIALS: {
-      const { exchangeId } = action.payload
+      const exchangeId = action.payload
       const { [exchangeId]: deleted, ...newState } = state
       return newState
     }
@@ -48,11 +50,16 @@ export const setExchangeCredentials = ({
 
 export const deleteExchangeCredentials = ({ exchangeId }) => dispatch => {
   dispatch({
-    type: SET_EXCHANGE_CREDENTIALS,
-    payload: {
-      exchangeId
-    }
+    type: DELETE_EXCHANGE_CREDENTIALS,
+    payload: exchangeId
   })
 
   dispatch(deletePortfolioData(exchangeId))
 }
+
+// Selectors
+
+export const apiKeysSelector = get('apiKeys')
+
+export const apiKeysByIdSelector = exchangeId =>
+  pipe(apiKeysSelector, get(exchangeId))

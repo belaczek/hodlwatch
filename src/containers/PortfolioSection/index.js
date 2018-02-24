@@ -7,7 +7,8 @@ import { compose, pure, withPropsOnChange } from 'recompose'
 import {
   totalSumPortfolioSelector,
   allPortfolioDataSelector
-} from 'store/selectors'
+} from 'store/modules/portfolio'
+
 import { Title } from 'bloomer/lib/elements/Title'
 import { Table } from 'bloomer/lib/elements/Table'
 
@@ -19,16 +20,18 @@ const renderPortfolioSection = ({ total }) => (
     <Container>
       <Title isSize={4}>Total holdings</Title>
       <Table className="PortfolioSection--table">
-        {total &&
-          map(
-            ([name, value]) => (
-              <tr className="bg-light">
-                <td className="bg-light u-textRight"> {value}</td>{' '}
-                <td className="u-textBold">{name}</td>
-              </tr>
-            ),
-            total
-          )}
+        <tbody>
+          {total &&
+            map(
+              ([name, value]) => (
+                <tr className="bg-light" key={name}>
+                  <td className="u-textRight">{value}</td>
+                  <td className="u-textBold">{name}</td>
+                </tr>
+              ),
+              total
+            )}
+        </tbody>
       </Table>
     </Container>
   </Section>

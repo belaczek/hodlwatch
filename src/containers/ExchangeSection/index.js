@@ -12,11 +12,12 @@ const renderExchangeSection = ({ exchanges }) => (
       <Tile isSize={3}>Exchanges</Tile>
       <Tile isAncestor>
         <Tile isParent>
-          {exchanges.map(exchange => (
-            <Tile isChild key={exchange.id}>
-              <Title isSize={4}>{exchange.name}</Title>
-            </Tile>
-          ))}
+          {exchanges &&
+            exchanges.map(({ name, id }) => (
+              <Tile isChild key={id}>
+                <Title isSize={4}>{name}</Title>
+              </Tile>
+            ))}
         </Tile>
       </Tile>
     </Container>

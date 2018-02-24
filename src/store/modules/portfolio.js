@@ -1,15 +1,24 @@
 // @ts-ignore
-import { pipe, omit, map, get, find } from 'lodash/fp'
 import {
-  apiKeysByIdSelector,
-  apiKeysSelector,
-  exchangesListSelector
-} from '../selectors'
+  pipe,
+  omit,
+  map,
+  get,
+  find,
+  isUndefined,
+  omitBy,
+  reduce
+} from 'lodash/fp'
+import { assignWith } from 'lodash'
 // import { toast } from 'react-toastify'
 import {
   importExchangeApiServiceInstance,
   importToastService
 } from 'utils/asyncImportService'
+import Big from 'big.js'
+import { createSelector } from 'reselect'
+import { apiKeysByIdSelector, apiKeysSelector } from 'store/modules/apiKeys'
+import { exchangesListSelector } from 'store/modules/exchanges'
 
 // Action constants
 // const SET_PORTFOLIO_DATA = 'SET_PORTFOLIO_DATA'
@@ -19,7 +28,12 @@ const PORTFOLIO_DATA_LOADING = 'PORTFOLIO_DATA_LOADING'
 const PORTFOLIO_DATA_FAILURE = 'PORTFOLIO_DATA_FAILURE'
 const PORTFOLIO_DATA_SUCCESS = 'PORTFOLIO_DATA_SUCCESS'
 
-const initialState = {}
+const initialState = {
+  loading: false,
+  error: null,
+  lastUpdated: null,
+  data: {}
+}
 
 // Reducer
 export default function reducer (state = initialState, action) {
@@ -31,39 +45,47 @@ export default function reducer (state = initialState, action) {
     }
     case PORTFOLIO_DATA_SUCCESS: {
       const { exchangeId, data } = action.payload
-      return {
-        ...state,
-        [exchangeId]: {
-          ...state[exchangeId],
-          error: null,
-          loading: false,
-          data: { ...data }
+
+      return exchangeId
+        ? {
+          ...state,
+          [exchangeId]: {
+            ...state[exchangeId],
+            error: null,
+            loading: false,
+            lastUpdated: new Date().getTime(),
+            data: { ...data }
+          }
         }
-      }
+        : state
     }
     case PORTFOLIO_DATA_LOADING: {
       const { exchangeId } = action.payload
-      return {
-        ...state,
-        [exchangeId]: {
-          ...state[exchangeId],
-          error: null,
-          loading: true
+      return exchangeId
+        ? {
+          ...state,
+          [exchangeId]: {
+            ...state[exchangeId],
+            error: null,
+            loading: true
+          }
         }
-      }
+        : state
     }
     case PORTFOLIO_DATA_FAILURE: {
       const { exchangeId, error } = action.payload
-      return {
-        ...state,
-        [exchangeId]: {
-          ...state[exchangeId],
-          error: error,
-          // TODO remove this line later
-          data: {},
-          loading: false
+      return exchangeId
+        ? {
+          ...state,
+          [exchangeId]: {
+            ...state[exchangeId],
+            error: error,
+            // TODO remove this line later
+            data: {},
+            loading: false
+          }
         }
-      }
+        : state
     }
 
     // case SET_PORTFOLIO_DATA: {
@@ -94,7 +116,7 @@ export const deletePortfolioData = exchangeId => ({
 /**
  * Show notification about failed portfolio fetch
  */
-const castFetchError = async (exchangeId, getState) => {
+const notifyFetchError = async (exchangeId, getState) => {
   const { toast } = await importToastService()
   const state = getState()
   const exchangeName = pipe(
@@ -129,7 +151,7 @@ export const fetchPortfolioData = exchangeId => async (dispatch, getState) => {
       })
     } catch (error) {
       console.error(error)
-      castFetchError(exchangeId, getState)
+      notifyFetchError(exchangeId, getState)
       dispatch({ type: PORTFOLIO_DATA_FAILURE, payload: { exchangeId, error } })
     }
   }
@@ -147,3 +169,26 @@ export const fetchAllPortfolioData = () => async (dispatch, getState) => {
   )
   await Promise.all(fetchingPromises)
 }
+
+// Selectors
+
+export const allPortfolioDataSelector = get('portfolio')
+
+export const portfolioDataByIdSelector = exchangeId =>
+  pipe(allPortfolioDataSelector, get([exchangeId, 'data']), omitBy(val => !val))
+
+const sumValues = (objValue, srcValue) => {
+  return isUndefined(objValue)
+    ? parseFloat(srcValue)
+    : parseFloat(Big(srcValue).plus(objValue))
+}
+
+export const totalSumPortfolioSelector = createSelector(
+  pipe(allPortfolioDataSelector, map(get('data'))),
+  pipe(
+    reduce((total, holdings) => {
+      return assignWith({}, total, holdings, sumValues)
+    }, {}),
+    omitBy(val => !val)
+  )
+)

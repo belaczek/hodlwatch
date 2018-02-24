@@ -1,33 +1,22 @@
 // @ts-ignore
-import {
-  getOr,
-  get,
-  pipe,
-  map,
-  filter,
-  isEmpty,
-  reduce,
-  isUndefined
-} from 'lodash/fp'
-import { assignWith } from 'lodash'
-import Big from 'big.js'
+import { pipe, map, filter, isEmpty } from 'lodash/fp'
 
 import { createSelector } from 'reselect'
+import {
+  exchangesListSelector,
+  exchangeByIdSelector
+} from './modules/exchanges'
+import { apiKeysSelector } from './modules/apiKeys'
+import { exchangeFilterIdSelector } from './modules/core'
 
-// exchanges
-export const exchangesDataSelector = getOr({}, ['exchanges'])
-export const exchangesListSelector = get(['exchanges', 'data'])
-
-// apiKeys
-export const apiKeysSelector = get('apiKeys')
-
-export const apiKeysByIdSelector = exchangeId =>
-  pipe(apiKeysSelector, get(exchangeId))
+/**
+ * Store selectors which reach for data into multiple modules
+ */
 
 export const savedExchangesListSelector = state => {
   const exchanges = exchangesListSelector(state)
   return pipe(
-    get('apiKeys'),
+    apiKeysSelector,
     map(({ exchangeId }) => ({ ...exchanges.find(ex => ex.id === exchangeId) }))
   )(state)
 }
@@ -39,27 +28,7 @@ export const unusedExchangesListSelector = state => {
   )
 }
 
-// portfolio
-
-export const allPortfolioDataSelector = get('portfolio')
-
-export const portfolioDataByIdSelector = exchangeId =>
-  pipe(allPortfolioDataSelector, get([exchangeId, 'data']))
-
-const sumValues = (objValue, srcValue) => {
-  return isUndefined(objValue)
-    ? parseFloat(srcValue)
-    : parseFloat(Big(srcValue).plus(objValue))
-}
-
-export const totalSumPortfolioSelector = createSelector(
-  pipe(allPortfolioDataSelector, map(get('data'))),
-  pipe(
-    reduce((total, holdings) => {
-      return assignWith({}, total, holdings, sumValues)
-    }, {})
-  )
+export const activeExchangeFilterSelector = createSelector(
+  exchangeFilterIdSelector,
+  exchangeByIdSelector
 )
-
-export const modalTypeSelector = get('modals.modalType')
-export const modalPropsSelector = get('modals.props')

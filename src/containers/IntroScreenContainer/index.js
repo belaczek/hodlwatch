@@ -11,14 +11,14 @@ import { compose, withHandlers, withState } from 'recompose'
 import { connect } from 'react-redux'
 import React from 'react'
 
-import { appName } from 'appConstants'
+import { APP_NAME } from 'appConstants'
 import { setAppInitialized } from 'store/modules/core'
 
 const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
   <Hero isFullHeight isColor="light">
     <HeroBody>
       <Container hasTextAlign="centered">
-        <Title isSize={1}>{appName}</Title>
+        <Title isSize={1}>{APP_NAME}</Title>
         <Subtitle>cryptocurrency portfolio tracking app</Subtitle>
         <Button
           isColor="warning"

@@ -1,8 +1,7 @@
 import React from 'react'
 import { Footer, Container, Content, Button } from 'bloomer'
 import { compose } from 'recompose'
-
-import { appName } from 'appConstants'
+import { APP_NAME } from 'appConstants'
 
 const renderFooter = ({
   isInit,
@@ -14,7 +13,7 @@ const renderFooter = ({
     <Container>
       <Content hasTextAlign="centered">
         <p>
-          <strong>{appName}</strong> by{' '}
+          <strong>{APP_NAME}</strong> by{' '}
           <a href="https://tomasbelada.com">Tomas Belada</a>. The source code is
           licensed{' '}
           <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.

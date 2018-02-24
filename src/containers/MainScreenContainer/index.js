@@ -5,12 +5,12 @@ import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
 import { compose, lifecycle, pure, withProps, withState } from 'recompose'
 import { connect } from 'react-redux'
-import { exchangesDataSelector } from 'store/selectors'
 import ExchangeApiForm from 'containers/ExchangeApiForm'
 import { fetchInitData } from 'store/actions'
 import ChartSection from 'containers/ChartSection'
 import ExchangeSection from 'containers/ExchangeSection'
 import PortfolioSection from 'containers/PortfolioSection'
+import { exchangesDataSelector } from 'store/modules/exchanges'
 
 const renderMainScreen = ({
   exchanges = [],

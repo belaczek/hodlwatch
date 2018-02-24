@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, withPropsOnChange, renderNothing, branch } from 'recompose'
-import { modalTypeSelector, modalPropsSelector } from 'store/selectors'
-import { closeModal } from 'store/modules/modals'
+import {
+  closeModal,
+  modalTypeSelector,
+  modalPropsSelector
+} from 'store/modules/modals'
 
 // Modal Components
 import ResetAppModal from 'containers/modals/ResetAppModal'

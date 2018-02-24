@@ -6,7 +6,7 @@ import core from 'store/modules/core'
 import portfolio from 'store/modules/portfolio'
 import apiKeys from 'store/modules/apiKeys'
 import exchanges from 'store/modules/exchanges'
-import histoData from 'store/modules/histoData'
+import priceData from 'store/modules/priceData'
 import modals from 'store/modules/modals'
 import { loadState, saveState } from 'utils/localStorage'
 
@@ -15,7 +15,7 @@ const reducer = combineReducers({
   portfolio,
   exchanges,
   apiKeys,
-  histoData,
+  priceData,
   modals
 })
 
@@ -38,8 +38,13 @@ export const configureStore = () => {
   store.subscribe(
     // save only max once per 500ms to avoid performance issues
     throttle(() => {
-      const { portfolio, core, apiKeys } = store.getState()
-      saveState({ portfolio, core: pick(core, ['init']), apiKeys })
+      const { portfolio, core, apiKeys, priceData } = store.getState()
+      saveState({
+        portfolio,
+        core: pick(core, ['init', 'quoteSymbol']),
+        priceData: pick(priceData, ['timeframe']),
+        apiKeys
+      })
     }, 500)
   )
 
