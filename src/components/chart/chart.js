@@ -34,8 +34,10 @@ const Chart = ({
   const y = d => d.price
   const bisectDate = bisector(d => x(d)).left
 
-  const firstPoint = data[0]
-  const currentPoint = data[data.length - 1]
+  const defaultPoint = { price: 0, time: new Date().getTime() }
+
+  const firstPoint = data.length ? data[0] : defaultPoint
+  const currentPoint = data.length ? data[data.length - 1] : defaultPoint
   const minPrice = Math.min(...data.map(y))
   const maxPrice = Math.max(...data.map(y))
   // const firstPrice = y(firstPoint);

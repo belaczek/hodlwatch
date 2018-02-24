@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'recompose'
 import Chart from './chart'
 import formatPrice from 'utils/formatPrice'
-import Spinner from 'components/Spinner'
 
 import './bitcoinprice.css'
 
@@ -10,12 +9,10 @@ import './bitcoinprice.css'
 import { withParentSize, withScreenSize } from '@vx/responsive'
 
 function BitcoinPrice ({ data, parentWidth, screenHeight }) {
-  if (!data || !data.length) return <Spinner />
-
   const prices = data || []
 
-  const currentPrice = prices[prices.length - 1].price
-  const firstPrice = prices[0].price
+  const currentPrice = prices.length ? prices[prices.length - 1].price : 0
+  const firstPrice = prices.length ? prices[0].price : 0
   const diffPrice = currentPrice - firstPrice
   const hasIncreased = diffPrice > 0
 

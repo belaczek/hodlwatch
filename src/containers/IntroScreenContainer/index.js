@@ -25,7 +25,7 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
           onClick={handleBtnClick}
           isLoading={btnIsLoading}
         >
-          OPEN
+          START USING
         </Button>
         <p className="is-size-5 mt-10">under heavy development</p>
       </Container>
