@@ -1,12 +1,22 @@
-import { compose, withHandlers, withState, withPropsOnChange } from 'recompose'
+import {
+  compose,
+  withHandlers,
+  withState,
+  withPropsOnChange,
+  lifecycle
+} from 'recompose'
 // @ts-ignore
-import { isFunction } from 'lodash/fp'
+import { isFunction, get } from 'lodash/fp'
 import { connect } from 'react-redux'
-import { setExchangeCredentials } from 'store/modules/apiKeys'
+import { apiKeysByIdSelector } from 'store/modules/apiKeys'
 import renderExchangeApiForm from './renderApiForm'
 import { defaultErrorMessage } from './constants'
 import withExchangeApiService from 'utils/decorators/withExchangeApiService'
 import { unusedExchangesListSelector } from 'store/selectors'
+import { openModal } from 'store/modules/modals'
+import { DELETE_EXCHANGE_API } from '../ModalContainer/modalTypes'
+import { exchangeByIdSelector } from 'store/modules/exchanges'
+import { saveApiCredentials } from 'store/actions'
 // import { importToastService } from 'utils/asyncImportService'
 
 const defaultFormDataState = {
@@ -19,31 +29,41 @@ const defaultFormDataState = {
   submitting: false
 }
 
-// const castApiCredsSuccess = async () => {
-//   const { toast } = await importToastService()
-//   toast.success(`Exchange connected!`)
-// }
-
 const ExchangeApiForm = compose(
   withExchangeApiService,
   connect(
-    state => ({
-      exchanges: unusedExchangesListSelector(state)
+    (state, { editExchangeId }) => ({
+      exchanges: unusedExchangesListSelector(state),
+      edittingExchange: exchangeByIdSelector(editExchangeId)(state),
+      apiKeys: apiKeysByIdSelector(editExchangeId)(state)
     }),
     dispatch => ({
-      setExchangeCredentials: formData =>
-        dispatch(setExchangeCredentials(formData))
+      saveApiCredentials: formData => dispatch(saveApiCredentials(formData)),
+      openDeleteModal: props => dispatch(openModal(DELETE_EXCHANGE_API, props))
     })
   ),
-  withState('formData', 'setFormData', defaultFormDataState),
+
+  // Form state, that has exchangeId auto selected when editting existing record
+  withState('formData', 'setFormData', ({ editExchangeId }) => ({
+    ...defaultFormDataState,
+    exchangeId: editExchangeId
+  })),
+
+  lifecycle({
+    // When the existing apikeys are received from store, merge it into the form state
+    componentDidMount () {
+      const { apiKeys, setFormData } = this.props
+      setFormData(data => ({ ...data, ...apiKeys }))
+    }
+  }),
 
   /**
    * Get required fields based on selected exchange
    */
   withPropsOnChange(
     (
-      { exchanges, formData: { exchangeId } },
-      { nextExchanges, formData: { nextExchangeId } }
+      { exchanges = [], formData: { exchangeId } },
+      { nextExchanges = [], formData: { nextExchangeId } }
     ) =>
       exchangeId !== nextExchangeId ||
       exchanges.length !== nextExchanges.length,
@@ -52,6 +72,7 @@ const ExchangeApiForm = compose(
       return { formFields: getExchangeRequiredCredentialsList(exchangeId) }
     }
   ),
+
   withHandlers({
     setFormState: ({ setFormData }) => (isSubmitting, error) =>
       setFormData(state => ({
@@ -63,10 +84,11 @@ const ExchangeApiForm = compose(
       setFormData(state => ({ ...state, [target.name]: target.value }))
     }
   }),
+
   withHandlers({
     handleSubmit: ({
       formData,
-      setExchangeCredentials,
+      saveApiCredentials,
       testExchangeConnection,
       setFormData,
       setFormState,
@@ -82,7 +104,7 @@ const ExchangeApiForm = compose(
         setFormState(false, null)
 
         // Save valid apiKeys into store
-        setExchangeCredentials(formData)
+        saveApiCredentials(formData)
 
         // Notify parent about success
         if (isFunction(onSuccess)) {
@@ -92,6 +114,18 @@ const ExchangeApiForm = compose(
         console.log(e)
         setFormState(false, defaultErrorMessage)
       }
+    },
+    handleCancel: ({ onCancel }) => () => {
+      onCancel()
+    },
+    handleDelete: ({ openDeleteModal, edittingExchange }) => exchangeId => {
+      openDeleteModal({
+        exchangeName: get('name', edittingExchange),
+        onSubmit: () => {
+          // TODO
+          console.log('submitted')
+        }
+      })
     }
   })
 )(renderExchangeApiForm)

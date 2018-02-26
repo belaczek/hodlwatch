@@ -3,6 +3,7 @@ import { pure } from 'recompose'
 import {
   Field,
   Label,
+  Title,
   Control,
   Input,
   Select,
@@ -18,10 +19,13 @@ const defaultApiCredentials = {
 }
 
 const renderExchangeApiForm = ({
+  editExchangeId,
+  edittingExchange,
   exchanges = [],
   handleSubmit,
   handleChange,
   handleCancel,
+  handleDelete,
   formFields: {
     apiKey: apiKeyField,
     secret: secretField,
@@ -38,29 +42,34 @@ const renderExchangeApiForm = ({
     submitError
   }
 }) => {
+  // const exchangeName = getExchangeName(exchanges, exchangeId)
   return (
     <form onSubmit={handleSubmit}>
       {exchanges.length && (
         <Fragment>
           <Field>
             <Label>Exchange</Label>
-            <Control>
-              <Select
-                name="exchangeId"
-                value={exchangeId}
-                onChange={handleChange}
-                required
-              >
-                <option value="" key="placeholder" disabled>
-                  Select exchange
-                </option>
-                {exchanges.map(({ name, id }) => (
-                  <option key={id} value={id}>
-                    {name}
+            {editExchangeId ? (
+              <Title isSize={4}>{edittingExchange.name}</Title>
+            ) : (
+              <Control>
+                <Select
+                  name="exchangeId"
+                  value={exchangeId}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" key="placeholder" disabled>
+                    Select exchange
                   </option>
-                ))}
-              </Select>
-            </Control>
+                  {exchanges.map(({ name, id }) => (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>
+              </Control>
+            )}
           </Field>
 
           {apiKeyField && (
@@ -138,8 +147,17 @@ const renderExchangeApiForm = ({
               </Button>
             </Control>
             <Control>
-              <Button isColor="light" onClick={handleCancel}>Cancel</Button>
+              <Button isColor="light" onClick={handleCancel}>
+                Cancel
+              </Button>
             </Control>
+            {editExchangeId && (
+              <Control>
+                <Button className="is-text" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </Control>
+            )}
           </Field>
         </Fragment>
       )}

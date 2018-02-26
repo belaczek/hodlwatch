@@ -1,48 +1,37 @@
 // @ts-ignore
-import {
-  get,
-  getOr,
-  keys,
-  pipe,
-  cond,
-  isEmpty,
-  thru,
-  stubTrue
-} from 'lodash/fp'
+import { get, getOr, keys, pipe, thru } from 'lodash/fp'
 import {
   fetchOHLCV,
-  TF_1H,
-  TF_1D,
+  // TF_1H,
+  // TF_1D,
   TF_1W,
   TF_1M,
   TF_6M,
   TF_1Y,
-  fetchCurrentPrice
+  fetchCurrentPrice,
+  TF_2Y
 } from 'utils/priceDataService'
 import { importToastService } from 'utils/asyncImportService'
 import {
   quoteSymbolSelector,
-  exchangeFilterIdSelector
+  activeExchangeFilterIdSelector
 } from 'store/modules/core'
-import {
-  totalSumPortfolioSelector,
-  portfolioDataByIdSelector
-} from 'store/modules/portfolio'
+import { portfolioSymbolsSelector } from 'store/modules/portfolio'
 
 const PRICE_DATA_MODULE = 'priceData'
 
 // timeFrame constants
 export const timeframes = {
-  [TF_1H]: {
-    id: TF_1H,
-    name: '1H',
-    longName: '1 hour'
-  },
-  [TF_1D]: {
-    id: TF_1D,
-    name: '1D',
-    longName: '24 hours'
-  },
+  // [TF_1H]: {
+  //   id: TF_1H,
+  //   name: '1H',
+  //   longName: '1 hour'
+  // },
+  // [TF_1D]: {
+  //   id: TF_1D,
+  //   name: '1D',
+  //   longName: '24 hours'
+  // },
   [TF_1W]: {
     id: TF_1W,
     name: '1W',
@@ -62,6 +51,11 @@ export const timeframes = {
     id: TF_1Y,
     name: '1Y',
     longName: '1 year'
+  },
+  [TF_2Y]: {
+    id: TF_2Y,
+    name: '2Y',
+    longName: '2 years'
   }
 }
 
@@ -180,12 +174,9 @@ export const fetchHistoData = () => async (dispatch, getState) => {
 
   try {
     const data = await pipe(
-      exchangeFilterIdSelector,
-      cond([
-        // if there is no exchange filter active, get sum of all portfolio symbols
-        [isEmpty, () => totalSumPortfolioSelector(state)],
-        [stubTrue, id => portfolioDataByIdSelector(id)(state)]
-      ]),
+      activeExchangeFilterIdSelector,
+      // TODO reconsider whether or not should historical data be filtered for fetchind
+      thru(exchangeId => portfolioSymbolsSelector()(state)),
       keys,
       thru(baseSymbols => fetchOHLCV({ ...params, baseSymbols }))
     )(state)
@@ -209,7 +200,7 @@ export const fetchCurrentPriceData = () => async (dispatch, getState) => {
 
   try {
     const data = await pipe(
-      totalSumPortfolioSelector,
+      portfolioSymbolsSelector(),
       keys,
       thru(baseSymbols => fetchCurrentPrice({ quoteSymbol, baseSymbols }))
     )(state)
@@ -233,23 +224,26 @@ export const changeTimeFrame = timeframe => async (dispatch, getState) => {
     type: PRICE_DATA_SET_TIMEFRAME,
     payload: timeframe
   })
-  dispatch(fetchHistoData())
   dispatch(fetchCurrentPriceData())
+  dispatch(fetchHistoData())
 }
 
 // Selectors
 
-export const histoDataSelector = get([PRICE_DATA_MODULE, 'histoData'])
+/**
+ * Get all histoData
+ */
+export const histoDataStateSelector = get([PRICE_DATA_MODULE, 'histoData'])
 
-export const currentPriceDataSelector = get([
+/**
+ * Get all current price data
+ */
+export const currentPriceDataStateSelector = get([
   PRICE_DATA_MODULE,
   'currentPriceData'
 ])
 
+/**
+ * Get selected timeframe
+ */
 export const activeTimeFrameSelector = get([PRICE_DATA_MODULE, 'timeframe'])
-
-export const histoDataBySymbolSelector = symbol =>
-  pipe(histoDataSelector, get(symbol))
-
-export const currentPriceDataBySymbolSelector = symbol =>
-  pipe(currentPriceDataSelector, get(symbol))

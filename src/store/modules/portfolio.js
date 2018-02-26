@@ -5,9 +5,10 @@ import {
   map,
   get,
   find,
-  isUndefined,
   omitBy,
-  reduce
+  reduce,
+  thru,
+  pick
 } from 'lodash/fp'
 import { assignWith } from 'lodash'
 // import { toast } from 'react-toastify'
@@ -15,10 +16,12 @@ import {
   importExchangeApiServiceInstance,
   importToastService
 } from 'utils/asyncImportService'
-import Big from 'big.js'
 import { createSelector } from 'reselect'
 import { apiKeysByIdSelector, apiKeysSelector } from 'store/modules/apiKeys'
 import { exchangesListSelector } from 'store/modules/exchanges'
+import { sum } from 'utils/calcFloat'
+
+const PORTFOLIO_DATA_MODULE = 'portfolio'
 
 // Action constants
 // const SET_PORTFOLIO_DATA = 'SET_PORTFOLIO_DATA'
@@ -28,12 +31,21 @@ const PORTFOLIO_DATA_LOADING = 'PORTFOLIO_DATA_LOADING'
 const PORTFOLIO_DATA_FAILURE = 'PORTFOLIO_DATA_FAILURE'
 const PORTFOLIO_DATA_SUCCESS = 'PORTFOLIO_DATA_SUCCESS'
 
-const initialState = {
-  loading: false,
-  error: null,
-  lastUpdated: null,
-  data: {}
-}
+const initialState = {}
+
+/**
+ * Store structure
+ *  {
+ *    [exchangeId]: {
+ *      loading: boolean
+ *      error: object|string
+ *      lastUpdated: number
+ *      data: {
+ *          [symbol]: number - amount of target symbol in account
+ *      }
+ *    }
+ * }
+ */
 
 // Reducer
 export default function reducer (state = initialState, action) {
@@ -172,23 +184,30 @@ export const fetchAllPortfolioData = () => async (dispatch, getState) => {
 
 // Selectors
 
-export const allPortfolioDataSelector = get('portfolio')
+export const portfolioStateSelecor = get(PORTFOLIO_DATA_MODULE)
 
-export const portfolioDataByIdSelector = exchangeId =>
-  pipe(allPortfolioDataSelector, get([exchangeId, 'data']), omitBy(val => !val))
-
-const sumValues = (objValue, srcValue) => {
-  return isUndefined(objValue)
-    ? parseFloat(srcValue)
-    : parseFloat(Big(srcValue).plus(objValue))
-}
-
-export const totalSumPortfolioSelector = createSelector(
-  pipe(allPortfolioDataSelector, map(get('data'))),
-  pipe(
-    reduce((total, holdings) => {
-      return assignWith({}, total, holdings, sumValues)
-    }, {}),
-    omitBy(val => !val)
+/**
+ * Select portfolio holdings in store. Filterable by exchangeId and/or symbol name
+ * If no filters are provided, it will return an object of all symbols with sums of their total amount
+ * @param {Object} filters
+ * @property {string} [filters.exchangeId = null]
+ * @property {string} [filters.symbol = null]
+ * @returns {Object} object of symbols and its total value by filters
+ */
+export const portfolioSymbolsSelector = ({
+  exchangeId = null,
+  symbol = null
+} = {}) =>
+  createSelector(
+    portfolioStateSelecor,
+    pipe(
+      // portfolioStateSelecor,
+      thru(exchanges => (exchangeId ? pick(exchangeId, exchanges) : exchanges)),
+      map(get('data')),
+      // Iterate over all exchange data and merge it into one object
+      // Duplicate values are summed together
+      reduce((total, holdings) => assignWith({}, total, holdings, sum), {}),
+      omitBy(val => !val),
+      thru(values => (symbol ? pick(symbol, values) : values))
+    )
   )
-)

@@ -7,14 +7,14 @@ import { DEFAULT_QUOTE_CURRENCY } from 'appConstants'
 const INIT_APP = 'INIT_APP'
 const UPDATE_SERVICE_WORKER = 'UPDATE_SERVICE_WORKER'
 const SET_EXCHANGE_FILTER = 'SET_EXCHANGE_FILTER'
-const SET_COIN_FILTER = 'SET_COIN_FILTER'
+const SET_SYMBOL_FILTER = 'SET_SYMBOL_FILTER'
 const SET_QUOTE_CURRENCY = 'SET_QUOTE_CURRENCY'
 
 const initialState = {
   init: false,
   serviceWorkerUpdated: false,
   exchangeFilterId: null,
-  coinFilterId: null,
+  symbolFilterId: null,
   quoteSymbol: DEFAULT_QUOTE_CURRENCY
 }
 
@@ -37,15 +37,15 @@ export default function reducer (state = initialState, action) {
         ...state,
         // Right now only one type of filter is allowed at a time
         exchangeFilterId: exchangeId,
-        coinFilterId: null
+        symbolFilterId: null
       }
     }
-    case SET_COIN_FILTER: {
+    case SET_SYMBOL_FILTER: {
       const coinId = getOr(null, ['payload'], action)
       return {
         ...state,
         // Right now only one type of filter is allowed at a time
-        coinFilterId: coinId,
+        symbolFilterId: coinId,
         exchangeFilterId: null
       }
     }
@@ -78,13 +78,13 @@ export const setExchangeFilter = exchangeId => ({
   payload: exchangeId
 })
 
-export const setCoinFilter = coinId => ({
-  type: SET_EXCHANGE_FILTER,
-  payload: coinId
+export const setSymbolFilter = symbol => ({
+  type: SET_SYMBOL_FILTER,
+  payload: symbol
 })
 
 export const resetFilters = () => dispatch => {
-  dispatch(setCoinFilter())
+  dispatch(setSymbolFilter())
   dispatch(setExchangeFilter())
 }
 
@@ -92,7 +92,7 @@ export const resetFilters = () => dispatch => {
 
 export const activeFilterSelector = state =>
   get(['core', 'exchangeFilterId'], state) ||
-  get(['core', 'coinFilterId'], state)
+  get(['core', 'symbolFilterId'], state)
 
 export const appStateSelector = getOr(false, ['core', 'init'])
 
@@ -103,6 +103,6 @@ export const serviceWorkerIsUpdatedSelector = getOr(false, [
 
 export const quoteSymbolSelector = get(['core', 'quoteSymbol'])
 
-export const exchangeFilterIdSelector = get(['core', 'exchangeFilterId'])
+export const activeExchangeFilterIdSelector = get(['core', 'exchangeFilterId'])
 
-export const activeCoinFilterSelector = get(['core', 'coinFilterId'])
+export const activeSymbolFilterSelector = get(['core', 'symbolFilterId'])

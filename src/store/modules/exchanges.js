@@ -68,4 +68,4 @@ export const exchangesDataSelector = getOr({}, ['exchanges'])
 export const exchangesListSelector = get(['exchanges', 'data'])
 
 export const exchangeByIdSelector = id =>
-  createSelector(exchangesListSelector, list => (id ? find({ id }) : null))
+  createSelector(exchangesListSelector, find({ id }))

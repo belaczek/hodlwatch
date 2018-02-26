@@ -196,7 +196,10 @@ module.exports = {
               // @remove-on-eject-end
               compact: true,
               plugins: [
-                ['lodash', { id: ['lodash', 'recompose', 'bloomer'] }]
+                [
+                  'lodash',
+                  { id: ['lodash', 'recompose', 'bloomer', 'recharts'] }
+                ]
                 // [
                 //   'module-resolver',
                 //   {

@@ -17,7 +17,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         modalType: get(['payload', 'modalType'], action),
-        props: get(['payload', 'props'])
+        props: get(['payload', 'props'], action)
       }
 
     case HIDE_MODAL:

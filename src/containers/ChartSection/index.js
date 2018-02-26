@@ -1,30 +1,37 @@
 import React from 'react'
 import { Container } from 'bloomer'
 // @ts-ignore
-import { get } from 'lodash/fp'
+import { get, first, keys, pipe, omit, map } from 'lodash/fp'
 import { compose, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import {
-  histoDataBySymbolSelector,
-  currentPriceDataBySymbolSelector,
   changeTimeFrame,
   activeTimeFrameSelector
 } from 'store/modules/priceData'
-import BitcoinPrice from 'components/chart/bitcoinprice'
 
 import TimeFrames from 'components/TimeFrames'
 
 import './index.css'
+import { chartDataMarketValueSelector } from 'store/selectors'
+import NewChart from 'components/NewChart/'
+import { quoteSymbolSelector } from 'store/modules/core'
+import { stringToColour } from 'utils/stringToColor'
 
 const renderChart = ({
   parentWidth,
   screenHeight,
   chartData,
   activeTimeFrame,
-  handleTfChange
+  handleTfChange,
+  baseSymbols,
+  quoteSymbol
 }) => (
   <Container className="is-widescreen">
-    <BitcoinPrice data={chartData} width={parentWidth} height={screenHeight} />
+    <NewChart
+      chartData={chartData}
+      baseSymbols={baseSymbols}
+      quoteSymbol={quoteSymbol}
+    />
     <TimeFrames
       className="is-centered"
       activeTf={activeTimeFrame}
@@ -35,14 +42,17 @@ const renderChart = ({
 
 export default compose(
   connect(
-    state => ({
-      histoData: histoDataBySymbolSelector('BTC')(state),
-      currentPriceData: currentPriceDataBySymbolSelector('BTC')(state),
+    (state, { exchangeFilter: exchangeId, symbolFilter: symbol }) => ({
       currentPriceDataUpdated: get(
         'priceData.currentPriceDataLastUpdated',
         state
       ),
-      activeTimeFrame: activeTimeFrameSelector(state)
+      chartData: chartDataMarketValueSelector({
+        exchangeId,
+        symbol
+      })(state),
+      activeTimeFrame: activeTimeFrameSelector(state),
+      quoteSymbol: quoteSymbolSelector(state)
     }),
     dispatch => ({
       handleTfChange: tf => dispatch(changeTimeFrame(tf))
@@ -50,26 +60,27 @@ export default compose(
   ),
 
   withPropsOnChange(
-    ['histoData', 'currentPriceData'],
-    ({ histoData, currentPriceData, currentPriceDataUpdated }) => {
-      let chartData = []
-
-      if (histoData) {
-        chartData = histoData.map(({ time, close }) => ({
-          time: new Date(time * 1000),
-          price: close
+    ['chartData', 'currentPriceDataUpdated'],
+    ({
+      histoData,
+      currentPriceData,
+      currentPriceDataUpdated,
+      symbolFilter,
+      chartData
+    }) => {
+      // parse all symbol names and generate unique color for each
+      const baseSymbols = pipe(
+        first,
+        omit('time'),
+        keys,
+        map(name => ({
+          name,
+          colour: stringToColour(name)
         }))
-      }
-
-      if (currentPriceData) {
-        chartData.push({
-          price: currentPriceData,
-          time: new Date(currentPriceDataUpdated)
-        })
-      }
+      )(chartData)
 
       return {
-        chartData
+        baseSymbols
       }
     }
   )

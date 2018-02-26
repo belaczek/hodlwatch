@@ -23,6 +23,8 @@ export const TF_1M = 'TF_1M'
 export const TF_6M = 'TF_6M'
 // timeframe 1 year
 export const TF_1Y = 'TF_1Y'
+// timeframe 1 year
+export const TF_2Y = 'TF_2Y'
 
 /**
  * Definition of url properties for each timeframe
@@ -53,6 +55,10 @@ export const timeFrames = {
   [TF_1Y]: {
     urlPath: URL_PATH_DAY,
     limit: 360
+  },
+  [TF_2Y]: {
+    urlPath: URL_PATH_DAY,
+    limit: 720
   }
 }
 
@@ -129,7 +135,7 @@ const fetchMultiHistoData = async (baseSymbols = [], fetchHistoDataFunc) => {
   const res = data.reduce(
     (acc, currentData) => ({
       ...acc,
-      currentData
+      ...currentData
     }),
     {}
   )

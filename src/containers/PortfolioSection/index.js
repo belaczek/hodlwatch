@@ -2,20 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 // @ts-ignore
 import { map, toPairs } from 'lodash/fp'
-import { Section, Container } from 'bloomer'
+import { Section, Container, Button } from 'bloomer'
 import { compose, pure, withPropsOnChange } from 'recompose'
-import {
-  totalSumPortfolioSelector,
-  allPortfolioDataSelector
-} from 'store/modules/portfolio'
+import { portfolioSymbolsSelector } from 'store/modules/portfolio'
 
 import { Title } from 'bloomer/lib/elements/Title'
 import { Table } from 'bloomer/lib/elements/Table'
 
 import './index.css'
+import { setSymbolFilter } from 'store/modules/core'
 
 // TODO
-const renderPortfolioSection = ({ total }) => (
+const renderPortfolioSection = ({ total, handleSetFilter }) => (
   <Section className="PortfolioSection">
     <Container>
       <Title isSize={4}>Total holdings</Title>
@@ -26,7 +24,11 @@ const renderPortfolioSection = ({ total }) => (
               ([name, value]) => (
                 <tr className="bg-light" key={name}>
                   <td className="u-textRight">{value}</td>
-                  <td className="u-textBold">{name}</td>
+                  <td className="u-textBold">
+                    <Button isLink onClick={() => handleSetFilter(name)}>
+                      {name}
+                    </Button>
+                  </td>
                 </tr>
               ),
               total
@@ -38,10 +40,14 @@ const renderPortfolioSection = ({ total }) => (
 )
 
 const PortfolioSection = compose(
-  connect(state => ({
-    total: totalSumPortfolioSelector(state),
-    allData: allPortfolioDataSelector(state)
-  })),
+  connect(
+    (state, { exchangeFilter: exchangeId, symbolFilter: symbol }) => ({
+      total: portfolioSymbolsSelector({ exchangeId, symbol })(state)
+    }),
+    dispatch => ({
+      handleSetFilter: id => dispatch(setSymbolFilter(id))
+    })
+  ),
   withPropsOnChange(['total'], ({ total }) => {
     return { total: toPairs(total) }
   }),
