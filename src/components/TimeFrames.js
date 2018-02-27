@@ -9,7 +9,7 @@ export default ({ onChange, activeTf, className = '' }) => (
     <TabList>
       {map(
         ({ name, id, longName }) => (
-          <Tab isActive={id === activeTf}>
+          <Tab key={id} isActive={id === activeTf}>
             <TabLink onClick={() => onChange(id)}>{name}</TabLink>
           </Tab>
         ),

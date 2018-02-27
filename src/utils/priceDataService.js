@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { APP_NAME, DEFAULT_QUOTE_CURRENCY } from 'appConstants'
+import { APP_NAME, DEFAULT_QUOTE_SYMBOL } from 'appConstants'
 // @ts-ignore
-import { get, join, flatten, pipe, mapValues } from 'lodash/fp'
+import { get, join, flatten, pipe, mapValues, reject } from 'lodash/fp'
 
 const PRICE_DATA_BASE_URL = 'https://min-api.cryptocompare.com/data/'
 // const PRICE_PATH = 'price'
@@ -111,10 +111,7 @@ const parseCurrentPriceResult = (resData, quoteSymbol) =>
  * @param {string} path url subpath
  * @param {Object} params
  */
-const getHistoDataApiInstance = (path, params) => async (
-  // TODO delete default 'BTC' later
-  baseSymbol = 'BTC'
-) => {
+const getHistoDataApiInstance = (path, params) => async baseSymbol => {
   const res = await makePriceApiCall(path, {
     ...params,
     fsym: baseSymbol
@@ -155,15 +152,16 @@ export const fetchOHLCV = async ({
   quoteSymbol,
   timeframe = TF_1M
 }) => {
-  // Turn params into arrays
-  baseSymbols = flatten([baseSymbols])
+  // Turn params into arrays and remove possible duplicities with quoteSymbol
+  // (preventing error when fetching bitcoin data while having btc as quote currency)
+  baseSymbols = pipe(flatten, reject(quoteSymbol))([baseSymbols])
 
   // get url details based on chosen timeframe
   const { urlPath, limit } = timeFrames[timeframe]
 
   // get api instance which can be then called multiple times with different symbols
   const histoDataApiInstance = getHistoDataApiInstance(urlPath, {
-    tsym: quoteSymbol || DEFAULT_QUOTE_CURRENCY,
+    tsym: quoteSymbol || DEFAULT_QUOTE_SYMBOL,
     limit: limit
   })
 

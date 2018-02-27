@@ -1,4 +1,4 @@
-import AES from 'crypto-js/AES'
+import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8'
 
 /**

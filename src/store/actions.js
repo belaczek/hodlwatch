@@ -5,6 +5,7 @@ import { fetchAllPortfolioData, fetchPortfolioData } from './modules/portfolio'
 import { fetchHistoData, fetchCurrentPriceData } from './modules/priceData'
 import { setExchangeCredentials } from './modules/apiKeys'
 import { importToastService } from 'utils/asyncImportService'
+import { setQuoteCurrency } from './modules/core'
 
 /**
  * Initialize all app data
@@ -32,6 +33,19 @@ export const saveApiCredentials = creds => async dispatch => {
   dispatch(setExchangeCredentials(creds))
   notifyExchangeSuccess()
   await dispatch(fetchPortfolioData(get('exchangeId', creds)))
+  await dispatch(fetchCurrentPriceData())
+  await dispatch(fetchHistoData())
+}
+
+/**
+ * Change quote currency and refetch price data
+ * @param {string} currency
+ */
+export const changeQuoteCurrency = currency => async dispatch => {
+  if (!currency) {
+    return
+  }
+  dispatch(setQuoteCurrency(currency))
   await dispatch(fetchCurrentPriceData())
   await dispatch(fetchHistoData())
 }

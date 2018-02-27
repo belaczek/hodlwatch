@@ -3,7 +3,7 @@ import { get, getOr, keys, pipe, thru } from 'lodash/fp'
 import {
   fetchOHLCV,
   // TF_1H,
-  // TF_1D,
+  TF_1D,
   TF_1W,
   TF_1M,
   TF_6M,
@@ -27,11 +27,11 @@ export const timeframes = {
   //   name: '1H',
   //   longName: '1 hour'
   // },
-  // [TF_1D]: {
-  //   id: TF_1D,
-  //   name: '1D',
-  //   longName: '24 hours'
-  // },
+  [TF_1D]: {
+    id: TF_1D,
+    name: '1D',
+    longName: '24 hours'
+  },
   [TF_1W]: {
     id: TF_1W,
     name: '1W',
@@ -173,7 +173,7 @@ export const fetchHistoData = () => async (dispatch, getState) => {
   }
 
   try {
-    const data = await pipe(
+    let data = await pipe(
       activeExchangeFilterIdSelector,
       // TODO reconsider whether or not should historical data be filtered for fetchind
       thru(exchangeId => portfolioSymbolsSelector()(state)),

@@ -27,7 +27,6 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
         >
           START USING
         </Button>
-        <p className="is-size-5 mt-10">under heavy development</p>
       </Container>
     </HeroBody>
     <HeroFooter>

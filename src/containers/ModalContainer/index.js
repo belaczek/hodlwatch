@@ -14,14 +14,17 @@ import SettingsModal from 'containers/modals/SettingsModal'
 import {
   RESET_APP_MODAL,
   SETTINGS_MODAL,
-  DELETE_EXCHANGE_API
+  DELETE_EXCHANGE_API,
+  IMPORT_SETTINGS_MODAL
 } from './modalTypes'
 import DeleteExchangeApiModal from '../modals/DeleteExchangeApiModal'
+import ImportSettingsConfirmModal from '../modals/ImportSettingsConfirmModal'
 
 const MODAL_COMPONENTS = {
   [RESET_APP_MODAL]: ResetAppModal,
   [SETTINGS_MODAL]: SettingsModal,
-  [DELETE_EXCHANGE_API]: DeleteExchangeApiModal
+  [DELETE_EXCHANGE_API]: DeleteExchangeApiModal,
+  [IMPORT_SETTINGS_MODAL]: ImportSettingsConfirmModal
 }
 
 const renderModal = ({ ModalComponent, modalProps = {}, ...props }) => (

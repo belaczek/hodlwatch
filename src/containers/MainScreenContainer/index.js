@@ -17,13 +17,19 @@ import {
   activeExchangeFilterIdSelector,
   activeSymbolFilterSelector
 } from 'store/modules/core'
+import {
+  activeTimeFrameSelector,
+  currentPriceDataStateSelector
+} from 'store/modules/priceData'
 
 const renderMainScreen = ({
   marketValue,
   quoteSymbol,
   exchangeFilterId,
   exchangeFilterName,
-  symbolFilterId
+  symbolFilterId,
+  activeTimeFrame,
+  symbolFilterPrice
 }) => (
   <AppLayout>
     <PortfolioStats
@@ -31,10 +37,13 @@ const renderMainScreen = ({
       quoteSymbol={quoteSymbol}
       exchangeFilterName={exchangeFilterName}
       symbolFilter={symbolFilterId}
+      symbolCurrentPrice={symbolFilterPrice}
+      activeTimeFrame={activeTimeFrame}
     />
     <ChartSection
       exchangeFilter={exchangeFilterId}
       symbolFilter={symbolFilterId}
+      activeTimeFrame={activeTimeFrame}
     />
     <PortfolioSection
       exchangeFilter={exchangeFilterId}
@@ -56,7 +65,9 @@ const Main = compose(
         exchangeId: exchangeFilterId,
         symbol: symbolFilterId
       })(state),
-      quoteSymbol: quoteSymbolSelector(state)
+      quoteSymbol: quoteSymbolSelector(state),
+      currentPriceData: currentPriceDataStateSelector(state),
+      activeTimeFrame: activeTimeFrameSelector(state)
     }),
     dispatch => ({
       fetchInitData: () => dispatch(fetchInitData())
@@ -65,6 +76,12 @@ const Main = compose(
   withPropsOnChange(['filterExchange'], ({ filterExchange }) => ({
     exchangeFilterName: filterExchange ? get('name', filterExchange) : null
   })),
+  withPropsOnChange(
+    ['currentPriceData', 'symbolFilterId'],
+    ({ currentPriceData = {}, symbolFilterId }) => ({
+      symbolFilterPrice: currentPriceData[symbolFilterId]
+    })
+  ),
   lifecycle({
     componentDidMount () {
       this.props.fetchInitData()

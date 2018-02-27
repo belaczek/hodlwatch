@@ -26,9 +26,10 @@ const renderChart = ({ data, baseSymbols }) => (
           type="number"
           domain={['dataMin', 'dataMax']}
           tick={{ fontSize: '12px' }}
-          orientation="right"
+          mirror
+          tickLine={false}
           tickCount={5}
-          interval="preserveEnd"
+          axisLine={false}
           width={30}
         />
         <Tooltip />

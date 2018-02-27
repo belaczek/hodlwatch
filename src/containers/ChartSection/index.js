@@ -4,16 +4,13 @@ import { Container } from 'bloomer'
 import { get, first, keys, pipe, omit, map } from 'lodash/fp'
 import { compose, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
-import {
-  changeTimeFrame,
-  activeTimeFrameSelector
-} from 'store/modules/priceData'
+import { changeTimeFrame } from 'store/modules/priceData'
 
 import TimeFrames from 'components/TimeFrames'
 
 import './index.css'
 import { chartDataMarketValueSelector } from 'store/selectors'
-import NewChart from 'components/NewChart/'
+import Chart from 'components/Chart/'
 import { quoteSymbolSelector } from 'store/modules/core'
 import { stringToColour } from 'utils/stringToColor'
 
@@ -27,7 +24,7 @@ const renderChart = ({
   quoteSymbol
 }) => (
   <Container className="is-widescreen">
-    <NewChart
+    <Chart
       chartData={chartData}
       baseSymbols={baseSymbols}
       quoteSymbol={quoteSymbol}
@@ -51,7 +48,6 @@ export default compose(
         exchangeId,
         symbol
       })(state),
-      activeTimeFrame: activeTimeFrameSelector(state),
       quoteSymbol: quoteSymbolSelector(state)
     }),
     dispatch => ({
