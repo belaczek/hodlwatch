@@ -1,9 +1,16 @@
 // @ts-ignore
 import { isEmpty, get } from 'lodash/fp'
 import { initExchangesList } from './modules/exchanges'
-import { fetchAllPortfolioData, fetchPortfolioData } from './modules/portfolio'
+import {
+  fetchAllPortfolioData,
+  fetchPortfolioData,
+  deletePortfolioData
+} from './modules/portfolio'
 import { fetchHistoData, fetchCurrentPriceData } from './modules/priceData'
-import { setExchangeCredentials } from './modules/apiKeys'
+import {
+  setExchangeCredentials,
+  deleteExchangeCredentials
+} from './modules/apiKeys'
 import { importToastService } from 'utils/asyncImportService'
 import { setQuoteCurrency } from './modules/core'
 
@@ -48,4 +55,24 @@ export const changeQuoteCurrency = currency => async dispatch => {
   dispatch(setQuoteCurrency(currency))
   await dispatch(fetchCurrentPriceData())
   await dispatch(fetchHistoData())
+}
+
+const notifyExchangeDeleteSuccess = async () => {
+  const { toast } = await importToastService()
+  toast.warning(`Exchange successfully remover`)
+}
+
+/**
+ * Delete Exchange api keys and all its portfolio data from store
+ * @param {string} exchangeId
+ */
+export const deleteApiKeys = exchangeId => async dispatch => {
+  if (!exchangeId) {
+    return
+  }
+  dispatch(deleteExchangeCredentials(exchangeId))
+  dispatch(deletePortfolioData(exchangeId))
+  await dispatch(fetchCurrentPriceData())
+  dispatch(fetchHistoData())
+  notifyExchangeDeleteSuccess()
 }

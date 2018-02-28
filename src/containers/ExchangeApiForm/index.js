@@ -16,7 +16,7 @@ import { unusedExchangesListSelector } from 'store/selectors'
 import { openModal } from 'store/modules/modals'
 import { DELETE_EXCHANGE_API } from '../ModalContainer/modalTypes'
 import { exchangeByIdSelector } from 'store/modules/exchanges'
-import { saveApiCredentials } from 'store/actions'
+import { saveApiCredentials, deleteApiKeys } from 'store/actions'
 // import { importToastService } from 'utils/asyncImportService'
 
 const defaultFormDataState = {
@@ -39,7 +39,8 @@ const ExchangeApiForm = compose(
     }),
     dispatch => ({
       saveApiCredentials: formData => dispatch(saveApiCredentials(formData)),
-      openDeleteModal: props => dispatch(openModal(DELETE_EXCHANGE_API, props))
+      openDeleteModal: props => dispatch(openModal(DELETE_EXCHANGE_API, props)),
+      deleteApiKeys: id => dispatch(deleteApiKeys(id))
     })
   ),
 
@@ -118,12 +119,18 @@ const ExchangeApiForm = compose(
     handleCancel: ({ onCancel }) => () => {
       onCancel()
     },
-    handleDelete: ({ openDeleteModal, edittingExchange }) => exchangeId => {
+    handleDelete: ({
+      openDeleteModal,
+      edittingExchange,
+      editExchangeId,
+      deleteApiKeys,
+      onCancel
+    }) => () => {
       openDeleteModal({
         exchangeName: get('name', edittingExchange),
         onSubmit: () => {
-          // TODO
-          console.log('submitted')
+          onCancel()
+          deleteApiKeys(editExchangeId)
         }
       })
     }

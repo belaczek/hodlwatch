@@ -48,7 +48,7 @@ export const setExchangeCredentials = ({
   }
 })
 
-export const deleteExchangeCredentials = ({ exchangeId }) => dispatch => {
+export const deleteExchangeCredentials = exchangeId => dispatch => {
   dispatch({
     type: DELETE_EXCHANGE_CREDENTIALS,
     payload: exchangeId

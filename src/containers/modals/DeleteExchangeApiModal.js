@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Button } from 'bloomer'
 import ModalWrapper from './ModalWrapper'
-import { compose } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 
 const renderDeleteExchangeApiBody = ({
-  onSubmit,
+  handleSubmit,
   exchangeName,
   toggleModal
 }) => (
@@ -13,7 +13,7 @@ const renderDeleteExchangeApiBody = ({
       Are you sure you want to delete <strong>{exchangeName}</strong> with all
       its data?
     </p>
-    <Button isColor="danger" onClick={onSubmit}>
+    <Button isColor="danger" onClick={handleSubmit}>
       Delete
     </Button>
     <Button className="is-text" onClick={toggleModal}>
@@ -22,4 +22,12 @@ const renderDeleteExchangeApiBody = ({
   </Box>
 )
 
-export default compose(ModalWrapper)(renderDeleteExchangeApiBody)
+export default compose(
+  ModalWrapper,
+  withHandlers({
+    handleSubmit: ({ toggleModal, onSubmit }) => () => {
+      onSubmit()
+      toggleModal()
+    }
+  })
+)(renderDeleteExchangeApiBody)
