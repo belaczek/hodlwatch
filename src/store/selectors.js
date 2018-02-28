@@ -218,19 +218,11 @@ export const portfolioPerformanceSelector = ({ exchangeId, symbol }) =>
     (currentPriceData, histoData, symbolAmounts) => {
       const histoPrices = mergeHistoData(histoData, 0)
 
-      console.log(histoPrices)
-      console.log(currentPriceData)
-
       const histoTotalValue = calculateTotalValue(histoPrices, symbolAmounts)
       const currentTotalValue = calculateTotalValue(
         currentPriceData,
         symbolAmounts
       )
-      console.log(histoTotalValue)
-      console.log(currentTotalValue)
-
-      console.log(absoluteChange(histoTotalValue, currentTotalValue))
-      console.log(percentageChange(histoTotalValue, currentTotalValue))
 
       return {
         absolute: absoluteChange(histoTotalValue, currentTotalValue),
