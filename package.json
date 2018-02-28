@@ -10,6 +10,7 @@
   "private": false,
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
+    "start:production": "serve -s build",
     "build": "npm-run-all build-css build-js",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
@@ -24,8 +25,7 @@
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
-    "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
-    "_prestart": "cp webpack.config.dev.js node_modules/react-scripts/config"
+    "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config"
   },
   "lint-staged": {
     "*.js": [
@@ -75,6 +75,7 @@
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "react-scripts": "1.1.1",
+    "serve": "^6.5.1",
     "source-map-explorer": "^1.5.0",
     "uglifyjs-webpack-plugin": "^1.2.2"
   }
