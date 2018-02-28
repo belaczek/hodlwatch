@@ -12,7 +12,7 @@ const renderResetAppModalBody = ({ handleResetApp }) => (
       undone.
     </p>
     <Button isColor="danger" onClick={handleResetApp}>
-      Confirm reset
+      confirm reset
     </Button>
   </Box>
 )

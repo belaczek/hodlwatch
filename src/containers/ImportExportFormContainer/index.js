@@ -19,7 +19,7 @@ const renderImportExportForm = ({
 }) => (
   <div>
     <Field>
-      <Label>Import Data</Label>
+      <Label>import data</Label>
       <Control>
         <Input
           name="importString"
@@ -32,14 +32,14 @@ const renderImportExportForm = ({
     </Field>
     <Field isGrouped>
       <Control>
-        <Button onClick={handleImportStoreData}>Import</Button>
+        <Button onClick={handleImportStoreData}>import</Button>
       </Control>
     </Field>
 
     <Field>
-      <Label>Export Data</Label>
+      <Label>export data</Label>
       <Control>
-        <Button onClick={handleGetExportString}>Generate export string</Button>
+        <Button onClick={handleGetExportString}>generate export string</Button>
       </Control>
       {exportString &&
         exportString.length && (

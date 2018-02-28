@@ -14,10 +14,10 @@ const renderDeleteExchangeApiBody = ({
       its data?
     </p>
     <Button isColor="danger" onClick={handleSubmit}>
-      Delete
+      delete
     </Button>
     <Button className="is-text" onClick={toggleModal}>
-      Cancel
+      cancel
     </Button>
   </Box>
 )

@@ -48,7 +48,7 @@ const renderExchangeApiForm = ({
       {exchanges.length && (
         <Fragment>
           <Field>
-            <Label>Exchange</Label>
+            <Label>exchange</Label>
             {editExchangeId ? (
               <Title isSize={4}>{edittingExchange.name}</Title>
             ) : (
@@ -60,7 +60,7 @@ const renderExchangeApiForm = ({
                   required
                 >
                   <option value="" key="placeholder" disabled>
-                    Select exchange
+                    select exchange
                   </option>
                   {exchanges.map(({ name, id }) => (
                     <option key={id} value={id}>
@@ -74,7 +74,7 @@ const renderExchangeApiForm = ({
 
           {apiKeyField && (
             <Field>
-              <Label>Public api key</Label>
+              <Label>public api key</Label>
               <Control>
                 <Input
                   name="apiKey"
@@ -90,7 +90,7 @@ const renderExchangeApiForm = ({
 
           {secretField && (
             <Field>
-              <Label>Private api key (secret)</Label>
+              <Label>private api key (secret)</Label>
               <Control>
                 <Input
                   name="secret"
@@ -106,7 +106,7 @@ const renderExchangeApiForm = ({
 
           {uidField && (
             <Field>
-              <Label>Client ID</Label>
+              <Label>client ID</Label>
               <Control>
                 <Input
                   name="uid"
@@ -122,7 +122,7 @@ const renderExchangeApiForm = ({
 
           {passwordField && (
             <Field>
-              <Label>Password</Label>
+              <Label>password</Label>
               <Control>
                 <Input
                   name="password"
@@ -143,18 +143,18 @@ const renderExchangeApiForm = ({
           <Field isGrouped>
             <Control>
               <Button isColor="primary" isLoading={submitting} type="submit">
-                Save
+                save
               </Button>
             </Control>
             <Control>
               <Button isColor="light" onClick={handleCancel}>
-                Cancel
+                cancel
               </Button>
             </Control>
             {editExchangeId && (
               <Control>
                 <Button className="is-text" onClick={handleDelete}>
-                  Delete
+                  delete
                 </Button>
               </Control>
             )}

@@ -29,14 +29,6 @@ const renderStats = ({
         </div>
       </LevelItem>
     ) : null}
-    <LevelItem hasTextAlign="centered">
-      <div>
-        <Heading>Portfolio Market Value</Heading>
-        <Title isSize={4}>
-          {marketValue} {quoteSymbol}
-        </Title>
-      </div>
-    </LevelItem>
     {symbolFilter && symbolCurrentPrice ? (
       <LevelItem hasTextAlign="centered">
         <div>
@@ -47,6 +39,15 @@ const renderStats = ({
         </div>
       </LevelItem>
     ) : null}
+    <LevelItem hasTextAlign="centered">
+      <div>
+        <Heading>Portfolio Market Value</Heading>
+        <Title isSize={4}>
+          {marketValue} {quoteSymbol}
+        </Title>
+      </div>
+    </LevelItem>
+
     <LevelItem hasTextAlign="centered">
       <div>
         <Heading>{tfLongName} change</Heading>

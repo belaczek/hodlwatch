@@ -11,10 +11,10 @@ const renderResetAppModalBody = ({ onSubmit, toggleModal }) => (
     <p className="mb-10 u-textBold"> Are you sure you want to continue?</p>
 
     <Button isColor="warning" className="ml-5" onClick={onSubmit}>
-      Confirm Import
+      confirm import
     </Button>
     <Button className="is-text" onClick={toggleModal}>
-      Cancel
+      cancel
     </Button>
   </Box>
 )

@@ -17,10 +17,10 @@ const renderResetAppModalBody = ({
   handleChangeQuoteCurrency
 }) => (
   <Box hasTextAlign="left">
-    <Title>Settings</Title>
+    <Title>settings</Title>
 
     <Field>
-      <Label>Quote Currency</Label>
+      <Label>quote currency</Label>
       <Control>
         <Select
           value={quoteSymbol}
@@ -39,7 +39,7 @@ const renderResetAppModalBody = ({
     <ImportExportFormContainer />
 
     <Field className="mt-10">
-      <Label>Reset App</Label>
+      <Label>reset App</Label>
       <Control>
         <Button isSize="small" isColor="danger" onClick={openResetModal}>
           RESET

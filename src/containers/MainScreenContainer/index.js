@@ -1,7 +1,7 @@
 import React from 'react'
 // @ts-ignore
 import { get } from 'lodash/fp'
-import { Container, Section } from 'bloomer'
+import { Container, Section, Columns, Column } from 'bloomer'
 
 import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
@@ -9,8 +9,8 @@ import { compose, lifecycle, pure, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { fetchInitData } from 'store/actions'
 import ChartSection from 'containers/ChartSection'
-import ExchangeSection from 'containers/ExchangeSection'
-import PortfolioSection from 'containers/PortfolioSection'
+import ExchangesListContainer from 'containers/ExchangesListContainer'
+import PortfolioListContainer from 'containers/PortfolioListContainer'
 import { exchangeByIdSelector } from 'store/modules/exchanges'
 import {
   marketValueSelector,
@@ -55,11 +55,36 @@ const renderMainScreen = ({
       symbolFilter={symbolFilterId}
       activeTimeFrame={activeTimeFrame}
     />
-    <PortfolioSection
-      exchangeFilter={exchangeFilterId}
-      symbolFilter={symbolFilterId}
-    />
-    <ExchangeSection />
+    <Section>
+      <Container>
+        <Columns isMultiline>
+          <Column
+            isSize={{
+              mobile: 'full',
+              tablet: 'full',
+              desktop: 'full',
+              widescreen: '1/2'
+            }}
+          >
+            <PortfolioListContainer
+              exchangeFilterName={exchangeFilterName}
+              exchangeFilter={exchangeFilterId}
+              symbolFilter={symbolFilterId}
+            />
+          </Column>
+          <Column
+            isSize={{
+              mobile: 'full',
+              tablet: 'full',
+              desktop: 'full',
+              widescreen: '1/2'
+            }}
+          >
+            <ExchangesListContainer />
+          </Column>
+        </Columns>
+      </Container>
+    </Section>
   </AppLayout>
 )
 
