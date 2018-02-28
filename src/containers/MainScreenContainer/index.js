@@ -56,8 +56,8 @@ const renderMainScreen = ({
       activeTimeFrame={activeTimeFrame}
     />
     <Section>
-      <Container>
-        <Columns isMultiline>
+      <Container className="is-tablet">
+        <Columns>
           <Column
             isSize={{
               mobile: 'full',

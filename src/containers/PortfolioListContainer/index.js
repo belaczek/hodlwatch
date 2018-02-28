@@ -42,7 +42,7 @@ const renderPortfolioSection = ({
             <strong>amount</strong>
           </td>
           <td className="u-textRight">
-            <strong>market&nbsp;value</strong>
+            <strong>market value</strong>
           </td>
         </tr>
         {symbols &&
@@ -56,11 +56,11 @@ const renderPortfolioSection = ({
                 </Title>
               </td>
               <td className="u-textRight">
-                {price}&nbsp;{quoteSymbol}
+                {price} {quoteSymbol}
               </td>
               <td className="u-textRight">{amount}</td>
               <td className="u-textRight">
-                {marketValue}&nbsp;{quoteSymbol}
+                {marketValue} {quoteSymbol}
               </td>
             </tr>
           ))}
