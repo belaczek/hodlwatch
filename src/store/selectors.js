@@ -10,7 +10,6 @@ import {
   reduce,
   pick,
   memoize,
-  thru,
   isFunction
 } from 'lodash/fp'
 
@@ -70,8 +69,7 @@ const mergeHistoData = (histoData = {}, index = 0, priceTransform) => {
       acc[key] = priceTransform(get('close', timeRecord), key)
       acc.time = acc.time || get('time', timeRecord)
       return acc
-    }, {}),
-    thru(res => ({ ...res, time: get([keys[0]], histoData) }))
+    }, {})
   )(histoData)
 }
 

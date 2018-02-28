@@ -1,7 +1,18 @@
 import axios from 'axios'
-import { APP_NAME, DEFAULT_QUOTE_SYMBOL } from 'appConstants'
+import {
+  APP_NAME,
+  DEFAULT_QUOTE_SYMBOL,
+  TF_1H,
+  TF_1D,
+  TF_1W,
+  TF_1M,
+  TF_6M,
+  TF_1Y,
+  TF_2Y
+} from 'appConstants'
 // @ts-ignore
 import { get, join, flatten, pipe, mapValues, reject } from 'lodash/fp'
+import { multiply } from './calcFloat'
 
 const PRICE_DATA_BASE_URL = 'https://min-api.cryptocompare.com/data/'
 // const PRICE_PATH = 'price'
@@ -10,21 +21,6 @@ const CURRENT_PRICE_URL_SUBPATH = 'pricemulti'
 const URL_PATH_MINUTE = 'histominute'
 const URL_PATH_HOUR = 'histohour'
 const URL_PATH_DAY = 'histoday'
-
-// timeframe 1 hour
-export const TF_1H = 'TF_1H'
-// timeframe 1 day
-export const TF_1D = 'TF_1D'
-// timeframe 1 week
-export const TF_1W = 'TF_1W'
-// timeframe 1 month
-export const TF_1M = 'TF_1M'
-// timeframe 6 months
-export const TF_6M = 'TF_6M'
-// timeframe 1 year
-export const TF_1Y = 'TF_1Y'
-// timeframe 1 year
-export const TF_2Y = 'TF_2Y'
 
 /**
  * Definition of url properties for each timeframe
@@ -82,6 +78,11 @@ const makePriceApiCall = async (path, params) =>
 
 const histoDataResultSelector = get(['data', 'Data'])
 
+const parseHistoDataTimestamp = value => ({
+  ...value,
+  time: multiply(value.time, 1000)
+})
+
 /**
  * Parse histo data api result.
  *
@@ -91,9 +92,13 @@ const histoDataResultSelector = get(['data', 'Data'])
  * @param {string} baseSymbol
  * @return {object}
  */
-const parseHistoDataResult = (resData, baseSymbol) => ({
-  [baseSymbol]: histoDataResultSelector(resData)
-})
+const parseHistoDataResult = (resData, baseSymbol) => {
+  const data = histoDataResultSelector(resData) || []
+
+  return {
+    [baseSymbol]: data.map(parseHistoDataTimestamp)
+  }
+}
 
 /**
  * Parse current price api result

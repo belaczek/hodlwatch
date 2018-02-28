@@ -4,6 +4,7 @@ import { Container } from 'bloomer'
 import { get, first, keys, pipe, omit, map } from 'lodash/fp'
 import { compose, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
+import format from 'date-fns/format'
 import { changeTimeFrame } from 'store/modules/priceData'
 
 import TimeFrames from 'components/TimeFrames'
@@ -13,6 +14,7 @@ import { chartDataMarketValueSelector } from 'store/selectors'
 import Chart from 'components/Chart/'
 import { quoteSymbolSelector } from 'store/modules/core'
 import { stringToColour } from 'utils/stringToColor'
+import { TIME_FRAMES } from 'appConstants'
 
 const renderChart = ({
   parentWidth,
@@ -56,14 +58,8 @@ export default compose(
   ),
 
   withPropsOnChange(
-    ['chartData', 'currentPriceDataUpdated'],
-    ({
-      histoData,
-      currentPriceData,
-      currentPriceDataUpdated,
-      symbolFilter,
-      chartData
-    }) => {
+    ['chartData', 'activeTimeFrame'],
+    ({ activeTimeFrame, chartData = [] }) => {
       // parse all symbol names and generate unique color for each
       const baseSymbols = pipe(
         first,
@@ -75,8 +71,19 @@ export default compose(
         }))
       )(chartData)
 
+      const dateFormat = TIME_FRAMES[activeTimeFrame].chartDateFormat
+
+      // Parse timestamp into radable format
+      const chartDataWithTime = chartData.map(value => {
+        return {
+          ...value,
+          time: format(new Date(value.time), dateFormat)
+        }
+      })
+
       return {
-        baseSymbols
+        baseSymbols,
+        chartData: chartDataWithTime
       }
     }
   )

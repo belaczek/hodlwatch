@@ -19,7 +19,7 @@ const renderImportExportForm = ({
 }) => (
   <div>
     <Field>
-      <Label>Import/Export Data</Label>
+      <Label>Import Data</Label>
       <Control>
         <Input
           name="importString"
@@ -34,24 +34,26 @@ const renderImportExportForm = ({
       <Control>
         <Button onClick={handleImportStoreData}>Import</Button>
       </Control>
+    </Field>
+
+    <Field>
+      <Label>Export Data</Label>
       <Control>
         <Button onClick={handleGetExportString}>Generate export string</Button>
       </Control>
+      {exportString &&
+        exportString.length && (
+          <React.Fragment>
+            <Help>
+              Use the following string to import your api keys into another app
+              instance
+            </Help>
+            <Control>
+              <TextArea onClick={handleFocus} defaultValue={exportString} />
+            </Control>
+          </React.Fragment>
+        )}
     </Field>
-
-    {exportString &&
-      exportString.length && (
-        <Field>
-          <Label>Export Data</Label>
-          <Help>
-            Use the following string to easily import your api keys into another
-            app instance
-          </Help>
-          <Control>
-            <TextArea onClick={handleFocus} defaultValue={exportString} />
-          </Control>
-        </Field>
-      )}
   </div>
 )
 

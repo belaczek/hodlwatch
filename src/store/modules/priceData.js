@@ -1,63 +1,15 @@
 // @ts-ignore
 import { get, getOr, keys, pipe, thru } from 'lodash/fp'
-import {
-  fetchOHLCV,
-  // TF_1H,
-  TF_1D,
-  TF_1W,
-  TF_1M,
-  TF_6M,
-  TF_1Y,
-  fetchCurrentPrice,
-  TF_2Y
-} from 'utils/priceDataService'
+import { fetchOHLCV, fetchCurrentPrice } from 'utils/priceDataService'
 import { importToastService } from 'utils/asyncImportService'
 import {
   quoteSymbolSelector,
   activeExchangeFilterIdSelector
 } from 'store/modules/core'
 import { portfolioSymbolsSelector } from 'store/modules/portfolio'
+import { TF_1M, TIME_FRAMES } from 'appConstants'
 
 const PRICE_DATA_MODULE = 'priceData'
-
-// timeFrame constants
-export const timeframes = {
-  // [TF_1H]: {
-  //   id: TF_1H,
-  //   name: '1H',
-  //   longName: '1 hour'
-  // },
-  [TF_1D]: {
-    id: TF_1D,
-    name: '1D',
-    longName: '24 hours'
-  },
-  [TF_1W]: {
-    id: TF_1W,
-    name: '1W',
-    longName: '7 days'
-  },
-  [TF_1M]: {
-    id: TF_1M,
-    name: '1M',
-    longName: '30 days'
-  },
-  [TF_6M]: {
-    id: TF_6M,
-    name: '6M',
-    longName: '6 months'
-  },
-  [TF_1Y]: {
-    id: TF_1Y,
-    name: '1Y',
-    longName: '1 year'
-  },
-  [TF_2Y]: {
-    id: TF_2Y,
-    name: '2Y',
-    longName: '2 years'
-  }
-}
 
 // Action constants
 const HISTO_PRICE_DATA_LOADING = 'HISTO_PRICE_DATA_LOADING'
@@ -115,7 +67,7 @@ export default function reducer (state = initialState, action) {
       return {
         ...state,
         // if target timeframe does not exist, keep existing
-        timeframe: timeframes[tf] ? tf : state.timeframe
+        timeframe: TIME_FRAMES[tf] ? tf : state.timeframe
       }
     }
 

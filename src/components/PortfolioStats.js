@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import { compose, pure, withPropsOnChange, withProps } from 'recompose'
 import { Level, LevelItem, Heading, Title } from 'bloomer'
 import { roundValue } from 'utils/calcFloat'
-import { timeframes } from 'store/modules/priceData'
+import { TIME_FRAMES } from 'appConstants'
 
 const renderStats = ({
   marketValue,
@@ -65,7 +65,7 @@ const renderStats = ({
 
 export default compose(
   withProps(({ activeTimeFrame, portfolioPerformance = {} }) => ({
-    tfLongName: get([activeTimeFrame, 'longName'], timeframes),
+    tfLongName: get([activeTimeFrame, 'longName'], TIME_FRAMES),
     protfolioPerformanceAbs: portfolioPerformance.absolute,
     protfolioPerformancePerc: portfolioPerformance.relative,
     showPlusOperator: portfolioPerformance.absolute > 0 ? '+' : null

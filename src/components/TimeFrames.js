@@ -1,8 +1,8 @@
 import React from 'react'
 // @ts-ignore
 import { map } from 'lodash/fp'
-import { timeframes } from 'store/modules/priceData'
 import { Tabs, TabLink, TabList, Tab } from 'bloomer'
+import { TIME_FRAMES } from 'appConstants'
 
 export default ({ onChange, activeTf, className = '' }) => (
   <Tabs isAlign="centered" isSize="small" className="is-fullwidth">
@@ -13,7 +13,7 @@ export default ({ onChange, activeTf, className = '' }) => (
             <TabLink onClick={() => onChange(id)}>{name}</TabLink>
           </Tab>
         ),
-        timeframes
+        TIME_FRAMES
       )}
     </TabList>
   </Tabs>
