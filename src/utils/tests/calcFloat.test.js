@@ -1,4 +1,10 @@
-import { sum, multiply, roundValue } from '../calcFloat'
+import {
+  sum,
+  multiply,
+  roundValue,
+  percentageChange,
+  absoluteChange
+} from '../calcFloat'
 
 test('should sum two numbers', () => {
   expect(sum(1, 2)).toBe(3)
@@ -50,4 +56,28 @@ test('should return rounded value', () => {
 
 test('should return rounded value', () => {
   expect(roundValue(0.2)).toBe(0.2)
+})
+
+test('should calculate correct percentage', () => {
+  expect(percentageChange(10, 20)).toBe(100)
+})
+
+test('should calculate correct percentage', () => {
+  expect(percentageChange(11, 21)).toBe(90.91)
+})
+
+test('should calculate negative percentage change', () => {
+  expect(percentageChange(21, 11)).toBe(-47.62)
+})
+
+test('should not fail when dividing by zero', () => {
+  expect(percentageChange(0, 11)).toBe(0)
+})
+
+test('should get absolute difference', () => {
+  expect(absoluteChange(0, 11)).toBe(11)
+})
+
+test('should get absolute difference', () => {
+  expect(absoluteChange(11.1111, 0)).toBe(-11.11)
 })

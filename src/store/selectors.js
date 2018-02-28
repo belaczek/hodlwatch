@@ -9,7 +9,9 @@ import {
   keys,
   reduce,
   pick,
-  memoize
+  memoize,
+  thru,
+  isFunction
 } from 'lodash/fp'
 
 import { createSelector } from 'reselect'
@@ -24,8 +26,73 @@ import {
   currentPriceDataStateSelector
 } from './modules/priceData'
 import { portfolioSymbolsSelector } from './modules/portfolio'
-import { multiply, sum, roundValue } from 'utils/calcFloat'
-import formatDate from 'utils/formatDate'
+import {
+  multiply,
+  sum,
+  roundValue,
+  percentageChange,
+  absoluteChange
+} from 'utils/calcFloat'
+
+/* SELECTOR HELPERS */
+
+/**
+ * Calculate total values of symbols by multiplying them by current price
+ * @param {Object} prices
+ * @param {Object} symbols
+ * @return {number}
+ */
+const calculateTotalValue = (prices, symbols) => {
+  if (isEmpty(prices) || isEmpty(symbols)) {
+    return 0
+  }
+  return pipe(
+    keys,
+    map(key => multiply(getOr(0, key, symbols), getOr(0, key, prices))),
+    reduce(sum, 0)
+  )(symbols)
+}
+
+/**
+ * Merge histoData into one object at target index
+ * @param {Object} histoData
+ * @param {number} index
+ * @param {function} [priceTransform=identity] function with params (price, key) for setting custom value into price field
+ * @returns {Object} returns an object of the same shape as currentPrice record
+ */
+const mergeHistoData = (histoData = {}, index = 0, priceTransform) => {
+  // If no priceTransform function is provided, use price identity
+  priceTransform = isFunction(priceTransform) ? priceTransform : x => x
+  return pipe(
+    keys,
+    reduce((acc, key) => {
+      const timeRecord = get([key, index], histoData)
+      acc[key] = priceTransform(get('close', timeRecord), key)
+      acc.time = acc.time || get('time', timeRecord)
+      return acc
+    }, {}),
+    thru(res => ({ ...res, time: get([keys[0]], histoData) }))
+  )(histoData)
+}
+
+/**
+ * Merge all histoData into an array of objects by timestamp
+ * @param {Object} histoData
+ * @param {function} [priceTransform=identity] function with params (price, key) for setting custom value into price field
+ * @returns {Array<Object>} returns an object of the same shape as currentPrice record
+ */
+const mergeAllHistoData = (histoData, priceTransform) => {
+  const dataKeys = keys(histoData)
+
+  // Expecting that all keys have the same history depth
+  const historyLength = histoData[dataKeys[0]] || []
+
+  return historyLength.map((_, i) =>
+    mergeHistoData(histoData, i, priceTransform)
+  )
+}
+
+/* SELECTORS */
 
 /**
  * Store selectors which reach for data into multiple modules
@@ -83,22 +150,6 @@ export const currentPriceDataSelector = ({
   )
 
 /**
- * Calculate total values of symbols by multiplying them by current price
- * @param {Object} prices
- * @param {Object} symbols
- */
-const calculateTotalValue = (prices, symbols) => {
-  if (isEmpty(prices) || isEmpty(symbols)) {
-    return
-  }
-  return pipe(
-    keys,
-    map(key => multiply(getOr(0, key, symbols), getOr(0, key, prices))),
-    reduce(sum, 0)
-  )(symbols)
-}
-
-/**
  * Parse histoData into chart data
  * @param {Object} histoPrices
  * @param {Object} currentPrices
@@ -110,33 +161,12 @@ const parseHistoDataToChartData = memoize(
       return
     }
 
-    const symbolKeys = keys(symbols)
-
     let chartData = []
 
-    if (symbolKeys && symbolKeys.length) {
-      const historyDepth = getOr([], [symbolKeys[0]], histoPrices)
-
-      for (let index = 0; index < historyDepth.length; index++) {
-        let timestamp = get([symbolKeys[0], index, 'time'], histoPrices)
-
-        let dataRecord = symbolKeys.reduce(
-          (acc, value) => ({
-            ...acc,
-            [value]: roundValue(
-              multiply(
-                // get holded amount
-                getOr(0, [value], symbols),
-                // get symbol price for target timestamp
-                getOr(0, [value, index, 'close'], histoPrices)
-              )
-            )
-          }),
-          { time: formatDate(new Date(timestamp * 1000)) }
-        )
-        chartData.push(dataRecord)
-      }
-    }
+    chartData = mergeAllHistoData(histoPrices, (price, key) => {
+      const marketValue = multiply(price, get([key], symbols))
+      return roundValue(marketValue)
+    })
 
     // TODO parse current price as well
     // if (currentPrices) {
@@ -175,19 +205,39 @@ export const marketValueSelector = ({ exchangeId, symbol }) =>
     calculateTotalValue
   )
 
+/**
+ * Get performance for target filtered symbols
+ * @param {*} param0
+ * @returns {object}
+ */
 export const portfolioPerformanceSelector = ({ exchangeId, symbol }) =>
   createSelector(
     currentPriceDataSelector({ exchangeId, symbol }),
     histoDataSelector({ exchangeId, symbol }),
     portfolioSymbolsSelector({ exchangeId, symbol }),
-    calculateTotalValue
+    (currentPriceData, histoData, symbolAmounts) => {
+      const histoPrices = mergeHistoData(histoData, 0)
+
+      console.log(histoPrices)
+      console.log(currentPriceData)
+
+      const histoTotalValue = calculateTotalValue(histoPrices, symbolAmounts)
+      const currentTotalValue = calculateTotalValue(
+        currentPriceData,
+        symbolAmounts
+      )
+      console.log(histoTotalValue)
+      console.log(currentTotalValue)
+
+      console.log(absoluteChange(histoTotalValue, currentTotalValue))
+      console.log(percentageChange(histoTotalValue, currentTotalValue))
+
+      return {
+        absolute: absoluteChange(histoTotalValue, currentTotalValue),
+        relative: percentageChange(histoTotalValue, currentTotalValue)
+      }
+    }
   )
-
-export const symbolValueSelector = symbol => {}
-
-export const portfolioPerformanceByExchangeIdSelector = () => {}
-
-export const symbolPerformanceSelector = () => {}
 
 export default {
   savedExchangesListSelector,
@@ -196,5 +246,6 @@ export default {
   histoDataSelector,
   currentPriceDataSelector,
   marketValueSelector,
-  chartDataMarketValueSelector
+  chartDataMarketValueSelector,
+  portfolioPerformanceSelector
 }

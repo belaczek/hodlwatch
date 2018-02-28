@@ -34,3 +34,35 @@ export const roundValue = (value = 0) =>
     // @ts-ignore
     Big(value).round(2)
   )
+
+/**
+ * Calculate relative change in percentage between the first and the second argument
+ * @param {*} first
+ * @param {*} second
+ */
+export const percentageChange = (first, second) => {
+  if (first === 0) {
+    return 0
+  }
+  return parseFloat(
+    // @ts-ignore
+    Big(second)
+      .div(first)
+      .times(100)
+      .minus(100)
+      .round(2)
+  )
+}
+
+/**
+ * Calculate absolute change between the first and the second argument
+ * @param {*} first
+ * @param {*} second
+ */
+export const absoluteChange = (first, second) =>
+  parseFloat(
+    // @ts-ignore
+    Big(second)
+      .minus(first)
+      .round(2)
+  )

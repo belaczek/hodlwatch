@@ -1,6 +1,7 @@
 import React from 'react'
 // @ts-ignore
 import { get } from 'lodash/fp'
+import { Container, Section } from 'bloomer'
 
 import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
@@ -11,7 +12,10 @@ import ChartSection from 'containers/ChartSection'
 import ExchangeSection from 'containers/ExchangeSection'
 import PortfolioSection from 'containers/PortfolioSection'
 import { exchangeByIdSelector } from 'store/modules/exchanges'
-import { marketValueSelector } from 'store/selectors'
+import {
+  marketValueSelector,
+  portfolioPerformanceSelector
+} from 'store/selectors'
 import {
   quoteSymbolSelector,
   activeExchangeFilterIdSelector,
@@ -29,17 +33,23 @@ const renderMainScreen = ({
   exchangeFilterName,
   symbolFilterId,
   activeTimeFrame,
-  symbolFilterPrice
+  symbolFilterPrice,
+  portfolioPerformance
 }) => (
   <AppLayout>
-    <PortfolioStats
-      marketValue={marketValue}
-      quoteSymbol={quoteSymbol}
-      exchangeFilterName={exchangeFilterName}
-      symbolFilter={symbolFilterId}
-      symbolCurrentPrice={symbolFilterPrice}
-      activeTimeFrame={activeTimeFrame}
-    />
+    <Section>
+      <Container>
+        <PortfolioStats
+          marketValue={marketValue}
+          quoteSymbol={quoteSymbol}
+          exchangeFilterName={exchangeFilterName}
+          symbolFilter={symbolFilterId}
+          symbolCurrentPrice={symbolFilterPrice}
+          activeTimeFrame={activeTimeFrame}
+          portfolioPerformance={portfolioPerformance}
+        />
+      </Container>
+    </Section>
     <ChartSection
       exchangeFilter={exchangeFilterId}
       symbolFilter={symbolFilterId}
@@ -67,7 +77,11 @@ const Main = compose(
       })(state),
       quoteSymbol: quoteSymbolSelector(state),
       currentPriceData: currentPriceDataStateSelector(state),
-      activeTimeFrame: activeTimeFrameSelector(state)
+      activeTimeFrame: activeTimeFrameSelector(state),
+      portfolioPerformance: portfolioPerformanceSelector({
+        exchangeId: exchangeFilterId,
+        symbol: symbolFilterId
+      })(state)
     }),
     dispatch => ({
       fetchInitData: () => dispatch(fetchInitData())
