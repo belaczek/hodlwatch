@@ -25,8 +25,10 @@ const tooltipSorter = () => 1
 const tooltipLabelFormatter = time => {
   return (
     <React.Fragment>
-      <p>portfolio market value</p>
-      <p>{time}</p>
+      <p className="u-text11px u-textUpperCase">portfolio market value</p>
+      <p>
+        <strong>{time}</strong>
+      </p>
     </React.Fragment>
   )
 }
@@ -38,7 +40,7 @@ const formatTooltipValue = quoteSymbol => value => (
 )
 
 const renderChart = ({ data, baseSymbols, quoteSymbol }) => (
-  <div className="mainChart">
+  <div className="MainChart">
     <ResponsiveContainer width="100%" aspect={2.5} debounce={1}>
       <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
         <XAxis
@@ -49,6 +51,7 @@ const renderChart = ({ data, baseSymbols, quoteSymbol }) => (
           tick={{ fontSize: '12px' }}
         />
         <YAxis
+          className="MainChart-yAxis"
           type="number"
           domain={['dataMin', 'dataMax']}
           interval="preserveEnd"
