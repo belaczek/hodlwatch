@@ -34,22 +34,24 @@ const renderExchangeSection = ({
   handleFormSuccess,
   quoteSymbol,
   handleOpenExchangeForm,
-  refreshData
+  refreshData,
+  appIsNotEmpty
 }) => (
   <div className="ExchangesList">
-    <div className="ExchangesList--title">
-      <Title isSize={5}>exchanges</Title>
-      <Button
-        className="ml-10"
-        isOutlined
-        isSize="small"
-        isColor="black"
-        onClick={refreshData}
-      >
-        refresh
-      </Button>
-    </div>
-
+    {appIsNotEmpty && (
+      <div className="ExchangesList--title">
+        <Title isSize={5}>exchanges</Title>
+        <Button
+          className="ml-10"
+          isOutlined
+          isSize="small"
+          isColor="black"
+          onClick={refreshData}
+        >
+          refresh
+        </Button>
+      </div>
+    )}
     {showExchangeForm && (
       <Box>
         <ExchangeApiForm
@@ -62,48 +64,51 @@ const renderExchangeSection = ({
 
     <Table className="is-fullwidth">
       <tbody>
-        <tr>
-          <td />
-          <td className="u-textRight">
-            <strong>market&nbsp;value</strong>
-          </td>
-          <td />
-        </tr>
-        {exchanges &&
-          exchanges.map(
-            ({ name, id, marketValue, portfolioError, portfolioLoading }) => (
-              <tr key={id}>
-                <td>
-                  <div className="ExchangesList--exchangeNameColumn">
-                    <Title isSize={6}>
-                      <a onClick={() => handleSetFilter(id)}>{name}</a>
-                    </Title>
-                    {portfolioLoading && <Spinner />}
-                  </div>
-                  {portfolioError && (
-                    <p className="has-text-danger">
-                      failed to fetch portfolio data
-                    </p>
-                  )}
-                </td>
-                <td className="has-text-right">
-                  <span>
-                    {marketValue} {quoteSymbol}
-                  </span>
-                </td>
-                <td className="u-textCenter">
-                  <Button
-                    isOutlined
-                    isSize="small"
-                    isColor="black"
-                    onClick={() => handleOpenExchangeForm(id)}
-                  >
-                    edit
-                  </Button>
-                </td>
-              </tr>
-            )
-          )}
+        {appIsNotEmpty && (
+          <React.Fragment>
+            <tr>
+              <td />
+              <td className="u-textRight">
+                <strong>market&nbsp;value</strong>
+              </td>
+              <td />
+            </tr>
+            {exchanges.map(
+              ({ name, id, marketValue, portfolioError, portfolioLoading }) => (
+                <tr key={id}>
+                  <td>
+                    <div className="ExchangesList--exchangeNameColumn">
+                      <Title isSize={6}>
+                        <a onClick={() => handleSetFilter(id)}>{name}</a>
+                      </Title>
+                      {portfolioLoading && <Spinner />}
+                    </div>
+                    {portfolioError && (
+                      <p className="has-text-danger">
+                        failed to fetch portfolio data
+                      </p>
+                    )}
+                  </td>
+                  <td className="has-text-right">
+                    <span>
+                      {marketValue} {quoteSymbol}
+                    </span>
+                  </td>
+                  <td className="u-textCenter">
+                    <Button
+                      isOutlined
+                      isSize="small"
+                      isColor="black"
+                      onClick={() => handleOpenExchangeForm(id)}
+                    >
+                      edit
+                    </Button>
+                  </td>
+                </tr>
+              )
+            )}
+          </React.Fragment>
+        )}
         <tr>
           <td className="u-textCenter" colSpan={3}>
             {!showExchangeForm && (
@@ -151,7 +156,8 @@ const ExchangeSection = compose(
     })
 
     return {
-      exchanges: enhancedExchanges
+      exchanges: enhancedExchanges,
+      appIsNotEmpty: !!enhancedExchanges.length
     }
   }),
   withState('showExchangeForm', 'setExchangeFormState', false),

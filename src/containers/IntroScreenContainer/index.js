@@ -25,7 +25,7 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
           onClick={handleBtnClick}
           isLoading={btnIsLoading}
         >
-          START USING
+          start using
         </Button>
       </Container>
     </HeroBody>

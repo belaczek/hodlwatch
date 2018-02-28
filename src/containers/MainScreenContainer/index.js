@@ -1,6 +1,6 @@
 import React from 'react'
 // @ts-ignore
-import { get } from 'lodash/fp'
+import { get, keys } from 'lodash/fp'
 import { Container, Section, Columns, Column } from 'bloomer'
 
 import AppLayout from 'components/AppLayout'
@@ -8,7 +8,7 @@ import PortfolioStats from 'components/PortfolioStats'
 import { compose, lifecycle, pure, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { fetchInitData } from 'store/actions'
-import ChartSection from 'containers/ChartSection'
+import ChartContainer from 'containers/ChartContainer'
 import ExchangesListContainer from 'containers/ExchangesListContainer'
 import PortfolioListContainer from 'containers/PortfolioListContainer'
 import { exchangeByIdSelector } from 'store/modules/exchanges'
@@ -25,6 +25,7 @@ import {
   activeTimeFrameSelector,
   currentPriceDataStateSelector
 } from 'store/modules/priceData'
+import { apiKeysSelector } from 'store/modules/apiKeys'
 
 const renderMainScreen = ({
   marketValue,
@@ -34,57 +35,69 @@ const renderMainScreen = ({
   symbolFilterId,
   activeTimeFrame,
   symbolFilterPrice,
-  portfolioPerformance
+  portfolioPerformance,
+  appIsNotEmpty
 }) => (
   <AppLayout>
-    <Section>
-      <Container>
-        <PortfolioStats
-          marketValue={marketValue}
-          quoteSymbol={quoteSymbol}
-          exchangeFilterName={exchangeFilterName}
-          symbolFilter={symbolFilterId}
-          symbolCurrentPrice={symbolFilterPrice}
-          activeTimeFrame={activeTimeFrame}
-          portfolioPerformance={portfolioPerformance}
-        />
-      </Container>
-    </Section>
-    <ChartSection
-      exchangeFilter={exchangeFilterId}
-      symbolFilter={symbolFilterId}
-      activeTimeFrame={activeTimeFrame}
-    />
-    <Section>
-      <Container className="is-tablet">
-        <Columns>
-          <Column
-            isSize={{
-              mobile: 'full',
-              tablet: 'full',
-              desktop: 'full',
-              widescreen: '1/2'
-            }}
-          >
-            <PortfolioListContainer
+    {appIsNotEmpty ? (
+      <React.Fragment>
+        <Section>
+          <Container>
+            <PortfolioStats
+              marketValue={marketValue}
+              quoteSymbol={quoteSymbol}
               exchangeFilterName={exchangeFilterName}
-              exchangeFilter={exchangeFilterId}
               symbolFilter={symbolFilterId}
+              symbolCurrentPrice={symbolFilterPrice}
+              activeTimeFrame={activeTimeFrame}
+              portfolioPerformance={portfolioPerformance}
             />
-          </Column>
-          <Column
-            isSize={{
-              mobile: 'full',
-              tablet: 'full',
-              desktop: 'full',
-              widescreen: '1/2'
-            }}
-          >
-            <ExchangesListContainer />
-          </Column>
-        </Columns>
-      </Container>
-    </Section>
+          </Container>
+        </Section>
+        <ChartContainer
+          exchangeFilter={exchangeFilterId}
+          symbolFilter={symbolFilterId}
+          activeTimeFrame={activeTimeFrame}
+        />
+
+        <Section>
+          <Container className="is-tablet">
+            <Columns isMultiline>
+              <Column
+                isSize={{
+                  mobile: 'full',
+                  tablet: 'full',
+                  desktop: 'full',
+                  widescreen: '1/2'
+                }}
+              >
+                <PortfolioListContainer
+                  exchangeFilterName={exchangeFilterName}
+                  exchangeFilter={exchangeFilterId}
+                  symbolFilter={symbolFilterId}
+                />
+              </Column>
+              <Column
+                isSize={{
+                  mobile: 'full',
+                  tablet: 'full',
+                  desktop: 'full',
+                  widescreen: '1/2'
+                }}
+              >
+                <ExchangesListContainer />
+              </Column>
+            </Columns>
+          </Container>
+        </Section>
+      </React.Fragment>
+    ) : (
+      <Section>
+        <Container>
+          <ExchangesListContainer />
+        </Container>
+      </Section>
+    )}
   </AppLayout>
 )
 
@@ -106,12 +119,18 @@ const Main = compose(
       portfolioPerformance: portfolioPerformanceSelector({
         exchangeId: exchangeFilterId,
         symbol: symbolFilterId
-      })(state)
+      })(state),
+      exchanges: apiKeysSelector(state)
     }),
     dispatch => ({
       fetchInitData: () => dispatch(fetchInitData())
     })
   ),
+  withPropsOnChange(['exchanges'], ({ exchanges }) => {
+    return {
+      appIsNotEmpty: !!keys(exchanges).length
+    }
+  }),
   withPropsOnChange(['filterExchange'], ({ filterExchange }) => ({
     exchangeFilterName: filterExchange ? get('name', filterExchange) : null
   })),
