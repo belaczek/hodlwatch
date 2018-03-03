@@ -29,7 +29,7 @@ Track your portfolio value in an intuitive chart containing all your assets, sta
 Thanks to awesome [ccxt](https://github.com/ccxt/ccxt) library it has become fair simple to support many exchanges through unified API.
 
 ### Private data storage
-The app stores all its data in browser localstorage, not sending it to any third party. 
+The app stores all its data in browser localstorage, only using stored api keys to communicate with exchanges. 
 
 One of the planned future features is optional dropbox/onedrive sync so that user can work with the same data on multiple devices.
 
@@ -45,14 +45,15 @@ A developer wiki is planned to provide some instructions about how to work with 
  - [react](https://github.com/facebook/react)
  - [redux](https://github.com/reactjs/redux)
  - [redux thunk](https://github.com/gaearon/redux-thunk)
+ - [recharts](https://github.com/recharts/recharts)
  - [recompose](https://github.com/acdlite/recompose)
  - [lodash](https://github.com/lodash/lodash)
  - [ccxt](https://github.com/ccxt/ccxt)
+ - [cryptocompare api](https://min-api.cryptocompare.com/)
+ 
+    and others
 
  [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
- <!-- - d3
- - nvd3
- - bulma -->
  
  This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

@@ -100,5 +100,8 @@ export const exportStoreData = passphrase => {
 export default {
   saveState,
   loadState,
-  clearStorage
+  clearStorage,
+  importStoreData,
+  isStringValidExport,
+  exportStoreData
 }

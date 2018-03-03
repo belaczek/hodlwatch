@@ -151,6 +151,20 @@ const fetchMultiHistoData = async (baseSymbols = [], fetchHistoDataFunc) => {
  * @property {string} [histoDataParams.quoteSymbol] defaults to USD
  * @property {string} histoDataParams.timeFrame
  * @returns {Promise<Object|Error>}
+ *
+ * Result object example {
+ *  BTC: [
+ *  { time: date,
+ *    close: number
+ *    ...
+ *  },
+ *  ...
+ *  ],
+ *  XMR: [
+ *    { time: date, ...}
+ *  ],
+ *  ...
+ * }
  */
 export const fetchOHLCV = async ({
   baseSymbols,
