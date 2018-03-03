@@ -8,7 +8,9 @@
   <strong>With fancy chart!</strong>
 </p>
 
-![hodl_watch](https://user-images.githubusercontent.com/15712581/36936505-585dc762-1efe-11e8-8b04-b3cbe0ea4542.png)
+<p align="center">
+  <img src='https://user-images.githubusercontent.com/15712581/36936505-585dc762-1efe-11e8-8b04-b3cbe0ea4542.png' />
+</p>
 
 The main idea behind this project is to create portfolio tracking web application which is easy to use, easy to modify or extend and where user is an owner of his own data. That means everyone can make a fork of this project and run it in his own environment. Or they can just use the hosted app at [hodl.watch](https://hodl.watch)
 
