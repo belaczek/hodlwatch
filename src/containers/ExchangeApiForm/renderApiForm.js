@@ -8,8 +8,10 @@ import {
   Input,
   Select,
   Button,
-  Notification
+  Notification,
+  Help
 } from 'bloomer'
+import { DEFAULT_PROXY_URL } from 'appConstants'
 
 const defaultApiCredentials = {
   apiKey: true,
@@ -39,7 +41,9 @@ const renderExchangeApiForm = ({
     uid,
     password,
     submitting,
-    submitError
+    submitError,
+    proxy,
+    useProxy
   }
 }) => {
   // const exchangeName = getExchangeName(exchanges, exchangeId)
@@ -59,7 +63,7 @@ const renderExchangeApiForm = ({
                   onChange={handleChange}
                   required
                 >
-                  <option value="" key="placeholder" disabled>
+                  <option value="" key="placeholder" disabled selected>
                     select exchange
                   </option>
                   {exchanges.map(({ name, id }) => (
@@ -136,8 +140,53 @@ const renderExchangeApiForm = ({
             </Field>
           )}
 
+          <Field>
+            <Label>advanced</Label>
+            <Control>
+              <input
+                id="useProxySwitch"
+                type="checkbox"
+                name="useProxy"
+                className="switch is-rounded is-success"
+                checked={useProxy}
+                onChange={handleChange}
+              />
+              <label htmlFor="useProxySwitch">enable proxy</label>
+            </Control>
+            {useProxy && (
+              <Control className="mt-10">
+                <Input
+                  name="proxy"
+                  type="text"
+                  placeholder="proxy url"
+                  defaultValue={DEFAULT_PROXY_URL}
+                  value={proxy}
+                  onChange={handleChange}
+                  required
+                />
+                <Help>Example proxy: {DEFAULT_PROXY_URL}</Help>
+                <Help isColor="danger">
+                  WARNING: using proxy server of any third party may pose a
+                  safety risk as proxy provider may have access to all your
+                  requests content
+                </Help>
+              </Control>
+            )}
+          </Field>
+
           {submitError && (
-            <Notification isColor="danger">{submitError}</Notification>
+            <React.Fragment>
+              <Notification isColor="danger">{submitError}</Notification>
+              {useProxy ? null : (
+                <Notification isColor="warning">
+                  TIP: If you receive an error repatedly, try enabling and
+                  setting up a proxy server to avoid issues with{' '}
+                  <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">
+                    CORS
+                  </a>
+                </Notification>
+              )}
+            </React.Fragment>
           )}
 
           <Field isGrouped>

@@ -17,7 +17,11 @@ import {
   importToastService
 } from 'utils/asyncImportService'
 import { createSelector } from 'reselect'
-import { apiKeysByIdSelector, apiKeysSelector } from 'store/modules/apiKeys'
+import {
+  apiKeysByIdSelector,
+  apiKeysSelector,
+  parseProxySettings
+} from 'store/modules/apiKeys'
 import { exchangesListSelector } from 'store/modules/exchanges'
 import { sum } from 'utils/calcFloat'
 
@@ -151,9 +155,12 @@ export const fetchPortfolioData = exchangeId => async (dispatch, getState) => {
         fetchExchangeAccountBalance
       } = await importExchangeApiServiceInstance()
       const state = getState()
-      const apiKeys = pipe(apiKeysByIdSelector(exchangeId), omit('exchangeId'))(
-        state
-      )
+      const apiKeys = pipe(
+        apiKeysByIdSelector(exchangeId),
+        omit('exchangeId'),
+        parseProxySettings(state)
+      )(state)
+
       const data = await fetchExchangeAccountBalance(exchangeId, apiKeys)
       const totalData = getTotalValues(data)
 

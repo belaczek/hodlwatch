@@ -1,11 +1,7 @@
 // @ts-ignore
 import { getOr, get } from 'lodash/fp'
 import { clearStorage } from 'utils/localStorage'
-import {
-  DEFAULT_QUOTE_SYMBOL,
-  QUOTE_SYMBOL_LIST
-  // DEFAULT_PROXY_URL
-} from 'appConstants'
+import { DEFAULT_QUOTE_SYMBOL, QUOTE_SYMBOL_LIST } from 'appConstants'
 
 // Action constants
 const INIT_APP = 'INIT_APP'
@@ -13,8 +9,6 @@ const UPDATE_SERVICE_WORKER = 'UPDATE_SERVICE_WORKER'
 const SET_EXCHANGE_FILTER = 'SET_EXCHANGE_FILTER'
 const SET_SYMBOL_FILTER = 'SET_SYMBOL_FILTER'
 const SET_QUOTE_CURRENCY = 'SET_QUOTE_CURRENCY'
-// const TOGGLE_PROXY_SETTINGS = 'TOGGLE_PROXY_SETTINGS'
-// const SET_PROXY_URL = 'SET_PROXY_URL'
 
 const initialState = {
   init: false,
@@ -22,8 +16,6 @@ const initialState = {
   exchangeFilterId: null,
   symbolFilterId: null,
   quoteSymbol: DEFAULT_QUOTE_SYMBOL
-  // useApiProxy: false,
-  // proxyUrl: DEFAULT_PROXY_URL
 }
 
 // Reducer
@@ -64,20 +56,6 @@ export default function reducer (state = initialState, action) {
         quoteSymbol: getOr(state.quoteSymbol, ['payload'], action)
       }
     }
-
-    // case SET_PROXY_URL: {
-    //   return {
-    //     ...state,
-    //     proxyUrl: action.payload
-    //   }
-    // }
-
-    // case TOGGLE_PROXY_SETTINGS: {
-    //   return {
-    //     ...state,
-    //     useApiProxy: !state.useApiProxy
-    //   }
-    // }
 
     default:
       return state
@@ -120,15 +98,6 @@ export const setQuoteCurrency = currency => {
   }
 }
 
-// export const toggleProxySettings = () => ({
-//   type: TOGGLE_PROXY_SETTINGS
-// })
-
-// export const setProxyUrl = url => ({
-//   type: SET_PROXY_URL,
-//   payload: url
-// })
-
 // Selectors
 
 export const activeFilterSelector = state =>
@@ -141,16 +110,6 @@ export const serviceWorkerIsUpdatedSelector = getOr(false, [
   'core',
   'serviceWorkerUpdated'
 ])
-
-// export const proxySettingsSelector = pipe(
-//   get(['core']),
-//   pick(['useApiProxy', 'proxyUrl'])
-// )
-
-// export const activeProxySelector = state => {
-//   const { useApiProxy, proxyUrl } = proxySettingsSelector(state)
-//   return useApiProxy && proxyUrl
-// }
 
 export const quoteSymbolSelector = get(['core', 'quoteSymbol'])
 

@@ -38,28 +38,28 @@ const renderPortfolioSection = ({
           <td className="u-textRight">
             <strong>price</strong>
           </td>
-          <td className="u-textRight">
-            <strong>amount</strong>
-          </td>
-          <td className="u-textRight">
-            <strong>market value</strong>
+
+          <td className="u-textCenter">
+            <strong>amount / value</strong>
           </td>
         </tr>
         {symbols &&
           symbols.map(({ name, price, amount, marketValue }) => (
-            <tr className="bg-light" key={name}>
-              <td>
+            <tr className="bg-light " key={name}>
+              <td className="PortfolioList--cell">
                 <Title isSize={6}>
                   <a title="show detail" onClick={() => handleSetFilter(name)}>
                     {name}
                   </a>
                 </Title>
               </td>
-              <td className="u-textRight">
+              <td className="u-textRight PortfolioList--cell">
                 {price} {quoteSymbol}
               </td>
-              <td className="u-textRight">{amount}</td>
-              <td className="u-textRight">
+
+              <td className="u-textCenter PortfolioList--cell">
+                {amount}
+                <br />
                 {marketValue} {quoteSymbol}
               </td>
             </tr>

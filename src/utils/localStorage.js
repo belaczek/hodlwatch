@@ -78,8 +78,6 @@ export const importStoreData = (state, passphrase) => {
 
   if (storeData) {
     const persistState = parsePersistState(storeData)
-    console.log(persistState)
-
     saveState(persistState)
     return true
   } else {
