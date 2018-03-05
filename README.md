@@ -14,7 +14,7 @@
 
 The main idea behind this project is to create portfolio tracking web application which is easy to use, easy to modify or extend and where user is an owner of his own data. That means everyone can make a fork of this project and run it in his own environment. Or they can just use the hosted app at [hodl.watch](https://hodl.watch)
 
-All user data are stored in browser local storage, nothing is being sent out of your device.
+All user data are stored in browser local storage.
 
 ### __Project is under heavy development. Not production ready.__
 
@@ -44,9 +44,9 @@ A developer wiki is planned to provide some instructions about how to work with 
 
  - [react](https://github.com/facebook/react)
  - [redux](https://github.com/reactjs/redux)
+ - [recompose](https://github.com/acdlite/recompose)
  - [redux thunk](https://github.com/gaearon/redux-thunk)
  - [recharts](https://github.com/recharts/recharts)
- - [recompose](https://github.com/acdlite/recompose)
  - [lodash](https://github.com/lodash/lodash)
  - [ccxt](https://github.com/ccxt/ccxt)
  - [cryptocompare api](https://min-api.cryptocompare.com/)
