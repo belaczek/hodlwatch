@@ -17,6 +17,7 @@ import { openModal } from 'store/modules/modals'
 import { DELETE_EXCHANGE_API } from '../ModalContainer/modalTypes'
 import { exchangeByIdSelector } from 'store/modules/exchanges'
 import { saveApiCredentials, deleteApiKeys } from 'store/actions'
+import { DEFAULT_PROXY_URL } from 'appConstants'
 // import { importToastService } from 'utils/asyncImportService'
 
 const defaultFormDataState = {
@@ -26,7 +27,7 @@ const defaultFormDataState = {
   uid: '',
   password: '',
   useProxy: false,
-  proxy: '',
+  proxy: DEFAULT_PROXY_URL,
   submitError: null,
   submitting: false
 }

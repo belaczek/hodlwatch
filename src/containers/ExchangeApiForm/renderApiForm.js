@@ -164,7 +164,10 @@ const renderExchangeApiForm = ({
                   onChange={handleChange}
                   required
                 />
-                <Help>Example proxy: {DEFAULT_PROXY_URL}</Help>
+                <Help>
+                  <strong>{DEFAULT_PROXY_URL}</strong> is a custom proxy server
+                  designed and deployed for needs of this app
+                </Help>
                 <Help isColor="danger">
                   WARNING: using proxy server of any third party may pose a
                   safety risk as proxy provider may have access to all your
