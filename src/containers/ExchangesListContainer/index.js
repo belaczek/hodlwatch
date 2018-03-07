@@ -116,7 +116,7 @@ const renderExchangeSection = ({
                 isColor="success"
                 onClick={() => handleOpenExchangeForm()}
               >
-                add new exchange connection
+                add exchange
               </Button>
             )}
           </td>
