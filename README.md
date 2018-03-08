@@ -2,7 +2,7 @@
 <h1 align="center"><strong>hodl.watch</strong></h1>
 
 <p align="center">
-  <strong>Secure web application for cryptocurrency portfolio tracking </strong>
+  <strong>Open source web application for cryptocurrency portfolio tracking </strong>
 </p>
 <p align="center">
   <strong>With fancy chart!</strong>
