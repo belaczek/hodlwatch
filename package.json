@@ -40,7 +40,7 @@
     "bloomer": "^0.6.3",
     "bulma": "^0.6.2",
     "bulma-switch": "^1.0.1",
-    "ccxt": "^1.11.45",
+    "ccxt": "^1.11.78",
     "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
     "crypto-js": "^3.1.9-1",
@@ -49,7 +49,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
-    "react-toastify": "^3.3.5",
+    "react-toastify": "^3.4.1",
     "recharts": "^1.0.0-beta.10",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
@@ -75,8 +75,8 @@
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "react-scripts": "1.1.1",
-    "serve": "^6.5.2",
+    "serve": "^6.5.3",
     "source-map-explorer": "^1.5.0",
-    "uglifyjs-webpack-plugin": "^1.2.2"
+    "uglifyjs-webpack-plugin": "^1.2.3"
   }
 }
