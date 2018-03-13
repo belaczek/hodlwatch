@@ -160,14 +160,65 @@ module.exports = {
         ],
         include: paths.appSrc
       },
-      // Fix build error caused by ccxt
-      // {
-      //   test: require.resolve('ccxt'),
-      //   loader: require.resolve('babel-loader'),
-      //   options: {
-      //     compact: true
-      //   }
-      // },
+
+      {
+        // The 'ccxt' library is shipped as a ES6/cjs module and requires transpilation.
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [path.join(paths.appNodeModules, 'ccxt')],
+        options: {
+          presets: [
+            [
+              'env',
+              {
+                targets: {
+                  // React parses on ie 9, so we should too
+                  ie: 9,
+                  // We currently minify with uglify
+                  // Remove after https://github.com/mishoo/UglifyJS2/issues/448
+                  uglify: true
+                }
+              }
+            ]
+          ],
+          plugins: [
+            // Necessary to include regardless of the environment because
+            // in practice some other transforms (such as object-rest-spread)
+            // don't work without it: https://github.com/babel/babel/issues/7215
+            require.resolve('babel-plugin-transform-es2015-destructuring'),
+            // class { handleClick = () => { } }
+            require.resolve('babel-plugin-transform-class-properties'),
+            // The following two plugins use Object.assign directly, instead of Babel's
+            // extends helper. Note that this assumes `Object.assign` is available.
+            // { ...todo, completed: true }
+            [
+              require.resolve('babel-plugin-transform-object-rest-spread'),
+              {
+                useBuiltIns: true
+              }
+            ],
+            // Polyfills the runtime needed for async/await and generators
+            [
+              require.resolve('babel-plugin-transform-runtime'),
+              {
+                helpers: true,
+                polyfill: true,
+                regenerator: true
+              }
+            ],
+            [
+              require.resolve('babel-plugin-transform-regenerator'),
+              {
+                // Async functions are converted to generators by babel-preset-env
+                async: false
+              }
+            ]
+          ],
+
+          cacheDirectory: false
+        }
+      },
+
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -200,22 +251,10 @@ module.exports = {
                   'lodash',
                   { id: ['lodash', 'recompose', 'bloomer', 'recharts'] }
                 ]
-                // [
-                //   'module-resolver',
-                //   {
-                //     root: ['./'],
-                //     alias: {
-                //       src: './src',
-                //       store: './src/store',
-                //       utils: './src/utils',
-                //       components: './src/components',
-                //       datasources: './src/datasources'
-                //     }
-                //   }
-                // ]
               ]
             }
           },
+
           // The notation here is somewhat confusing.
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -326,31 +365,25 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     // Minify the code.
-    new Uglify({
-      uglifyOptions: {
-        compress: {
-          warnings: false,
-          // Disabled because of an issue with Uglify breaking seemingly valid code:
-          // https://github.com/facebookincubator/create-react-app/issues/2376
-          // Pending further investigation:
-          // https://github.com/mishoo/UglifyJS2/issues/2011
-          comparisons: false
-        },
-        mangle: {
-          safari10: true
-        },
-        output: {
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebookincubator/create-react-app/issues/2488
-          ascii_only: true
-        }
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        // Disabled because of an issue with Uglify breaking seemingly valid code:
+        // https://github.com/facebookincubator/create-react-app/issues/2376
+        // Pending further investigation:
+        // https://github.com/mishoo/UglifyJS2/issues/2011
+        comparisons: false
+      },
+      mangle: {
+        safari10: true
+      },
+      output: {
+        comments: false,
+        // Turned on because emoji and regex is not minified properly using default
+        // https://github.com/facebookincubator/create-react-app/issues/2488
+        ascii_only: true
       },
       // Use multi-process parallel running to improve the build speed
-      // Default number of concurrent runs: os.cpus().length - 1
-      parallel: true,
-      // Enable file caching
-      cache: true,
       sourceMap: shouldUseSourceMap
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
