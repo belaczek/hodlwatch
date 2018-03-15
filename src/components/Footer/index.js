@@ -1,31 +1,26 @@
 import React from 'react'
-import { Footer, Container, Content, Button } from 'bloomer'
-import { compose } from 'recompose'
+import { Footer, Container, Content } from 'bloomer'
 import { APP_NAME } from 'appConstants'
 
-const renderFooter = ({
-  isInit,
-  handleResetApp,
-  modalIsActive,
-  openResetModal
-}) => (
+const AppFooter = () => (
   <Footer>
     <Container>
       <Content hasTextAlign="centered">
         <p>
-          <strong>{APP_NAME}</strong> by{' '}
-          <a href="https://tomasbelada.com">Tomas Belada</a>. The source code is
-          licensed{' '}
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+          <strong>{APP_NAME}</strong> made by{' '}
+          <a href="https://tomasbelada.com" target="blank">
+            Tomas Belada
+          </a>
         </p>
-        {isInit && (
-          <Button isSize="small" isColor="danger" onClick={openResetModal}>
-            RESET
-          </Button>
-        )}
+        <p>
+          The source code is available on{' '}
+          <a href="https://github.com/belaczek/hodlwatch" target="blank">
+            GitHub
+          </a>. Feel free to fork, raise an issue or just leave a star.
+        </p>
       </Content>
     </Container>
   </Footer>
 )
 
-export default compose()(renderFooter)
+export default AppFooter
