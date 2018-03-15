@@ -215,7 +215,7 @@ module.exports = {
             ]
           ],
 
-          cacheDirectory: false
+          cacheDirectory: true
         }
       },
 
