@@ -2,7 +2,7 @@
 <h1 align="center"><strong>hodl.watch</strong></h1>
 
 <p align="center">
-  <strong>Open source web application for cryptocurrency portfolio tracking </strong>
+  <strong>Simple, yet powerful web app for automatic crypto portfolio tracking</strong>
 </p>
 <p align="center">
   <strong>With fancy chart!</strong>
@@ -18,8 +18,7 @@ The main idea behind this project is to create portfolio tracking web applicatio
 
 All user data are stored in browser local storage.
 
-### __Project is under heavy development. Not production ready.__
-
+### __Under heavy development__
 
 
 ## Features
@@ -45,12 +44,11 @@ A developer wiki is planned to provide some instructions about how to work with 
 ## Powered by
 
  - [react](https://github.com/facebook/react)
- - [redux](https://github.com/reactjs/redux)
  - [recompose](https://github.com/acdlite/recompose)
- - [redux thunk](https://github.com/gaearon/redux-thunk)
+ - [redux](https://github.com/reactjs/redux)
+ - [ccxt](https://github.com/ccxt/ccxt)
  - [recharts](https://github.com/recharts/recharts)
  - [lodash](https://github.com/lodash/lodash)
- - [ccxt](https://github.com/ccxt/ccxt)
  - [cryptocompare api](https://min-api.cryptocompare.com/)
  
     and others
