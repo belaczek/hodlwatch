@@ -40,7 +40,7 @@
     "bloomer": "^0.6.3",
     "bulma": "^0.6.2",
     "bulma-switch": "^1.0.1",
-    "ccxt": "^1.11.104",
+    "ccxt": "^1.11.116",
     "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
     "crypto-js": "^3.1.9-1",
@@ -59,9 +59,9 @@
   "devDependencies": {
     "@types/jest": "^22.2.0",
     "babel-plugin-lodash": "^3.3.2",
-    "babel-preset-env": "^1.6.1",
     "babel-plugin-module-resolver": "^3.1.0",
-    "eslint": "^4.18.2",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-node": "^6.0.1",
@@ -78,6 +78,6 @@
     "react-scripts": "1.1.1",
     "serve": "^6.5.3",
     "source-map-explorer": "^1.5.0",
-    "uglifyjs-webpack-plugin": "^1.2.3"
+    "uglifyjs-webpack-plugin": "^1.2.4"
   }
 }
