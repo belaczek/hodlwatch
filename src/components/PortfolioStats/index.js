@@ -7,6 +7,13 @@ import { Level, LevelItem, Heading, Title } from 'bloomer'
 import { roundValue } from 'utils/calcFloat'
 import { TIME_FRAMES } from 'appConstants'
 
+const Performace = ({ value, symbol = '%' }) => (
+  <span>
+    {value >= 0 && '+'}
+    {value} {symbol}
+  </span>
+)
+
 const renderStats = ({
   marketValue,
   symbolFilter,
@@ -15,8 +22,7 @@ const renderStats = ({
   quoteSymbol,
   symbolCurrentPrice,
   protfolioPerformanceAbs,
-  protfolioPerformancePerc,
-  showPlusOperator
+  protfolioPerformancePerc
 }) => (
   <Level>
     {symbolFilter || exchangeFilterName ? (
@@ -53,11 +59,14 @@ const renderStats = ({
         <Heading>{tfLongName} change</Heading>
         <Title
           isSize={5}
-          hasTextColor={classnames(showPlusOperator ? 'success' : 'danger')}
+          hasTextColor={classnames(
+            protfolioPerformanceAbs >= 0 ? 'success' : 'danger'
+          )}
         >
-          {showPlusOperator}
-          {protfolioPerformancePerc} % ({showPlusOperator}
-          {protfolioPerformanceAbs} {quoteSymbol})
+          {!!protfolioPerformancePerc && (
+            <Performace value={protfolioPerformancePerc} />
+          )}{' '}
+          (<Performace value={protfolioPerformanceAbs} symbol={quoteSymbol} />)
         </Title>
       </div>
     </LevelItem>
@@ -68,8 +77,7 @@ export default compose(
   withProps(({ activeTimeFrame, portfolioPerformance = {} }) => ({
     tfLongName: get([activeTimeFrame, 'longName'], TIME_FRAMES),
     protfolioPerformanceAbs: portfolioPerformance.absolute,
-    protfolioPerformancePerc: portfolioPerformance.relative,
-    showPlusOperator: portfolioPerformance.absolute > 0 ? '+' : null
+    protfolioPerformancePerc: portfolioPerformance.relative
   })),
   withPropsOnChange(['marketValue'], ({ marketValue }) => ({
     marketValue: roundValue(marketValue)
