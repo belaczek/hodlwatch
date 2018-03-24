@@ -78,8 +78,17 @@ const ExchangeApiForm = compose(
       exchangeId !== nextExchangeId ||
       exchanges.length !== nextExchanges.length,
 
-    ({ formData: { exchangeId }, getExchangeRequiredCredentialsList }) => {
-      return { formFields: getExchangeRequiredCredentialsList(exchangeId) }
+    ({
+      formData: { exchangeId },
+      getExchangeRequiredCredentialsList,
+      getExchangeInstance
+    }) => {
+      const exchangeInstance = getExchangeInstance(exchangeId)
+      return {
+        formFields: getExchangeRequiredCredentialsList(exchangeId),
+        proxyRequired:
+          !!exchangeInstance && !get(['has', 'CORS'], exchangeInstance)
+      }
     }
   ),
 

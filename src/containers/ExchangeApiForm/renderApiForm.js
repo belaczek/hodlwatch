@@ -28,6 +28,7 @@ const renderExchangeApiForm = ({
   handleChange,
   handleCancel,
   handleDelete,
+  proxyRequired,
   formFields: {
     apiKey: apiKeyField,
     secret: secretField,
@@ -180,7 +181,7 @@ const renderExchangeApiForm = ({
           {submitError && (
             <React.Fragment>
               <Notification isColor="danger">{submitError}</Notification>
-              {useProxy ? null : (
+              {useProxy || proxyRequired ? null : (
                 <Notification isColor="warning">
                   TIP: If you receive an error repatedly, try enabling and
                   setting up a proxy server to avoid issues with{' '}
@@ -191,6 +192,16 @@ const renderExchangeApiForm = ({
               )}
             </React.Fragment>
           )}
+
+          {proxyRequired && !useProxy ? (
+            <Notification isColor="warning">
+              This exchange API might require enabling proxy to avoid issues
+              with{' '}
+              <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">
+                CORS
+              </a>
+            </Notification>
+          ) : null}
 
           <Field isGrouped>
             <Control>

@@ -71,9 +71,8 @@ export default async function getExchangeApiService () {
    * @returns {Boolean}
    */
   const exchangeIsCompatible = exchangeInstance =>
-    exchangeInstance.has.CORS &&
-    exchangeInstance.has.privateAPI &&
-    exchangeInstance.has.fetchBalance
+    // exchangeInstance.has.CORS &&
+    exchangeInstance.has.privateAPI && exchangeInstance.has.fetchBalance
 
   /**
    * @typedef {Object} ExchangesList
