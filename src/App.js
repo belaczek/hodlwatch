@@ -22,19 +22,26 @@ import {
 // Small routing. Since we currently have only two routes, there is no need for react-router at the moment
 const renderApp = ({ Screen }) => <Screen />
 
+/**
+ * Wrap component with Provider
+ * @param {*} Component - component to be wrapperd
+ */
 const withStore = Component => ({ store, ...props }) => (
   <Provider store={store}>
     <Component {...props} />
   </Provider>
 )
 
+/**
+ * Asynchroously load component based on input props
+ * @param {Boolean} isInitialized indicates whether or not the app was already initialize
+ */
 const getRoute = async isInitialized => {
   if (isInitialized) {
     const MainAppScreen = await importMainAppScreen()
     return MainAppScreen
-  } else {
-    return IntroScreen
   }
+  return IntroScreen
 }
 
 const App = compose(
@@ -45,9 +52,15 @@ const App = compose(
       appIsInitialized: appStateSelector(state)
     })
   ),
+  // A state which contains a child component to be rendered
   withState('Screen', 'setScreen', null),
   withHandlers({
-    loadScreen: ({ setScreen, initApp, appIsInitialized }) => async () => {
+    /**
+     * Load and set child component based on the state.
+     * If app is initialized, show MainApp screen
+     * If it is not initialized, show Intro screen
+     */
+    loadScreen: ({ setScreen, appIsInitialized }) => async () => {
       // If the app was already initialized before, automatically load Main screen
       const route = await getRoute(appIsInitialized)
       setScreen(() => route)
@@ -55,6 +68,9 @@ const App = compose(
   }),
   lifecycle({
     componentWillMount () {
+      /**
+       * When the App is mounted, load child screen
+       */
       this.props.loadScreen()
     },
     componentDidMount () {

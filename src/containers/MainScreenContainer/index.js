@@ -27,6 +27,9 @@ import {
 } from 'store/modules/priceData'
 import { apiKeysSelector } from 'store/modules/apiKeys'
 
+/**
+ * Render the main screen
+ */
 const renderMainScreen = ({
   marketValue,
   quoteSymbol,
@@ -101,36 +104,54 @@ const renderMainScreen = ({
   </AppLayout>
 )
 
+/**
+ * Main screen component
+ */
 const Main = compose(
-  connect(state => ({
-    exchangeFilterId: activeExchangeFilterIdSelector(state),
-    symbolFilterId: activeSymbolFilterSelector(state)
-  })),
   connect(
-    (state, { exchangeFilterId, symbolFilterId }) => ({
-      filterExchange: exchangeByIdSelector(exchangeFilterId)(state),
-      marketValue: marketValueSelector({
-        exchangeId: exchangeFilterId,
-        symbol: symbolFilterId
-      })(state),
-      quoteSymbol: quoteSymbolSelector(state),
-      currentPriceData: currentPriceDataStateSelector(state),
-      activeTimeFrame: activeTimeFrameSelector(state),
-      portfolioPerformance: portfolioPerformanceSelector({
-        exchangeId: exchangeFilterId,
-        symbol: symbolFilterId
-      })(state),
-      exchanges: apiKeysSelector(state)
-    }),
+    // Map store data to props
+    state => {
+      // Get id of current exchange filter
+      const exchangeFilterId = activeExchangeFilterIdSelector(state)
+      // Get current symbol filter
+      const symbolFilterId = activeSymbolFilterSelector(state)
+      return {
+        exchangeFilterId,
+        symbolFilterId,
+        // Get exchange based on filter id
+        filterExchange: exchangeByIdSelector(exchangeFilterId)(state),
+        // Get correct market value to be displayed (based on current filter)
+        marketValue: marketValueSelector({
+          exchangeId: exchangeFilterId,
+          symbol: symbolFilterId
+        })(state),
+        // Get quote symbol (currency)
+        quoteSymbol: quoteSymbolSelector(state),
+        // Get latest price data
+        currentPriceData: currentPriceDataStateSelector(state),
+        // Get active time frame
+        activeTimeFrame: activeTimeFrameSelector(state),
+        // Get computed portfolio performance based on current filters
+        portfolioPerformance: portfolioPerformanceSelector({
+          exchangeId: exchangeFilterId,
+          symbol: symbolFilterId
+        })(state),
+        // Get list of all connected exchanges
+        exchanges: apiKeysSelector(state)
+      }
+    },
+    // Map handler which dispatch an action to store
     dispatch => ({
       fetchInitData: () => dispatch(fetchInitData())
     })
   ),
+  // When exchanges property changes, check whether or not there are any exchanges connected
   withPropsOnChange(['exchanges'], ({ exchanges }) => {
     return {
       appIsNotEmpty: !!keys(exchanges).length
     }
   }),
+  // When filterExchanges changes, set new prop with its name
   withPropsOnChange(['filterExchange'], ({ filterExchange }) => ({
     exchangeFilterName: filterExchange ? get('name', filterExchange) : null
   })),
@@ -142,9 +163,11 @@ const Main = compose(
   ),
   lifecycle({
     componentDidMount () {
+      // When the screen is loaded, trigger price data refetch
       this.props.fetchInitData()
     }
   }),
+  // Only refresh the component on props change
   pure
 )(renderMainScreen)
 
