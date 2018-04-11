@@ -11,11 +11,11 @@ const SET_SYMBOL_FILTER = 'SET_SYMBOL_FILTER'
 const SET_QUOTE_CURRENCY = 'SET_QUOTE_CURRENCY'
 
 const initialState = {
-  init: false,
-  serviceWorkerUpdated: false,
-  exchangeFilterId: null,
-  symbolFilterId: null,
-  quoteSymbol: DEFAULT_QUOTE_SYMBOL
+  init: false, // Indicates if the app was initialized
+  serviceWorkerUpdated: false, // Indicates update from serviceWorker
+  exchangeFilterId: null, // Global filter by exchange id
+  symbolFilterId: null, // Global filter by symbol id
+  quoteSymbol: DEFAULT_QUOTE_SYMBOL // Global quote symbol, defaults to USD
 }
 
 // Reducer
