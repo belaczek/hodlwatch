@@ -31,8 +31,7 @@ const initialState = {
   currentPriceDataLoading: false,
   currentPriceDataError: false,
   currentPriceDataLastUpdated: null,
-  currentPriceData: {},
-  currentPriceDatalastUpdated: null
+  currentPriceData: {}
 }
 
 // Reducer

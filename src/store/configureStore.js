@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { throttle, pick } from 'lodash'
 import thunk from 'redux-thunk'
-
 import core from 'store/modules/core'
 import portfolio from 'store/modules/portfolio'
 import apiKeys from 'store/modules/apiKeys'
