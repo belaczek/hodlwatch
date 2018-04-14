@@ -18,6 +18,14 @@ const initialState = {
   quoteSymbol: DEFAULT_QUOTE_SYMBOL // Global quote symbol, defaults to USD
 }
 
+/**
+ * Get initialized core state
+ */
+export const getInitializedCoreState = () => ({
+  ...initialState,
+  init: true
+})
+
 // Reducer
 export default function reducer (state = initialState, action) {
   switch (action.type) {

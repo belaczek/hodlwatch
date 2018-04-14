@@ -7,6 +7,7 @@ import {
   exportStoreData,
   clearStorage
 } from '../localStorage'
+import { getInitializedCoreState } from 'store/modules/core'
 
 class LocalStorageMock {
   constructor () {
@@ -44,7 +45,7 @@ test('should validate import string', () => {
 test('should validate import string as invalid', () => {
   const testState = {
     bla: {},
-    apiKeys: {}
+    core: {}
   }
 
   const encrypted = encrypt(testState)
@@ -53,24 +54,29 @@ test('should validate import string as invalid', () => {
 })
 
 test('should persist state in localstorage', () => {
+  // @ts-ignore
   global.localStorage = new LocalStorageMock()
 
   saveState({ ahoj: 'a' })
 
+  // @ts-ignore
   expect(global.localStorage.store).toHaveProperty('state')
 })
 
 test('should clear state in localstorage', () => {
+  // @ts-ignore
   global.localStorage = new LocalStorageMock()
 
   saveState({ ahoj: 'a' })
 
   clearStorage()
 
+  // @ts-ignore
   expect(global.localStorage.store).not.toHaveProperty('state', {})
 })
 
 test('should load state from localstorage', () => {
+  // @ts-ignore
   global.localStorage = new LocalStorageMock()
 
   const testState = {
@@ -93,10 +99,15 @@ test('should import encrypted string state', () => {
     apiKeys: {}
   }
 
+  const resultState = {
+    core: getInitializedCoreState(),
+    apiKeys: {}
+  }
+
   const encrypted = encrypt(testState)
   importStoreData(encrypted)
 
-  expect(loadState()).toEqual(testState)
+  expect(loadState()).toEqual(resultState)
 })
 
 test('should omit irrelevat properties from imported string state', () => {
@@ -115,13 +126,13 @@ test('should omit irrelevat properties from imported string state', () => {
 test('should export encrypted store values from localStorage', () => {
   const testState = {
     core: {},
-    apiKeys: {}
+    apiKeys: { exchange: { bla: 1 } }
   }
 
   saveState(testState)
   const exported = exportStoreData()
 
-  expect(decrypt(exported)).toEqual(testState)
+  expect(decrypt(exported)).toEqual({ apiKeys: { exchange: { bla: 1 } } })
 })
 
 test('should omit irrelevant values from exported state', () => {
@@ -137,4 +148,5 @@ test('should omit irrelevant values from exported state', () => {
 
   expect(decrypt(exported)).not.toHaveProperty('bla')
   expect(decrypt(exported)).not.toHaveProperty('ble')
+  expect(decrypt(exported)).not.toHaveProperty('core')
 })

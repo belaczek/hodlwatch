@@ -1,6 +1,7 @@
 // @ts-ignore
-import { pick, keys, reduce } from 'lodash/fp'
+import { pick, keys, reduce, get } from 'lodash/fp'
 import { decrypt, encrypt } from './crypto'
+import { getInitializedCoreState } from 'store/modules/core'
 
 const STATE = 'state'
 
@@ -46,7 +47,7 @@ const getDecryptedJSON = (value, passphrase) => {
 }
 
 // Array of required keys in imported settings
-const requiredStateKeys = ['core']
+const requiredStateKeys = ['apiKeys']
 
 /**
  * Check if a string is valid to import as a state
@@ -65,8 +66,14 @@ export const isStringValidExport = (value, passphrase) => {
   }
 }
 
-// parse state object to only contain properties we want to export/import
-const parsePersistState = pick(['apiKeys', 'core'])
+// parse state object to only contain properties relevant for export
+const parseExportState = pick(['apiKeys'])
+
+// parse imported state into correct shape
+const parseImportState = importState => ({
+  core: getInitializedCoreState(),
+  apiKeys: get('apiKeys', importState) || {}
+})
 
 /**
  * Import state into the localstorage
@@ -76,13 +83,11 @@ const parsePersistState = pick(['apiKeys', 'core'])
 export const importStoreData = (state, passphrase) => {
   const storeData = getDecryptedJSON(state, passphrase)
 
-  if (storeData) {
-    const persistState = parsePersistState(storeData)
-    saveState(persistState)
-    return true
-  } else {
-    return false
-  }
+  if (!storeData) return false
+
+  const persistState = parseImportState(storeData)
+  saveState(persistState)
+  return true
 }
 
 /**
@@ -90,7 +95,7 @@ export const importStoreData = (state, passphrase) => {
  * @param {string} [passphrase='']
  */
 export const exportStoreData = passphrase => {
-  const state = parsePersistState(loadState())
+  const state = parseExportState(loadState())
 
   return encrypt(state, passphrase)
 }

@@ -8,7 +8,8 @@ import reducer, {
   appStateSelector,
   serviceWorkerIsUpdatedSelector,
   quoteSymbolSelector,
-  activeExchangeFilterIdSelector
+  activeExchangeFilterIdSelector,
+  getInitializedCoreState
 } from 'store/modules/core'
 import { DEFAULT_QUOTE_SYMBOL } from 'appConstants'
 
@@ -23,6 +24,11 @@ const initialState = {
 test('reducer should return initial state', () => {
   const state = reducer(undefined, {})
   expect(state).toEqual(initialState)
+})
+
+test('getInitalizedCoreState funtion should return initialized state', () => {
+  const core = getInitializedCoreState()
+  expect(core).toHaveProperty('init', true)
 })
 
 describe('core actions', () => {
