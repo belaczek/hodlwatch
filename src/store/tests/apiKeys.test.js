@@ -37,18 +37,27 @@ describe('apiKeys actions', () => {
   })
 
   test('should delete api credentials', () => {
-    const testCreds = {
-      exchangeId: 'test',
-      apiKey: '1234'
+    const exchange1 = {
+      exchangeId: 'exchange1',
+      apiKey: 123243,
+      secert: 'sdgsdfg'
     }
-    let state = reducer(initialState, setExchangeCredentials(testCreds))
+    const exchange2 = {
+      exchangeId: 'exchange2',
+      apiKey: 123243,
+      secert: 'sdgsdfg',
+      proxy: 'https://bla.com'
+    }
+    let state = reducer(initialState, setExchangeCredentials(exchange1))
+    state = reducer(initialState, setExchangeCredentials(exchange2))
 
     state = reducer(state, {
       type: 'DELETE_EXCHANGE_CREDENTIALS',
-      payload: testCreds.exchangeId
+      payload: exchange1.exchangeId
     })
 
-    expect(state.data).not.toHaveProperty(testCreds.exchangeId)
+    expect(state.data).not.toHaveProperty(exchange1.exchangeId)
+    expect(state.data).toHaveProperty(exchange2.exchangeId)
   })
 
   test('should toggle global proxy settings', () => {

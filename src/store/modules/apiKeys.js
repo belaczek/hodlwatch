@@ -34,9 +34,7 @@ export default function reducer (state = initialState, action) {
       const { [exchangeId]: deleted, ...newStateData } = state.data
       return {
         ...state,
-        data: {
-          newStateData
-        }
+        data: newStateData
       }
     }
 
