@@ -11,7 +11,7 @@ const initialState = {
 }
 
 /** Modal reducer */
-export default function (state = initialState, action) {
+export default function reducer (state = initialState, action) {
   switch (action.type) {
     case SHOW_MODAL:
       return {
