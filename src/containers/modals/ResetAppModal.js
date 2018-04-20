@@ -5,7 +5,7 @@ import ModalWrapper from './ModalWrapper'
 import { resetApp } from 'store/modules/core'
 import { compose } from 'recompose'
 
-const renderResetAppModalBody = ({ handleResetApp }) => (
+const renderResetAppModalBody = ({ handleResetApp, toggleModal }) => (
   <Box hasTextAlign="centered">
     <p className="mb-10 u-textBold">
       Are you sure you want to delete all your data? This step can not be
@@ -13,6 +13,9 @@ const renderResetAppModalBody = ({ handleResetApp }) => (
     </p>
     <Button isColor="danger" onClick={handleResetApp}>
       confirm reset
+    </Button>
+    <Button className="is-text ml-5" onClick={toggleModal}>
+      cancel
     </Button>
   </Box>
 )
