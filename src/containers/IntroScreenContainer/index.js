@@ -40,7 +40,7 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
 )
 
 /**
- * Intro screen which is displayed the first time user visits the page
+ * Intro screen component which is displayed the first time user visits the page
  */
 const Intro = compose(
   connect(null, dispatch => ({

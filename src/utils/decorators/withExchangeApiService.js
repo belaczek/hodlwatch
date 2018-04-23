@@ -12,6 +12,9 @@ import {
 import { isEmpty, omit } from 'lodash/fp'
 import { importExchangeApiServiceInstance } from '../asyncImportService'
 
+/**
+ * Higher-order component providing all exported functions from exchangeApiService to its children as props
+ */
 export default compose(
   withState('exchangeApiMethods', 'setExchangeApiMethods', {}),
   lifecycle({
@@ -21,6 +24,7 @@ export default compose(
     }
   }),
   flattenProp('exchangeApiMethods'),
+  // Do not render children until the module with functions is loaded
   branch(({ exchangeApiMethods }) => {
     return isEmpty(exchangeApiMethods)
   }, renderNothing),

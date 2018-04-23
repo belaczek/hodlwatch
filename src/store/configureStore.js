@@ -21,6 +21,9 @@ const reducer = combineReducers({
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
+/**
+ * Get configured store instance
+ */
 export const configureStore = () => {
   // load state from localStorage
   const persistedState = loadState() || {}

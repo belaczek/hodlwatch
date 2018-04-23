@@ -15,6 +15,10 @@ import { importToastService } from 'utils/asyncImportService'
 import { setQuoteCurrency } from './modules/core'
 
 /**
+ * This module exports a set of global action creators which are operating over many modules
+ */
+
+/**
  * Initialize all app data
  */
 export const fetchInitData = () => async dispatch => {

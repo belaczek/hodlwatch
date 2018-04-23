@@ -31,6 +31,9 @@ const renderModal = ({ ModalComponent, modalProps = {}, ...props }) => (
   <ModalComponent {...props} {...modalProps} />
 )
 
+/**
+ * A container component which serves as a parent for all rendered modals
+ */
 export default compose(
   connect(
     state => ({

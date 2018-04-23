@@ -9,7 +9,6 @@ import { changeTimeFrame } from 'store/modules/priceData'
 
 import TimeFrames from 'components/TimeFrames'
 
-import './index.css'
 import { chartDataMarketValueSelector } from 'store/selectors'
 import Chart from 'components/Chart/'
 import { quoteSymbolSelector } from 'store/modules/core'
@@ -39,6 +38,9 @@ const renderChart = ({
   </Container>
 )
 
+/**
+ * Container component which handles all data required for rendered chart component
+ */
 export default compose(
   connect(
     (state, { exchangeFilter: exchangeId, symbolFilter: symbol }) => ({

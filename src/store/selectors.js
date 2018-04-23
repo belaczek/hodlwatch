@@ -33,6 +33,10 @@ import {
   absoluteChange
 } from 'utils/calcFloat'
 
+/**
+ * This module exports a set of global selectors which are operating with values from multiple modules
+ */
+
 /* SELECTOR HELPERS */
 
 /**
