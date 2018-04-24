@@ -44,10 +44,13 @@ const renderIntro = ({ handleBtnClick, btnIsLoading }) => (
  */
 const Intro = compose(
   connect(null, dispatch => ({
+    // Get info abou app init state
     setAppInitialized: () => dispatch(setAppInitialized())
   })),
+  // State value for loading indication
   withState('btnIsLoading', 'setBtnLoading', false),
   withHandlers({
+    // When start using button is clicked, init the app
     handleBtnClick: ({ setBtnLoading, loadApp, setAppInitialized }) => () => {
       setBtnLoading(true)
       setAppInitialized()

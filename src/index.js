@@ -10,7 +10,9 @@ import registerServiceWorker from './registerServiceWorker' */
 // Create a new instance of redux store
 const store = configureStore()
 
-// Entry point of the app which renders the content of react app into 'root' element in the index.html file
+/**
+ * Entry point of the app which renders the content of react app into 'root' element in the index.html file
+ */
 ReactDOM.render(<App store={store} />, document.getElementById('root'))
 
 /**
