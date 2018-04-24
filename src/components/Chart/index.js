@@ -39,6 +39,9 @@ const formatTooltipValue = quoteSymbol => value => (
   </span>
 )
 
+/**
+ * Static chart component
+ */
 const renderChart = ({ data, baseSymbols, quoteSymbol }) => (
   <div className="MainChart">
     <ResponsiveContainer width="100%" aspect={2.5} debounce={1}>
