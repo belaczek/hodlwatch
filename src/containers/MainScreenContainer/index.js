@@ -11,10 +11,10 @@ import { fetchInitData } from 'store/actions'
 import ChartContainer from 'containers/ChartContainer'
 import ExchangesListContainer from 'containers/ExchangesListContainer'
 import PortfolioListContainer from 'containers/PortfolioListContainer'
-import { exchangeByIdSelector } from 'store/modules/exchanges'
 import {
   marketValueSelector,
-  portfolioPerformanceSelector
+  portfolioPerformanceSelector,
+  activeExchangeFilterSelector
 } from 'store/selectors'
 import {
   quoteSymbolSelector,
@@ -119,7 +119,7 @@ const Main = compose(
         exchangeFilterId,
         symbolFilterId,
         // Get exchange based on filter id
-        filterExchange: exchangeByIdSelector(exchangeFilterId)(state),
+        filterExchange: activeExchangeFilterSelector(state),
         // Get correct market value to be displayed (based on current filter)
         marketValue: marketValueSelector({
           exchangeId: exchangeFilterId,

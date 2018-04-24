@@ -227,9 +227,9 @@ describe('priceData selectors', () => {
         LTC: [
           {
             time: 1,
-            close: 100,
             high: 110,
             low: 90,
+            close: 100,
             open: 99,
             volumeFrom: 100,
             volumeTo: 200

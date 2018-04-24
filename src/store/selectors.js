@@ -33,8 +33,9 @@ import {
   absoluteChange
 } from 'utils/calcFloat'
 
-/**
+/** ========================
  * This module exports a set of global selectors which are operating with values from multiple modules
+ * =========================
  */
 
 /* SELECTOR HELPERS */
@@ -100,6 +101,9 @@ const mergeAllHistoData = (histoData, priceTransform) => {
  * Store selectors which reach for data into multiple modules
  */
 
+/**
+ * Get list of connected exchanges
+ */
 export const savedExchangesListSelector = state => {
   const exchanges = exchangesListSelector(state)
   return pipe(
@@ -108,6 +112,9 @@ export const savedExchangesListSelector = state => {
   )(state)
 }
 
+/**
+ * Get list of all unused exchanges
+ */
 export const unusedExchangesListSelector = state => {
   const apiKeys = apiKeysSelector(state)
   return pipe(exchangesListSelector, filter(({ id }) => isEmpty(apiKeys[id])))(
@@ -115,14 +122,17 @@ export const unusedExchangesListSelector = state => {
   )
 }
 
-export const activeExchangeFilterSelector = createSelector(
-  activeExchangeFilterIdSelector,
-  exchangeByIdSelector
-)
+/**
+ * Get detail of an exchange used for filtering
+ */
+export const activeExchangeFilterSelector = state => {
+  const exchangeId = activeExchangeFilterIdSelector(state)
+  return exchangeByIdSelector(exchangeId)(state)
+}
 
 /**
- * Select histo data
- * This is the main selector for selecting histo data
+ * Select histo price data
+ * This is the main selector for selecting histo price data
  */
 export const histoDataSelector = ({ exchangeId = null, symbol = null } = {}) =>
   createSelector(
@@ -186,7 +196,10 @@ const parseHistoDataToChartData = memoize(
  * Select histoData by provided filter, calculate market values and parse it into chart data structure
  * @param {Object} param0
  */
-export const chartDataMarketValueSelector = ({ exchangeId, symbol }) =>
+export const chartDataMarketValueSelector = ({
+  exchangeId = null,
+  symbol = null
+} = {}) =>
   createSelector(
     histoDataSelector({ exchangeId, symbol }),
     currentPriceDataSelector({ exchangeId, symbol }),
@@ -200,7 +213,10 @@ export const chartDataMarketValueSelector = ({ exchangeId, symbol }) =>
  * When no filter provided, calculate for all data in store
  * @param {Object} param0
  */
-export const marketValueSelector = ({ exchangeId, symbol }) =>
+export const marketValueSelector = ({
+  exchangeId = null,
+  symbol = null
+} = {}) =>
   createSelector(
     currentPriceDataSelector({ exchangeId, symbol }),
     portfolioSymbolsSelector({ exchangeId, symbol }),
@@ -212,7 +228,10 @@ export const marketValueSelector = ({ exchangeId, symbol }) =>
  * @param {*} param0
  * @returns {object}
  */
-export const portfolioPerformanceSelector = ({ exchangeId, symbol }) =>
+export const portfolioPerformanceSelector = ({
+  exchangeId = null,
+  symbol = null
+} = {}) =>
   createSelector(
     currentPriceDataSelector({ exchangeId, symbol }),
     histoDataSelector({ exchangeId, symbol }),

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`global selectors should select performance of portfolio 1`] = `
+Object {
+  "absolute": 41.05,
+  "relative": 25.04,
+}
+`;
+
+exports[`global selectors should select performance of target exchange account 1`] = `
+Object {
+  "absolute": 41,
+  "relative": 25.79,
+}
+`;
+
+exports[`global selectors should select performance of target symbol 1`] = `
+Object {
+  "absolute": 40,
+  "relative": 66.67,
+}
+`;

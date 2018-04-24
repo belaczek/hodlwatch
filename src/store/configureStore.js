@@ -22,7 +22,7 @@ const reducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 /**
- * Get configured store instance
+ * Get configured redux store instance
  */
 export const configureStore = () => {
   // load state from localStorage
