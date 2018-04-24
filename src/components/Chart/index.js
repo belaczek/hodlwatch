@@ -9,7 +9,6 @@ import {
   ResponsiveContainer
 } from 'recharts'
 
-import './index.css'
 import { roundValue } from 'utils/calcFloat'
 
 const formatYAxis = quoteSymbol => val => {
