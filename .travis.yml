@@ -2,12 +2,12 @@ language: node_js
 node_js:
   - 8
 script:
-  - npm run build
+  - npm run export
   - npm test
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $github_token
-  local_dir: build
+  local_dir: src/out
   on:
     branch: master

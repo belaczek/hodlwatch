@@ -11,6 +11,9 @@ node_modules
 
 src/**/*.css
 
+src/.next
+
+
 # misc
 .DS_Store
 .env.local
