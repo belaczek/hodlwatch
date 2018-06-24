@@ -15,4 +15,7 @@ const ModalWrapper = Component => ({ isActive, closeModal, ...props }) => (
   </Modal>
 )
 
-export default compose(pure, ModalWrapper)
+export default compose(
+  pure,
+  ModalWrapper
+)

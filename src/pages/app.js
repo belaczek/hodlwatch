@@ -2,6 +2,8 @@ import React from 'react'
 // @ts-ignore
 import { get, keys } from 'lodash/fp'
 import { Container, Section, Columns, Column } from 'bloomer'
+import Router from 'next/router'
+import 'styles/app.sass'
 
 import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'
@@ -19,18 +21,20 @@ import {
 import {
   quoteSymbolSelector,
   activeExchangeFilterIdSelector,
-  activeSymbolFilterSelector
+  activeSymbolFilterSelector,
+  appStateSelector
 } from 'store/modules/core'
 import {
   activeTimeFrameSelector,
   currentPriceDataStateSelector
 } from 'store/modules/priceData'
 import { apiKeysSelector } from 'store/modules/apiKeys'
+import Redirect from 'components/Redirect'
 
 /**
  * Render the main screen
  */
-const renderMainScreen = ({
+const MainScreen = ({
   marketValue,
   quoteSymbol,
   exchangeFilterId,
@@ -104,6 +108,16 @@ const renderMainScreen = ({
   </AppLayout>
 )
 
+const renderMainScreen = props => (
+  <React.Fragment>
+    {!props.appIsInitialized ? (
+      <Redirect to="/" replace />
+    ) : (
+      <MainScreen {...props} />
+    )}
+  </React.Fragment>
+)
+
 /**
  * Main screen component
  */
@@ -116,6 +130,7 @@ const Main = compose(
       // Get current symbol filter
       const symbolFilterId = activeSymbolFilterSelector(state)
       return {
+        appIsInitialized: appStateSelector(state),
         exchangeFilterId,
         symbolFilterId,
         // Get exchange based on filter id
@@ -163,6 +178,10 @@ const Main = compose(
   ),
   lifecycle({
     componentDidMount () {
+      const { appIsInitialized } = this.props
+      if (!appIsInitialized) {
+        return Router.push('/index')
+      }
       // When the screen is loaded, trigger price data refetch
       this.props.fetchInitData()
     }

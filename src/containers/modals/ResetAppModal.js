@@ -22,7 +22,10 @@ const renderResetAppModalBody = ({ handleResetApp, toggleModal }) => (
 
 export default compose(
   ModalWrapper,
-  connect(null, dispatch => ({
-    handleResetApp: () => dispatch(resetApp())
-  }))
+  connect(
+    null,
+    dispatch => ({
+      handleResetApp: () => dispatch(resetApp())
+    })
+  )
 )(renderResetAppModalBody)

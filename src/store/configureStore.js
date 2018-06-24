@@ -19,14 +19,14 @@ const reducer = combineReducers({
 })
 
 // @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers = /* window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || */ compose
 
 /**
  * Get configured redux store instance
  */
-export const configureStore = () => {
+export const configureStore = (initialState = {}) => {
   // load state from localStorage
-  const persistedState = loadState() || {}
+  const persistedState = loadState() || initialState
 
   const store = createStore(
     reducer,

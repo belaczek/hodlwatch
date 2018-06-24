@@ -1,6 +1,7 @@
 // @ts-ignore
 import { pipe, map, filter, pick, get } from 'lodash/fp'
-import { importCcxt } from './asyncImportService'
+// import { importCcxt } from './asyncImportService'
+import ccxt from 'ccxt'
 
 const defaultApiCredentials = {
   apiKey: true,
@@ -13,8 +14,8 @@ const defaultApiCredentials = {
  * Get instance of exchange api service
  * @returns {Promise<Object|Error>} List of supported service functions
  */
-export default async function getExchangeApiService () {
-  const service = await importCcxt()
+export default function ExchangeApiService () {
+  const service = ccxt
 
   /**
    * Instantiate exchange

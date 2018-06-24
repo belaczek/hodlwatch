@@ -10,7 +10,8 @@ node_modules
 /build
 
 src/**/*.css
-
+src/out/**
+!src/out/.nojekyll
 src/.next
 
 
