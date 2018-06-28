@@ -8,11 +8,11 @@ node_modules
 
 # production
 /build
+.next
 
 src/**/*.css
-src/out/**
-!src/out/.nojekyll
-src/.next
+dist/**
+!dist/.nojekyll
 
 
 # misc

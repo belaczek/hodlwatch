@@ -12,5 +12,6 @@ module.exports = pipe(withSass)({
   webpack (config, options) {
     // Further custom configuration here
     return config
-  }
+  },
+  distDir: '../.next'
 })
