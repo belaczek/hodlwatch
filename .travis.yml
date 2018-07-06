@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - "node_modules"
+    - "$HOME/.npm"
 script:
   - npm run build
   - npm test
