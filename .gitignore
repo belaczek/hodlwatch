@@ -14,6 +14,7 @@ src/**/*.css
 dist/**
 !dist/.nojekyll
 
+/bundles
 
 # misc
 .DS_Store
