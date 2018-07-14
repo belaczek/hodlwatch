@@ -8,8 +8,13 @@ node_modules
 
 # production
 /build
+.next
 
 src/**/*.css
+dist/**
+!dist/.nojekyll
+
+/bundles
 
 # misc
 .DS_Store

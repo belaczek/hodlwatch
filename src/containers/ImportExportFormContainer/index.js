@@ -43,16 +43,16 @@ const renderImportExportForm = ({
       </Control>
       {exportString &&
         exportString.length && (
-          <React.Fragment>
-            <Help>
+        <React.Fragment>
+          <Help>
               Use the following string to import your api keys into another app
               instance
-            </Help>
-            <Control>
-              <TextArea onClick={handleFocus} defaultValue={exportString} />
-            </Control>
-          </React.Fragment>
-        )}
+          </Help>
+          <Control>
+            <TextArea onClick={handleFocus} defaultValue={exportString} />
+          </Control>
+        </React.Fragment>
+      )}
     </Field>
   </div>
 )
@@ -64,10 +64,13 @@ const initialFormData = {
 }
 
 export default compose(
-  connect(null, dispatch => ({
-    openImportSettingsModal: props =>
-      dispatch(openModal(IMPORT_SETTINGS_MODAL, props))
-  })),
+  connect(
+    null,
+    dispatch => ({
+      openImportSettingsModal: props =>
+        dispatch(openModal(IMPORT_SETTINGS_MODAL, props))
+    })
+  ),
   withState('formData', 'setFormData', initialFormData),
   withHandlers({
     handleChange: ({ setFormData }) => ({ target }) => {

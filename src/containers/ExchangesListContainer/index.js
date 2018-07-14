@@ -20,7 +20,7 @@ import { portfolioStateSelecor } from 'store/modules/portfolio'
 import { roundValue } from 'utils/calcFloat'
 import Spinner from 'components/Spinner'
 
-import './index.css'
+import './index.sass'
 import { fetchInitData } from 'store/actions'
 import scrollToTop from 'utils/scrollToTop'
 
