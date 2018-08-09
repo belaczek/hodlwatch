@@ -44,6 +44,7 @@ A developer wiki is planned to provide some instructions about how to work with 
 ## Powered by
 
  - [react](https://github.com/facebook/react)
+ - [next.js](https://github.com/zeit/next.js)
  - [recompose](https://github.com/acdlite/recompose)
  - [redux](https://github.com/reactjs/redux)
  - [ccxt](https://github.com/ccxt/ccxt)
@@ -54,8 +55,7 @@ A developer wiki is planned to provide some instructions about how to work with 
     and others
 
  [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
- 
- This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
 
 ## Roadmap
 
