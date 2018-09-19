@@ -1,47 +1,76 @@
 {
-"env": {
-  "development": {
-    "presets": ["next/babel"],
-    "plugins": [
-      [
-        "module-resolver",
-        {
-          "root": ["./src/"],
-          "alias": {
-            "bulma": "bulma"
-          }
-        }
-      ]
-    ]
-  },
-  "production": {
-    "presets": ["next/babel"],
-    "plugins": [
-      [
-        "module-resolver",
-        {
-          "root": ["./src/"],
-          "alias": {
-            "bulma": "bulma"
-          }
-        }
+  "env": {
+    "development": {
+      "presets": [
+        "next/babel"
       ],
-      ["lodash", { "id": ["lodash", "recompose", "bloomer", "recharts"] }]
-    ]
-  },
-  "test": {
-    "presets": [["next/babel", { "preset-env": { "modules": "commonjs" } }]],
-    "plugins": [
-      [
-        "module-resolver",
-        {
-          "root": ["./src/"],
-          "alias": {
-            "bulma": "bulma"
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./src/"
+            ],
+            "alias": {
+              "bulma": "bulma"
+            }
           }
-        }
+        ]
       ]
-    ]
+    },
+    "production": {
+      "presets": [
+        "next/babel"
+      ],
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./src/"
+            ],
+            "alias": {
+              "bulma": "bulma"
+            }
+          }
+        ],
+        [
+          "lodash",
+          {
+            "id": [
+              "lodash",
+              "recompose",
+              "bloomer",
+              "recharts"
+            ]
+          }
+        ]
+      ]
+    },
+    "test": {
+      "presets": [
+        [
+          "next/babel",
+          {
+            "preset-env": {
+              "modules": "commonjs"
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./src/"
+            ],
+            "alias": {
+              "bulma": "bulma"
+            }
+          }
+        ]
+      ]
+    }
   }
-}
 }

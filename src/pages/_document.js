@@ -48,7 +48,6 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content="#f6f6f6" />
 
           <link rel="manifest" href="static/manifest.json" />
-          <link rel="stylesheet" href="/_next/static/style.css" />
         </Head>
         <body>
           <noscript>You need to enable JavaScript to run this app.</noscript>

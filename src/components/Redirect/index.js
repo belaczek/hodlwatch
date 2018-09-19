@@ -1,16 +1,7 @@
 import react from 'react'
 import Router from 'next/router'
 
-class Redirect extends react.Component {
-  // componentDidMount () {
-  //   console.log(this.props)
-
-  //   const { to, as, options } = this.props
-  //   if (to) {
-  //     Router.push(to, as, options)
-  //   }
-  // }
-
+class Redirect extends react.PureComponent {
   componentDidMount () {
     const { to, as, options, replace } = this.props
     if (to) {

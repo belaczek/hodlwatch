@@ -1,6 +1,5 @@
 const withSass = require('@zeit/next-sass')
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer')
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const pipe = require('lodash/fp/pipe')
 
 module.exports = pipe(

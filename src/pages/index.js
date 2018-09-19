@@ -9,13 +9,10 @@ import {
   Subtitle,
   Title
 } from 'bloomer'
-import Router from 'next/router'
 import { connect } from 'react-redux'
 import { APP_NAME } from 'appConstants'
-
 import { appStateSelector, setAppInitialized } from 'store/modules/core'
-import 'styles/app.sass'
-// import Redirect from 'components/Redirect'
+import Redirect from 'components/Redirect'
 
 const IndexScreen = ({ handleLoadApp, btnIsLoading }) => (
   <Hero isFullHeight isColor="light">
@@ -44,11 +41,11 @@ const IndexScreen = ({ handleLoadApp, btnIsLoading }) => (
 
 const Intro = props => (
   <React.Fragment>
-    {/* {props.appIsInitialized ? (
-      <Redirect to="/app" as="/" replace />
-    ) : ( */}
-    <IndexScreen {...props} />
-    {/* )} */}
+    {props.appIsInitialized ? (
+      <Redirect to="/app" replace />
+    ) : (
+      <IndexScreen {...props} />
+    )}
   </React.Fragment>
 )
 
@@ -71,7 +68,6 @@ const App = compose(
     handleLoadApp: ({ setAppInitialized, setBtnLoading }) => () => {
       setBtnLoading(true)
       setAppInitialized()
-      Router.push('/app')
     }
   })
 )(Intro)

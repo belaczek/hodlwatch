@@ -3,7 +3,6 @@ import React from 'react'
 import { get, keys } from 'lodash/fp'
 import { Container, Section, Columns, Column } from 'bloomer'
 import Router from 'next/router'
-import 'styles/app.sass'
 
 import AppLayout from 'components/AppLayout'
 import PortfolioStats from 'components/PortfolioStats'

@@ -74,6 +74,7 @@ const renderStats = ({
 )
 
 export default compose(
+  pure,
   withProps(({ activeTimeFrame, portfolioPerformance = {} }) => ({
     tfLongName: get([activeTimeFrame, 'longName'], TIME_FRAMES),
     protfolioPerformanceAbs: portfolioPerformance.absolute,
@@ -81,6 +82,5 @@ export default compose(
   })),
   withPropsOnChange(['marketValue'], ({ marketValue }) => ({
     marketValue: roundValue(marketValue)
-  })),
-  pure
+  }))
 )(renderStats)
