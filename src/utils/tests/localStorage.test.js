@@ -9,28 +9,6 @@ import {
 } from '../localStorage'
 import { getInitializedCoreState } from 'store/modules/core'
 
-class LocalStorageMock {
-  constructor () {
-    this.store = {}
-  }
-
-  clear () {
-    this.store = {}
-  }
-
-  getItem (key) {
-    return this.store[key] || null
-  }
-
-  setItem (key, value) {
-    this.store[key] = value.toString()
-  }
-
-  removeItem (key) {
-    delete this.store[key]
-  }
-}
-
 test('should validate import string', () => {
   const testState = {
     core: {},
@@ -54,31 +32,20 @@ test('should validate import string as invalid', () => {
 })
 
 test('should persist state in localstorage', () => {
-  // @ts-ignore
-  global.localStorage = new LocalStorageMock()
-
   saveState({ ahoj: 'a' })
 
-  // @ts-ignore
-  expect(global.localStorage.store).toHaveProperty('state')
+  expect(global.localStorage).toHaveProperty('state')
 })
 
 test('should clear state in localstorage', () => {
-  // @ts-ignore
-  global.localStorage = new LocalStorageMock()
-
   saveState({ ahoj: 'a' })
 
   clearStorage()
 
-  // @ts-ignore
-  expect(global.localStorage.store).not.toHaveProperty('state', {})
+  expect(global.localStorage).not.toHaveProperty('state')
 })
 
 test('should load state from localstorage', () => {
-  // @ts-ignore
-  global.localStorage = new LocalStorageMock()
-
   const testState = {
     core: {
       ahoj: 'cau'
