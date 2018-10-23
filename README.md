@@ -57,10 +57,6 @@ A developer wiki is planned to provide some instructions about how to work with 
  [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
 
 
-## Roadmap
-
-
-
 
 ### Hosted by GitHub pages
 
