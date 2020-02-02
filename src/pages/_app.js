@@ -1,21 +1,25 @@
-import React from 'react'
-import App, { Container } from 'next/app'
-import { Provider } from 'react-redux'
-import withStore from 'utils/decorators/withStore'
+import React from "react";
+import App from "next/app";
+import { Provider } from "react-redux";
+import withStore from "utils/decorators/withStore";
+import Head from "next/head";
 
-import 'styles/app.sass'
+import "styles/app.sass";
 
 class MyApp extends App {
-  render () {
-    const { Component, pageProps, reduxStore } = this.props
+  render() {
+    const { Component, pageProps, reduxStore } = this.props;
     return (
-      <Container>
+      <>
+        <Head>
+          <title>hodl.watch</title>
+        </Head>
         <Provider store={reduxStore}>
           <Component {...pageProps} />
         </Provider>
-      </Container>
-    )
+      </>
+    );
   }
 }
 
-export default withStore(MyApp)
+export default withStore(MyApp);

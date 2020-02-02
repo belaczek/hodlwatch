@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import { pure } from 'recompose'
+import React, { Fragment } from "react";
+import { pure } from "recompose";
 import {
   Field,
   Label,
@@ -10,15 +10,15 @@ import {
   Button,
   Notification,
   Help
-} from 'bloomer'
-import { DEFAULT_PROXY_URL } from 'appConstants'
+} from "bloomer";
+import { DEFAULT_PROXY_URL } from "appConstants";
 
 const defaultApiCredentials = {
   apiKey: true,
   secret: true,
   uid: false,
   password: false
-}
+};
 
 const renderExchangeApiForm = ({
   editExchangeId,
@@ -184,7 +184,7 @@ const renderExchangeApiForm = ({
               {useProxy || proxyRequired ? null : (
                 <Notification isColor="warning">
                   TIP: If you receive an error repatedly, try enabling and
-                  setting up a proxy server to avoid issues with{' '}
+                  setting up a proxy server to avoid issues with{" "}
                   <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">
                     CORS
                   </a>
@@ -196,7 +196,7 @@ const renderExchangeApiForm = ({
           {proxyRequired && !useProxy ? (
             <Notification isColor="warning">
               This exchange API might require enabling proxy to avoid issues
-              with{' '}
+              with{" "}
               <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">
                 CORS
               </a>
@@ -225,7 +225,7 @@ const renderExchangeApiForm = ({
         </Fragment>
       )}
     </form>
-  )
-}
+  );
+};
 
-export default pure(renderExchangeApiForm)
+export default pure(renderExchangeApiForm);
