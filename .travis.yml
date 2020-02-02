@@ -10,6 +10,7 @@ install:
   - yarn
 script:
   - yarn build
+  - touch dist/.nojekyll
   - yarn test
 deploy:
   provider: pages

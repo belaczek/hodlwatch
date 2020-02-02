@@ -11,21 +11,21 @@
   "scripts": {
     "start": "serve dist",
     "dev": "next src",
-    "build": "next build src && npm run export",
+    "build": "next build src && yarn export",
     "export": "next export src -o './dist'",
     "deploy": "gh-pages -d dist",
     "test": "cross-env test=1 jest",
-    "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage",
+    "test:watch": "yarn test -- --watch",
+    "test:coverage": "yarn test -- --coverage",
     "format": "prettier-eslint --write 'src/**/*.js'",
     "format:single": "prettier-eslint --write",
-    "predeploy": "npm run export",
+    "predeploy": "yarn export",
     "precommit": "lint-staged",
     "analyze": "cross-env BUNDLE_ANALYZE=browser next build src"
   },
   "lint-staged": {
     "*.js": [
-      "npm run format:single --",
+      "yarn format:single --",
       "eslint --max-warnings=0",
       "git add"
     ]
@@ -81,7 +81,6 @@
     "jest": "^24.1.0",
     "lint-staged": "^7.3.0",
     "node-sass": "^4.13.1",
-    "npm-run-all": "^4.1.5",
     "prettier-eslint": "9.0.1",
     "prettier-eslint-cli": "5.0.0"
   }
