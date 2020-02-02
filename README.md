@@ -18,8 +18,6 @@ The main idea behind this project is to create portfolio tracking web applicatio
 
 All user data are stored in browser local storage.
 
-### __Under heavy development__
-
 
 ## Features
 
