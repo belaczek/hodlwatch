@@ -1,13 +1,13 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import { throttle, pick } from 'lodash'
-import thunk from 'redux-thunk'
-import core from 'store/modules/core'
-import portfolio from 'store/modules/portfolio'
-import apiKeys from 'store/modules/apiKeys'
-import exchanges from 'store/modules/exchanges'
-import priceData from 'store/modules/priceData'
-import modals from 'store/modules/modals'
-import { loadState, saveState } from 'utils/localStorage'
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { throttle, pick } from "lodash";
+import thunk from "redux-thunk";
+import core from "store/modules/core";
+import portfolio from "store/modules/portfolio";
+import apiKeys from "store/modules/apiKeys";
+import exchanges from "store/modules/exchanges";
+import priceData from "store/modules/priceData";
+import modals from "store/modules/modals";
+import { loadState, saveState } from "utils/localStorage";
 
 const reducer = combineReducers({
   core,
@@ -16,23 +16,26 @@ const reducer = combineReducers({
   apiKeys,
   priceData,
   modals
-})
+});
 
 // @ts-ignore
-const composeEnhancers = /* window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || */ compose
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
 /**
  * Get configured redux store instance
  */
 export const configureStore = (initialState = {}) => {
   // load state from localStorage
-  const persistedState = loadState() || initialState
+  const persistedState = loadState() || initialState;
 
   const store = createStore(
     reducer,
     persistedState,
     composeEnhancers(applyMiddleware(thunk))
-  )
+  );
 
   /**
    * Preserve all state changes in local storage
@@ -40,15 +43,15 @@ export const configureStore = (initialState = {}) => {
   store.subscribe(
     // save only max once per 500ms to avoid performance issues
     throttle(() => {
-      const { portfolio, core, apiKeys, priceData } = store.getState()
+      const { portfolio, core, apiKeys, priceData } = store.getState();
       saveState({
         portfolio,
-        core: pick(core, ['init', 'quoteSymbol']),
-        priceData: pick(priceData, ['timeframe']),
+        core: pick(core, ["init", "quoteSymbol"]),
+        priceData: pick(priceData, ["timeframe"]),
         apiKeys
-      })
+      });
     }, 500)
-  )
+  );
 
-  return store
-}
+  return store;
+};

@@ -1,5 +1,5 @@
-import React from 'react'
-import { compose, pure, withProps } from 'recompose'
+import React from "react";
+import { compose, pure, withProps } from "recompose";
 import {
   AreaChart,
   XAxis,
@@ -7,36 +7,36 @@ import {
   Tooltip,
   Area,
   ResponsiveContainer
-} from 'recharts'
+} from "recharts";
 
-import { roundValue } from 'utils/calcFloat'
+import { roundValue } from "utils/calcFloat";
 
 const formatYAxis = quoteSymbol => val => {
-  if (val && val !== Infinity) {
-    return `${roundValue(val)} ${quoteSymbol}`
+  if (val && val !== Infinity && val !== -Infinity) {
+    return `${roundValue(val)} ${quoteSymbol}`;
   } else {
-    return val
+    return val;
   }
-}
+};
 
-const tooltipSorter = () => 1
+const tooltipSorter = () => 1;
 
 const tooltipLabelFormatter = time => {
   return (
-    <React.Fragment>
+    <>
       <p className="u-text11px u-textUpperCase">portfolio market value</p>
       <p>
         <strong>{time}</strong>
       </p>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};
 
 const formatTooltipValue = quoteSymbol => value => (
   <span>
     {value} {quoteSymbol}
   </span>
-)
+);
 
 /**
  * Static chart component
@@ -50,14 +50,14 @@ const renderChart = ({ data, baseSymbols, quoteSymbol }) => (
           minTickGap={40}
           interval="preserveEnd"
           tickLine={false}
-          tick={{ fontSize: '12px' }}
+          tick={{ fontSize: "12px" }}
         />
         <YAxis
           className="MainChart-yAxis"
           type="number"
-          domain={['dataMin', 'dataMax']}
+          domain={["dataMin", "dataMax"]}
           interval="preserveEnd"
-          tick={{ fontSize: '12px' }}
+          tick={{ fontSize: "12px" }}
           mirror
           tickLine={false}
           tickCount={5}
@@ -87,12 +87,12 @@ const renderChart = ({ data, baseSymbols, quoteSymbol }) => (
       </AreaChart>
     </ResponsiveContainer>
   </div>
-)
+);
 
 export default compose(
+  pure,
   withProps(({ chartData, baseSymbols, quoteSymbol }) => ({
     data: chartData,
     baseSymbols
-  })),
-  pure
-)(renderChart)
+  }))
+)(renderChart);
