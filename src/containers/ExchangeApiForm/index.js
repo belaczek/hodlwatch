@@ -4,33 +4,36 @@ import {
   withState,
   withPropsOnChange,
   lifecycle
-} from 'recompose'
+} from "recompose";
 // @ts-ignore
-import { isFunction, get } from 'lodash/fp'
-import { connect } from 'react-redux'
-import { apiKeysByIdSelector, activeProxySelector } from 'store/modules/apiKeys'
-import renderExchangeApiForm from './renderApiForm'
-import { defaultErrorMessage } from './constants'
-import withExchangeApiService from 'utils/decorators/withExchangeApiService'
-import { unusedExchangesListSelector } from 'store/selectors'
-import { openModal } from 'store/modules/modals'
-import { DELETE_EXCHANGE_API } from '../ModalContainer/modalTypes'
-import { exchangeByIdSelector } from 'store/modules/exchanges'
-import { saveApiCredentials, deleteApiKeys } from 'store/actions'
-import { DEFAULT_PROXY_URL } from 'appConstants'
+import { isFunction, get } from "lodash/fp";
+import { connect } from "react-redux";
+import {
+  apiKeysByIdSelector,
+  activeProxySelector
+} from "store/modules/apiKeys";
+import renderExchangeApiForm from "./renderApiForm";
+import { defaultErrorMessage } from "./constants";
+import withExchangeApiService from "utils/decorators/withExchangeApiService";
+import { unusedExchangesListSelector } from "store/selectors";
+import { openModal } from "store/modules/modals";
+import { DELETE_EXCHANGE_API } from "../ModalContainer/modalTypes";
+import { exchangeByIdSelector } from "store/modules/exchanges";
+import { saveApiCredentials, deleteApiKeys } from "store/actions";
+import { DEFAULT_PROXY_URL } from "appConstants";
 // import { importToastService } from 'utils/asyncImportService'
 
 const defaultFormDataState = {
   exchangeId: null,
-  apiKey: '',
-  secret: '',
-  uid: '',
-  password: '',
+  apiKey: "",
+  secret: "",
+  uid: "",
+  password: "",
   useProxy: false,
   proxy: DEFAULT_PROXY_URL,
   submitError: null,
   submitting: false
-}
+};
 
 const ExchangeApiForm = compose(
   withExchangeApiService,
@@ -49,21 +52,21 @@ const ExchangeApiForm = compose(
   ),
 
   // Form state, that has exchangeId auto selected when editting existing record
-  withState('formData', 'setFormData', ({ editExchangeId }) => ({
+  withState("formData", "setFormData", ({ editExchangeId }) => ({
     ...defaultFormDataState,
     exchangeId: editExchangeId
   })),
 
   lifecycle({
     // When the existing apikeys are received from store, merge it into the form state
-    componentDidMount () {
-      const { apiKeys, setFormData } = this.props
+    componentDidMount() {
+      const { apiKeys, setFormData } = this.props;
 
       setFormData(data => ({
         ...data,
         ...apiKeys,
-        useProxy: !!get('proxy', apiKeys)
-      }))
+        useProxy: !!get("proxy", apiKeys)
+      }));
     }
   }),
 
@@ -83,12 +86,12 @@ const ExchangeApiForm = compose(
       getExchangeRequiredCredentialsList,
       getExchangeInstance
     }) => {
-      const exchangeInstance = getExchangeInstance(exchangeId)
+      const exchangeInstance = getExchangeInstance(exchangeId);
       return {
         formFields: getExchangeRequiredCredentialsList(exchangeId),
         proxyRequired:
-          !!exchangeInstance && !get(['has', 'CORS'], exchangeInstance)
-      }
+          !!exchangeInstance && !get(["has", "CORS"], exchangeInstance)
+      };
     }
   ),
 
@@ -100,8 +103,8 @@ const ExchangeApiForm = compose(
         submitting: isSubmitting
       })),
     handleChange: ({ setFormData }) => ({ target }) => {
-      const value = target.type === 'checkbox' ? target.checked : target.value
-      setFormData(state => ({ ...state, [target.name]: value }))
+      const value = target.type === "checkbox" ? target.checked : target.value;
+      setFormData(state => ({ ...state, [target.name]: value }));
     }
   }),
 
@@ -115,35 +118,35 @@ const ExchangeApiForm = compose(
       onSuccess,
       activeGlobalProxy
     }) => async e => {
-      setFormState(true)
-      e.preventDefault()
-      const { exchangeId, useProxy, proxy, ...apiCredentials } = formData
+      setFormState(true);
+      e.preventDefault();
+      const { exchangeId, useProxy, proxy, ...apiCredentials } = formData;
       try {
         // parse proxy for api module
         const credentials = {
           ...apiCredentials,
           proxy: useProxy ? proxy : activeGlobalProxy
-        }
+        };
 
         // Test api keys by trying to fetch account balance from target exchange
-        const data = await testExchangeConnection(exchangeId, credentials)
-        console.log(data)
-        setFormState(false, null)
+        const data = await testExchangeConnection(exchangeId, credentials);
+        console.log(data);
+        setFormState(false, null);
 
         // Save valid apiKeys into store
-        saveApiCredentials({ exchangeId, ...credentials })
+        saveApiCredentials({ exchangeId, ...credentials });
 
         // Notify parent about success
         if (isFunction(onSuccess)) {
-          onSuccess()
+          onSuccess();
         }
       } catch (e) {
-        console.log(e)
-        setFormState(false, defaultErrorMessage)
+        console.log(e);
+        setFormState(false, defaultErrorMessage);
       }
     },
     handleCancel: ({ onCancel }) => () => {
-      onCancel()
+      onCancel();
     },
     handleDelete: ({
       openDeleteModal,
@@ -153,13 +156,13 @@ const ExchangeApiForm = compose(
       onCancel
     }) => () => {
       openDeleteModal({
-        exchangeName: get('name', edittingExchange),
+        exchangeName: get("name", edittingExchange),
         onSubmit: () => {
-          onCancel()
-          deleteApiKeys(editExchangeId)
+          onCancel();
+          deleteApiKeys(editExchangeId);
         }
-      })
+      });
     }
   })
-)(renderExchangeApiForm)
-export default ExchangeApiForm
+)(renderExchangeApiForm);
+export default ExchangeApiForm;

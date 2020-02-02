@@ -1,5 +1,5 @@
-import React from 'react'
-import { compose, withHandlers, withState } from 'recompose'
+import React from "react";
+import { compose, withHandlers, withState } from "recompose";
 import {
   Button,
   Container,
@@ -8,11 +8,11 @@ import {
   HeroFooter,
   Subtitle,
   Title
-} from 'bloomer'
-import { connect } from 'react-redux'
-import { APP_NAME } from 'appConstants'
-import { appStateSelector, setAppInitialized } from 'store/modules/core'
-import Redirect from 'components/Redirect'
+} from "bloomer";
+import { connect } from "react-redux";
+import { APP_NAME } from "appConstants";
+import { appStateSelector, setAppInitialized } from "store/modules/core";
+import Redirect from "components/Redirect";
 
 const IndexScreen = ({ handleLoadApp, btnIsLoading }) => (
   <Hero isFullHeight isColor="light">
@@ -37,7 +37,7 @@ const IndexScreen = ({ handleLoadApp, btnIsLoading }) => (
       </Container>
     </HeroFooter>
   </Hero>
-)
+);
 
 const Intro = props => (
   <React.Fragment>
@@ -47,7 +47,7 @@ const Intro = props => (
       <IndexScreen {...props} />
     )}
   </React.Fragment>
-)
+);
 
 const App = compose(
   connect(
@@ -60,16 +60,16 @@ const App = compose(
       setAppInitialized: () => dispatch(setAppInitialized())
     })
   ),
-  withState('btnIsLoading', 'setBtnLoading', false),
+  withState("btnIsLoading", "setBtnLoading", false),
   withHandlers({
     /**
      * Initialize app and redirect to app screen
      */
     handleLoadApp: ({ setAppInitialized, setBtnLoading }) => () => {
-      setBtnLoading(true)
-      setAppInitialized()
+      setBtnLoading(true);
+      setAppInitialized();
     }
   })
-)(Intro)
+)(Intro);
 
-export default App
+export default App;

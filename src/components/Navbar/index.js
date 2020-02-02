@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Navbar,
   Container,
@@ -8,8 +8,8 @@ import {
   NavbarEnd,
   NavbarBurger,
   NavbarMenu
-} from 'bloomer'
-import { APP_NAME } from 'appConstants'
+} from "bloomer";
+import { APP_NAME } from "appConstants";
 
 const AppNavbar = ({
   showUpdate,
@@ -57,6 +57,6 @@ const AppNavbar = ({
       </NavbarMenu>
     </Container>
   </Navbar>
-)
+);
 
-export default AppNavbar
+export default AppNavbar;

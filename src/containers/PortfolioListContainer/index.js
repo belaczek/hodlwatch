@@ -1,23 +1,23 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 // @ts-ignore
-import { get, keys } from 'lodash/fp'
+import { get, keys } from "lodash/fp";
 import {
   compose,
   withPropsOnChange,
   withHandlers,
   onlyUpdateForKeys
-} from 'recompose'
-import { portfolioSymbolsSelector } from 'store/modules/portfolio'
+} from "recompose";
+import { portfolioSymbolsSelector } from "store/modules/portfolio";
 
-import { Title } from 'bloomer/lib/elements/Title'
-import { Table } from 'bloomer/lib/elements/Table'
+import { Title } from "bloomer/lib/elements/Title";
+import { Table } from "bloomer/lib/elements/Table";
 
-import './index.sass'
-import { setSymbolFilter, quoteSymbolSelector } from 'store/modules/core'
-import scrollToTop from 'utils/scrollToTop'
-import { currentPriceDataSelector, marketValueSelector } from 'store/selectors'
-import { roundValue } from 'utils/calcFloat'
+import "./index.sass";
+import { setSymbolFilter, quoteSymbolSelector } from "store/modules/core";
+import scrollToTop from "utils/scrollToTop";
+import { currentPriceDataSelector, marketValueSelector } from "store/selectors";
+import { roundValue } from "utils/calcFloat";
 
 // TODO
 const renderPortfolioSection = ({
@@ -67,7 +67,7 @@ const renderPortfolioSection = ({
       </tbody>
     </Table>
   </div>
-)
+);
 
 const PortfolioSection = compose(
   connect(
@@ -84,27 +84,27 @@ const PortfolioSection = compose(
     })
   ),
   withPropsOnChange(
-    ['symbols', 'prices'],
+    ["symbols", "prices"],
     ({ symbols, prices, getMarketValueBySymbolId }) => {
-      const symbolKeys = keys(symbols)
+      const symbolKeys = keys(symbols);
 
       const enhancedSymbols = symbolKeys.map(key => ({
         amount: symbols[key],
         price: get(key, prices),
         marketValue: roundValue(getMarketValueBySymbolId(key)),
         name: key
-      }))
+      }));
 
-      return { symbols: enhancedSymbols }
+      return { symbols: enhancedSymbols };
     }
   ),
   withHandlers({
     handleSetFilter: ({ setFilter }) => id => {
-      setFilter(id)
-      scrollToTop()
+      setFilter(id);
+      scrollToTop();
     }
   }),
-  onlyUpdateForKeys(['symbols'])
-)
+  onlyUpdateForKeys(["symbols"])
+);
 
-export default PortfolioSection(renderPortfolioSection)
+export default PortfolioSection(renderPortfolioSection);

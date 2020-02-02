@@ -1,48 +1,48 @@
-import React from 'react'
-import { configureStore } from 'store/configureStore'
+import React from "react";
+import { configureStore } from "store/configureStore";
 
-const isServer = typeof window === 'undefined'
-const __REDUX_STORE__ = '__REDUX_STORE__'
+const isServer = typeof window === "undefined";
+const __REDUX_STORE__ = "__REDUX_STORE__";
 
-function getOrCreateStore (initialState) {
+function getOrCreateStore(initialState) {
   // Always make a new store if server, otherwise state is shared between requests
   if (isServer) {
-    return configureStore(initialState)
+    return configureStore(initialState);
   }
 
   // Store in global variable if client
   if (!window[__REDUX_STORE__]) {
-    window[__REDUX_STORE__] = configureStore(initialState)
+    window[__REDUX_STORE__] = configureStore(initialState);
   }
-  return window[__REDUX_STORE__]
+  return window[__REDUX_STORE__];
 }
 
 export default App => {
   return class Redux extends React.Component {
-    static async getInitialProps (appContext) {
-      const reduxStore = getOrCreateStore()
+    static async getInitialProps(appContext) {
+      const reduxStore = getOrCreateStore();
 
       // Provide the store to getInitialProps of pages
-      appContext.ctx.reduxStore = reduxStore
+      appContext.ctx.reduxStore = reduxStore;
 
-      let appProps = {}
+      let appProps = {};
       if (App.getInitialProps) {
-        appProps = await App.getInitialProps(appContext)
+        appProps = await App.getInitialProps(appContext);
       }
 
       return {
         ...appProps,
         initialReduxState: reduxStore.getState()
-      }
+      };
     }
 
-    constructor (props) {
-      super(props)
-      this.reduxStore = getOrCreateStore(props.initialReduxState)
+    constructor(props) {
+      super(props);
+      this.reduxStore = getOrCreateStore(props.initialReduxState);
     }
 
-    render () {
-      return <App {...this.props} reduxStore={this.reduxStore} />
+    render() {
+      return <App {...this.props} reduxStore={this.reduxStore} />;
     }
-  }
-}
+  };
+};

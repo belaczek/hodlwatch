@@ -1,28 +1,28 @@
-import React from 'react'
+import React from "react";
 // @ts-ignore
-import { get } from 'lodash/fp'
-import { Title, Button, Box, Table } from 'bloomer'
+import { get } from "lodash/fp";
+import { Title, Button, Box, Table } from "bloomer";
 import {
   compose,
   withHandlers,
   withState,
   withProps,
   onlyUpdateForKeys
-} from 'recompose'
-import { connect } from 'react-redux'
+} from "recompose";
+import { connect } from "react-redux";
 import {
   savedExchangesListSelector,
   marketValueSelector
-} from 'store/selectors'
-import { setExchangeFilter, quoteSymbolSelector } from 'store/modules/core'
-import ExchangeApiForm from 'containers/ExchangeApiForm'
-import { portfolioStateSelecor } from 'store/modules/portfolio'
-import { roundValue } from 'utils/calcFloat'
-import Spinner from 'components/Spinner'
+} from "store/selectors";
+import { setExchangeFilter, quoteSymbolSelector } from "store/modules/core";
+import ExchangeApiForm from "containers/ExchangeApiForm";
+import { portfolioStateSelecor } from "store/modules/portfolio";
+import { roundValue } from "utils/calcFloat";
+import Spinner from "components/Spinner";
 
-import './index.sass'
-import { fetchInitData } from 'store/actions'
-import scrollToTop from 'utils/scrollToTop'
+import "./index.sass";
+import { fetchInitData } from "store/actions";
+import scrollToTop from "utils/scrollToTop";
 
 // TODO
 const renderExchangeSection = ({
@@ -124,7 +124,7 @@ const renderExchangeSection = ({
       </tbody>
     </Table>
   </div>
-)
+);
 
 const ExchangeSection = compose(
   connect(
@@ -144,46 +144,46 @@ const ExchangeSection = compose(
   ),
   withProps(({ exchanges, portfolio, getMarketValueByExchangeId }) => {
     const enhancedExchanges = exchanges.map((ex, index) => {
-      const { id } = ex
-      const portfolioData = get([id], portfolio) || {}
+      const { id } = ex;
+      const portfolioData = get([id], portfolio) || {};
 
       return {
         ...ex,
         portfolioError: portfolioData.error,
         portfolioLoading: portfolioData.loading,
         marketValue: roundValue(getMarketValueByExchangeId(id))
-      }
-    })
+      };
+    });
 
     return {
       exchanges: enhancedExchanges,
       appIsNotEmpty: !!enhancedExchanges.length
-    }
+    };
   }),
-  withState('showExchangeForm', 'setExchangeFormState', false),
-  withState('editExchangeId', 'setEditExchangeId', null),
+  withState("showExchangeForm", "setExchangeFormState", false),
+  withState("editExchangeId", "setEditExchangeId", null),
   withHandlers({
     handleFormCancel: ({ setExchangeFormState, setEditExchangeId }) => () => {
-      setExchangeFormState(false)
-      setEditExchangeId(null)
+      setExchangeFormState(false);
+      setEditExchangeId(null);
     },
     handleFormSuccess: ({ setExchangeFormState, setEditExchangeId }) => () => {
-      setExchangeFormState(false)
-      setEditExchangeId(null)
+      setExchangeFormState(false);
+      setEditExchangeId(null);
     },
     handleOpenExchangeForm: ({
       setExchangeFormState,
       setEditExchangeId
     }) => id => {
-      setEditExchangeId(() => id)
-      setExchangeFormState(true)
+      setEditExchangeId(() => id);
+      setExchangeFormState(true);
     },
     handleSetFilter: ({ setFilter }) => id => {
-      setFilter(id)
-      scrollToTop()
+      setFilter(id);
+      scrollToTop();
     }
   }),
-  onlyUpdateForKeys(['exchanges', 'showExchangeForm'])
-)
+  onlyUpdateForKeys(["exchanges", "showExchangeForm"])
+);
 
-export default ExchangeSection(renderExchangeSection)
+export default ExchangeSection(renderExchangeSection);

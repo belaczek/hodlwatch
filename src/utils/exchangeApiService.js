@@ -1,21 +1,21 @@
 // @ts-ignore
-import { pipe, map, filter, pick, get } from 'lodash/fp'
+import { pipe, map, filter, pick, get } from "lodash/fp";
 // import { importCcxt } from './asyncImportService'
-import ccxt from 'ccxt'
+import ccxt from "ccxt";
 
 const defaultApiCredentials = {
   apiKey: true,
   secret: true,
   uid: false,
   password: false
-}
+};
 
 /**
  * Get instance of exchange api service
  * @returns {Promise<Object|Error>} List of supported service functions
  */
-export default function ExchangeApiService () {
-  const service = ccxt
+export default function ExchangeApiService() {
+  const service = ccxt;
 
   /**
    * Instantiate exchange
@@ -24,12 +24,12 @@ export default function ExchangeApiService () {
    */
   const getExchangeInstance = (exchangeId, config) => {
     if (exchangeId && service[exchangeId]) {
-      return new service[exchangeId](config)
+      return new service[exchangeId](config);
     } else {
-      console.log(`Exchange ${exchangeId} is not supported`)
-      return false
+      console.log(`Exchange ${exchangeId} is not supported`);
+      return false;
     }
-  }
+  };
 
   /**
    * Fetch balance of target account
@@ -38,17 +38,17 @@ export default function ExchangeApiService () {
    * @returns {Promise<Object|Error>} accountBalance
    */
   const fetchExchangeAccountBalance = async (exchangeId, apiCredentials) => {
-    const exchangeInstance = getExchangeInstance(exchangeId, apiCredentials)
-    const data = await exchangeInstance.fetchBalance()
+    const exchangeInstance = getExchangeInstance(exchangeId, apiCredentials);
+    const data = await exchangeInstance.fetchBalance();
 
     // Some exchanges return 200 even when they are failure. This check tries to detect those failures
-    const error = get(['info', 'error'], data)
+    const error = get(["info", "error"], data);
     if (error) {
-      throw new Error(error)
+      throw new Error(error);
     } else {
-      return data
+      return data;
     }
-  }
+  };
 
   /**
    * Test connection to target exchange private api by trying to fetch account balance
@@ -58,13 +58,16 @@ export default function ExchangeApiService () {
    */
   const testExchangeConnection = async (exchangeId, apiCredentials) => {
     try {
-      const data = await fetchExchangeAccountBalance(exchangeId, apiCredentials)
-      return data
+      const data = await fetchExchangeAccountBalance(
+        exchangeId,
+        apiCredentials
+      );
+      return data;
     } catch (e) {
-      console.log(e)
-      throw e
+      console.log(e);
+      throw e;
     }
-  }
+  };
 
   /**
    * Check if exchange is compatible with this app
@@ -73,7 +76,7 @@ export default function ExchangeApiService () {
    */
   const exchangeIsCompatible = exchangeInstance =>
     // exchangeInstance.has.CORS &&
-    exchangeInstance.has.privateAPI && exchangeInstance.has.fetchBalance
+    exchangeInstance.has.privateAPI && exchangeInstance.has.fetchBalance;
 
   /**
    * @typedef {Object} ExchangesList
@@ -89,8 +92,8 @@ export default function ExchangeApiService () {
     pipe(
       map(getExchangeInstance),
       filter(exchangeIsCompatible),
-      map(pick(['id', 'name']))
-    )(service.exchanges)
+      map(pick(["id", "name"]))
+    )(service.exchanges);
 
   /**
    * Get api credentials requirements
@@ -99,12 +102,12 @@ export default function ExchangeApiService () {
    */
   const getExchangeRequiredCredentialsList = exchangeId => {
     if (exchangeId) {
-      const instance = getExchangeInstance(exchangeId)
+      const instance = getExchangeInstance(exchangeId);
       if (instance) {
-        return instance.requiredCredentials
+        return instance.requiredCredentials;
       }
-    } else return defaultApiCredentials
-  }
+    } else return defaultApiCredentials;
+  };
 
   return {
     fetchExchangeAccountBalance,
@@ -112,5 +115,5 @@ export default function ExchangeApiService () {
     getExchangesList,
     getExchangeInstance,
     getExchangeRequiredCredentialsList
-  }
+  };
 }

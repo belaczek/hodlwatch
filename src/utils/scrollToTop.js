@@ -1,4 +1,4 @@
 /**
  * Scroll to top of the page
  */
-export default () => window.scrollTo(0, 0)
+export default () => window.scrollTo(0, 0);

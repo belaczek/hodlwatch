@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 // @ts-ignore
-import { map } from 'lodash/fp'
-import { Tabs, TabLink, TabList, Tab } from 'bloomer'
-import { TIME_FRAMES } from 'appConstants'
+import { map } from "lodash/fp";
+import { Tabs, TabLink, TabList, Tab } from "bloomer";
+import { TIME_FRAMES } from "appConstants";
 
 /**
  * Timeframe selector component
  */
-export default ({ onChange, activeTf, className = '' }) => (
+export default ({ onChange, activeTf, className = "" }) => (
   <Tabs isAlign="centered" isSize="small" className="is-fullwidth">
     <TabList>
       {map(
@@ -20,4 +20,4 @@ export default ({ onChange, activeTf, className = '' }) => (
       )}
     </TabList>
   </Tabs>
-)
+);

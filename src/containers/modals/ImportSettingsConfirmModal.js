@@ -1,7 +1,7 @@
-import React from 'react'
-import { Box, Button } from 'bloomer'
-import ModalWrapper from './ModalWrapper'
-import { compose, withProps } from 'recompose'
+import React from "react";
+import { Box, Button } from "bloomer";
+import ModalWrapper from "./ModalWrapper";
+import { compose, withProps } from "recompose";
 
 const renderResetAppModalBody = ({ onSubmit, toggleModal }) => (
   <Box hasTextAlign="centered">
@@ -17,7 +17,7 @@ const renderResetAppModalBody = ({ onSubmit, toggleModal }) => (
       cancel
     </Button>
   </Box>
-)
+);
 
 export default compose(
   ModalWrapper,
@@ -26,4 +26,4 @@ export default compose(
     toggleModal,
     onSubmit
   }))
-)(renderResetAppModalBody)
+)(renderResetAppModalBody);

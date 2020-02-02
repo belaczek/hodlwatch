@@ -1,18 +1,18 @@
 // @ts-ignore
-import { isEmpty, get } from 'lodash/fp'
-import { initExchangesList } from './modules/exchanges'
+import { isEmpty, get } from "lodash/fp";
+import { initExchangesList } from "./modules/exchanges";
 import {
   fetchAllPortfolioData,
   fetchPortfolioData,
   deletePortfolioData
-} from './modules/portfolio'
-import { fetchHistoData, fetchCurrentPriceData } from './modules/priceData'
+} from "./modules/portfolio";
+import { fetchHistoData, fetchCurrentPriceData } from "./modules/priceData";
 import {
   setExchangeCredentials,
   deleteExchangeCredentials
-} from './modules/apiKeys'
-import { importToastService } from 'utils/asyncImportService'
-import { setQuoteCurrency } from './modules/core'
+} from "./modules/apiKeys";
+import { importToastService } from "utils/asyncImportService";
+import { setQuoteCurrency } from "./modules/core";
 
 /**
  * This module exports a set of global action creators which are operating over many modules
@@ -22,16 +22,16 @@ import { setQuoteCurrency } from './modules/core'
  * Initialize all app data
  */
 export const fetchInitData = () => async dispatch => {
-  await dispatch(initExchangesList())
-  await dispatch(fetchAllPortfolioData())
-  await dispatch(fetchCurrentPriceData())
-  await dispatch(fetchHistoData())
-}
+  await dispatch(initExchangesList());
+  await dispatch(fetchAllPortfolioData());
+  await dispatch(fetchCurrentPriceData());
+  await dispatch(fetchHistoData());
+};
 
 const notifyExchangeSuccess = async () => {
-  const { toast } = await importToastService()
-  toast.success(`Api credentials saved`)
-}
+  const { toast } = await importToastService();
+  toast.success(`Api credentials saved`);
+};
 
 /**
  * Save credentials into store and fetch portfolio data
@@ -39,14 +39,14 @@ const notifyExchangeSuccess = async () => {
  */
 export const saveApiCredentials = creds => async dispatch => {
   if (isEmpty(creds)) {
-    return
+    return;
   }
-  dispatch(setExchangeCredentials(creds))
-  notifyExchangeSuccess()
-  await dispatch(fetchPortfolioData(get('exchangeId', creds)))
-  await dispatch(fetchCurrentPriceData())
-  await dispatch(fetchHistoData())
-}
+  dispatch(setExchangeCredentials(creds));
+  notifyExchangeSuccess();
+  await dispatch(fetchPortfolioData(get("exchangeId", creds)));
+  await dispatch(fetchCurrentPriceData());
+  await dispatch(fetchHistoData());
+};
 
 /**
  * Change quote currency and refetch price data
@@ -54,17 +54,17 @@ export const saveApiCredentials = creds => async dispatch => {
  */
 export const changeQuoteCurrency = currency => async dispatch => {
   if (!currency) {
-    return
+    return;
   }
-  dispatch(setQuoteCurrency(currency))
-  await dispatch(fetchCurrentPriceData())
-  await dispatch(fetchHistoData())
-}
+  dispatch(setQuoteCurrency(currency));
+  await dispatch(fetchCurrentPriceData());
+  await dispatch(fetchHistoData());
+};
 
 const notifyExchangeDeleteSuccess = async () => {
-  const { toast } = await importToastService()
-  toast.warning(`Exchange successfully remover`)
-}
+  const { toast } = await importToastService();
+  toast.warning(`Exchange successfully remover`);
+};
 
 /**
  * Delete Exchange api keys and all its portfolio data from store
@@ -72,11 +72,11 @@ const notifyExchangeDeleteSuccess = async () => {
  */
 export const deleteApiKeys = exchangeId => async dispatch => {
   if (!exchangeId) {
-    return
+    return;
   }
-  dispatch(deleteExchangeCredentials(exchangeId))
-  dispatch(deletePortfolioData(exchangeId))
-  await dispatch(fetchCurrentPriceData())
-  dispatch(fetchHistoData())
-  notifyExchangeDeleteSuccess()
-}
+  dispatch(deleteExchangeCredentials(exchangeId));
+  dispatch(deletePortfolioData(exchangeId));
+  await dispatch(fetchCurrentPriceData());
+  dispatch(fetchHistoData());
+  notifyExchangeDeleteSuccess();
+};

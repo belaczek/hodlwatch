@@ -11,27 +11,27 @@ import {
   pick,
   memoize,
   isFunction
-} from 'lodash/fp'
+} from "lodash/fp";
 
-import { createSelector } from 'reselect'
+import { createSelector } from "reselect";
 import {
   exchangesListSelector,
   exchangeByIdSelector
-} from './modules/exchanges'
-import { apiKeysSelector } from './modules/apiKeys'
-import { activeExchangeFilterIdSelector } from './modules/core'
+} from "./modules/exchanges";
+import { apiKeysSelector } from "./modules/apiKeys";
+import { activeExchangeFilterIdSelector } from "./modules/core";
 import {
   histoDataStateSelector,
   currentPriceDataStateSelector
-} from './modules/priceData'
-import { portfolioSymbolsSelector } from './modules/portfolio'
+} from "./modules/priceData";
+import { portfolioSymbolsSelector } from "./modules/portfolio";
 import {
   multiply,
   sum,
   roundValue,
   percentageChange,
   absoluteChange
-} from 'utils/calcFloat'
+} from "utils/calcFloat";
 
 /** ========================
  * This module exports a set of global selectors which are operating with values from multiple modules
@@ -48,14 +48,14 @@ import {
  */
 const calculateTotalValue = (prices, symbols) => {
   if (isEmpty(prices) || isEmpty(symbols)) {
-    return 0
+    return 0;
   }
   return pipe(
     keys,
     map(key => multiply(getOr(0, key, symbols), getOr(0, key, prices))),
     reduce(sum, 0)
-  )(symbols)
-}
+  )(symbols);
+};
 
 /**
  * Merge histoData into one object at target index
@@ -66,17 +66,17 @@ const calculateTotalValue = (prices, symbols) => {
  */
 const mergeHistoData = (histoData = {}, index = 0, priceTransform) => {
   // If no priceTransform function is provided, use price identity
-  priceTransform = isFunction(priceTransform) ? priceTransform : x => x
+  priceTransform = isFunction(priceTransform) ? priceTransform : x => x;
   return pipe(
     keys,
     reduce((acc, key) => {
-      const timeRecord = get([key, index], histoData)
-      acc[key] = priceTransform(get('close', timeRecord), key)
-      acc.time = acc.time || get('time', timeRecord)
-      return acc
+      const timeRecord = get([key, index], histoData);
+      acc[key] = priceTransform(get("close", timeRecord), key);
+      acc.time = acc.time || get("time", timeRecord);
+      return acc;
     }, {})
-  )(histoData)
-}
+  )(histoData);
+};
 
 /**
  * Merge all histoData into an array of objects by timestamp
@@ -85,15 +85,15 @@ const mergeHistoData = (histoData = {}, index = 0, priceTransform) => {
  * @returns {Array<Object>} returns an object of the same shape as currentPrice record
  */
 const mergeAllHistoData = (histoData, priceTransform) => {
-  const dataKeys = keys(histoData)
+  const dataKeys = keys(histoData);
 
   // Expecting that all keys have the same history depth
-  const historyLength = histoData[dataKeys[0]] || []
+  const historyLength = histoData[dataKeys[0]] || [];
 
   return historyLength.map((_, i) =>
     mergeHistoData(histoData, i, priceTransform)
-  )
-}
+  );
+};
 
 /* SELECTORS */
 
@@ -105,30 +105,31 @@ const mergeAllHistoData = (histoData, priceTransform) => {
  * Get list of connected exchanges
  */
 export const savedExchangesListSelector = state => {
-  const exchanges = exchangesListSelector(state)
+  const exchanges = exchangesListSelector(state);
   return pipe(
     apiKeysSelector,
     map(({ exchangeId }) => ({ ...exchanges.find(ex => ex.id === exchangeId) }))
-  )(state)
-}
+  )(state);
+};
 
 /**
  * Get list of all unused exchanges
  */
 export const unusedExchangesListSelector = state => {
-  const apiKeys = apiKeysSelector(state)
-  return pipe(exchangesListSelector, filter(({ id }) => isEmpty(apiKeys[id])))(
-    state
-  )
-}
+  const apiKeys = apiKeysSelector(state);
+  return pipe(
+    exchangesListSelector,
+    filter(({ id }) => isEmpty(apiKeys[id]))
+  )(state);
+};
 
 /**
  * Get detail of an exchange used for filtering
  */
 export const activeExchangeFilterSelector = state => {
-  const exchangeId = activeExchangeFilterIdSelector(state)
-  return exchangeByIdSelector(exchangeId)(state)
-}
+  const exchangeId = activeExchangeFilterIdSelector(state);
+  return exchangeByIdSelector(exchangeId)(state);
+};
 
 /**
  * Select histo price data
@@ -139,10 +140,10 @@ export const histoDataSelector = ({ exchangeId = null, symbol = null } = {}) =>
     portfolioSymbolsSelector({ exchangeId, symbol }),
     histoDataStateSelector,
     (symbols, priceData) => {
-      const symKeys = keys(symbols)
-      return pick(symKeys, priceData)
+      const symKeys = keys(symbols);
+      return pick(symKeys, priceData);
     }
-  )
+  );
 
 /**
  * Select current price data
@@ -156,10 +157,10 @@ export const currentPriceDataSelector = ({
     portfolioSymbolsSelector({ exchangeId, symbol }),
     currentPriceDataStateSelector,
     (symbols, priceData) => {
-      const symKeys = keys(symbols)
-      return pick(symKeys, priceData)
+      const symKeys = keys(symbols);
+      return pick(symKeys, priceData);
     }
-  )
+  );
 
 /**
  * Parse histoData into chart data
@@ -170,15 +171,15 @@ export const currentPriceDataSelector = ({
 const parseHistoDataToChartData = memoize(
   (histoPrices, currentPrices, symbols) => {
     if (isEmpty(histoPrices) || isEmpty(symbols)) {
-      return
+      return;
     }
 
-    let chartData = []
+    let chartData = [];
 
     chartData = mergeAllHistoData(histoPrices, (price, key) => {
-      const marketValue = multiply(price, get([key], symbols))
-      return roundValue(marketValue)
-    })
+      const marketValue = multiply(price, get([key], symbols));
+      return roundValue(marketValue);
+    });
 
     // TODO parse current price as well
     // if (currentPrices) {
@@ -188,9 +189,9 @@ const parseHistoDataToChartData = memoize(
     //   })
     // }
 
-    return chartData
+    return chartData;
   }
-)
+);
 
 /**
  * Select histoData by provided filter, calculate market values and parse it into chart data structure
@@ -205,7 +206,7 @@ export const chartDataMarketValueSelector = ({
     currentPriceDataSelector({ exchangeId, symbol }),
     portfolioSymbolsSelector({ exchangeId, symbol }),
     parseHistoDataToChartData
-  )
+  );
 
 /**
  * Select total market value
@@ -221,7 +222,7 @@ export const marketValueSelector = ({
     currentPriceDataSelector({ exchangeId, symbol }),
     portfolioSymbolsSelector({ exchangeId, symbol }),
     calculateTotalValue
-  )
+  );
 
 /**
  * Get performance for target filtered symbols
@@ -237,20 +238,20 @@ export const portfolioPerformanceSelector = ({
     histoDataSelector({ exchangeId, symbol }),
     portfolioSymbolsSelector({ exchangeId, symbol }),
     (currentPriceData, histoData, symbolAmounts) => {
-      const histoPrices = mergeHistoData(histoData, 0)
+      const histoPrices = mergeHistoData(histoData, 0);
 
-      const histoTotalValue = calculateTotalValue(histoPrices, symbolAmounts)
+      const histoTotalValue = calculateTotalValue(histoPrices, symbolAmounts);
       const currentTotalValue = calculateTotalValue(
         currentPriceData,
         symbolAmounts
-      )
+      );
 
       return {
         absolute: absoluteChange(histoTotalValue, currentTotalValue),
         relative: percentageChange(histoTotalValue, currentTotalValue)
-      }
+      };
     }
-  )
+  );
 
 export default {
   savedExchangesListSelector,
@@ -261,4 +262,4 @@ export default {
   marketValueSelector,
   chartDataMarketValueSelector,
   portfolioPerformanceSelector
-}
+};
