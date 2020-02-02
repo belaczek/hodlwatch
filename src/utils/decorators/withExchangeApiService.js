@@ -7,27 +7,27 @@ import {
   withState,
   flattenProp,
   mapProps
-} from 'recompose'
+} from "recompose";
 // @ts-ignore
-import { isEmpty, omit } from 'lodash/fp'
-import { importExchangeApiServiceInstance } from '../asyncImportService'
+import { isEmpty, omit } from "lodash/fp";
+import { importExchangeApiServiceInstance } from "../asyncImportService";
 
 /**
  * Higher-order component providing all exported functions from exchangeApiService to its children as props
  */
 export default compose(
-  withState('exchangeApiMethods', 'setExchangeApiMethods', {}),
+  withState("exchangeApiMethods", "setExchangeApiMethods", {}),
   lifecycle({
-    async componentDidMount () {
-      const exchangeApiMethods = await importExchangeApiServiceInstance()
-      this.props.setExchangeApiMethods(exchangeApiMethods)
+    async componentDidMount() {
+      const exchangeApiMethods = await importExchangeApiServiceInstance();
+      this.props.setExchangeApiMethods(exchangeApiMethods);
     }
   }),
-  flattenProp('exchangeApiMethods'),
+  flattenProp("exchangeApiMethods"),
   // Do not render children until the module with functions is loaded
   branch(({ exchangeApiMethods }) => {
-    return isEmpty(exchangeApiMethods)
+    return isEmpty(exchangeApiMethods);
   }, renderNothing),
-  mapProps(omit(['setExchangeApiMethods', 'exchangeApiMethods'])),
+  mapProps(omit(["setExchangeApiMethods", "exchangeApiMethods"])),
   pure
-)
+);

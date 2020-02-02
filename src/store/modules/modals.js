@@ -1,30 +1,30 @@
 // @ts-ignore
-import { get } from 'lodash/fp'
+import { get } from "lodash/fp";
 
 // Constants
-const SHOW_MODAL = 'SHOW_MODAL'
-const HIDE_MODAL = 'HIDE_MODAL'
+const SHOW_MODAL = "SHOW_MODAL";
+const HIDE_MODAL = "HIDE_MODAL";
 
 /** Initial State */
 const initialState = {
   modalType: null
-}
+};
 
 /** Modal reducer */
-export default function reducer (state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_MODAL:
       return {
         ...state,
-        modalType: get(['payload', 'modalType'], action),
-        props: get(['payload', 'props'], action)
-      }
+        modalType: get(["payload", "modalType"], action),
+        props: get(["payload", "props"], action)
+      };
 
     case HIDE_MODAL:
-      return initialState
+      return initialState;
 
     default:
-      return state
+      return state;
   }
 }
 
@@ -37,17 +37,17 @@ export const openModal = (modalType, props) => {
       modalType,
       props
     }
-  }
-}
+  };
+};
 
 export const closeModal = () => {
   return {
     type: HIDE_MODAL
-  }
-}
+  };
+};
 
 // Selectors
 
-export const modalTypeSelector = get('modals.modalType')
+export const modalTypeSelector = get("modals.modalType");
 
-export const modalPropsSelector = get('modals.props')
+export const modalPropsSelector = get("modals.props");

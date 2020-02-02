@@ -1,6 +1,6 @@
-import React from 'react'
-import { Modal, ModalBackground, ModalContent, ModalClose } from 'bloomer'
-import { compose, pure } from 'recompose'
+import React from "react";
+import { Modal, ModalBackground, ModalContent, ModalClose } from "bloomer";
+import { compose, pure } from "recompose";
 
 /**
  * Higher-order component providing default wrapper for modal components
@@ -13,9 +13,6 @@ const ModalWrapper = Component => ({ isActive, closeModal, ...props }) => (
     </ModalContent>
     <ModalClose onClick={() => closeModal(false)} />
   </Modal>
-)
+);
 
-export default compose(
-  pure,
-  ModalWrapper
-)
+export default compose(pure, ModalWrapper);

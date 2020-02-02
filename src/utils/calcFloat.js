@@ -1,4 +1,4 @@
-import Big from 'big.js'
+import Big from "big.js";
 
 /**
  * Methods for precise calculations of float numbers
@@ -12,7 +12,7 @@ import Big from 'big.js'
  */
 export const sum = (first = 0, second = 0) =>
   // @ts-ignore
-  parseFloat(Big(first).plus(second))
+  parseFloat(Big(first).plus(second));
 
 /**
  * Multiply two values
@@ -22,7 +22,7 @@ export const sum = (first = 0, second = 0) =>
  */
 export const multiply = (first = 0, second = 1) =>
   // @ts-ignore
-  parseFloat(Big(first).times(second))
+  parseFloat(Big(first).times(second));
 
 /**
  * Round value to two decimal places
@@ -33,7 +33,7 @@ export const roundValue = (value = 0) =>
   parseFloat(
     // @ts-ignore
     Big(value).round(2)
-  )
+  );
 
 /**
  * Calculate relative change in percentage between the first and the second argument
@@ -42,7 +42,7 @@ export const roundValue = (value = 0) =>
  */
 export const percentageChange = (first, second) => {
   if (first === 0) {
-    return 0
+    return 0;
   }
   return parseFloat(
     // @ts-ignore
@@ -51,8 +51,8 @@ export const percentageChange = (first, second) => {
       .times(100)
       .minus(100)
       .round(2)
-  )
-}
+  );
+};
 
 /**
  * Calculate absolute change between the first and the second argument
@@ -65,4 +65,4 @@ export const absoluteChange = (first, second) =>
     Big(second)
       .minus(first)
       .round(2)
-  )
+  );

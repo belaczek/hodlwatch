@@ -1,18 +1,18 @@
-import React from 'react'
+import React from "react";
 // @ts-ignore
-import { get } from 'lodash/fp'
-import classnames from 'classnames'
-import { compose, pure, withPropsOnChange, withProps } from 'recompose'
-import { Level, LevelItem, Heading, Title } from 'bloomer'
-import { roundValue } from 'utils/calcFloat'
-import { TIME_FRAMES } from 'appConstants'
+import { get } from "lodash/fp";
+import classnames from "classnames";
+import { compose, pure, withPropsOnChange, withProps } from "recompose";
+import { Level, LevelItem, Heading, Title } from "bloomer";
+import { roundValue } from "utils/calcFloat";
+import { TIME_FRAMES } from "appConstants";
 
-const Performace = ({ value, symbol = '%' }) => (
+const Performace = ({ value, symbol = "%" }) => (
   <span>
-    {value >= 0 && '+'}
+    {value >= 0 && "+"}
     {value} {symbol}
   </span>
-)
+);
 
 const renderStats = ({
   marketValue,
@@ -60,27 +60,27 @@ const renderStats = ({
         <Title
           isSize={5}
           hasTextColor={classnames(
-            protfolioPerformanceAbs >= 0 ? 'success' : 'danger'
+            protfolioPerformanceAbs >= 0 ? "success" : "danger"
           )}
         >
           {!!protfolioPerformancePerc && (
             <Performace value={protfolioPerformancePerc} />
-          )}{' '}
+          )}{" "}
           (<Performace value={protfolioPerformanceAbs} symbol={quoteSymbol} />)
         </Title>
       </div>
     </LevelItem>
   </Level>
-)
+);
 
 export default compose(
   pure,
   withProps(({ activeTimeFrame, portfolioPerformance = {} }) => ({
-    tfLongName: get([activeTimeFrame, 'longName'], TIME_FRAMES),
+    tfLongName: get([activeTimeFrame, "longName"], TIME_FRAMES),
     protfolioPerformanceAbs: portfolioPerformance.absolute,
     protfolioPerformancePerc: portfolioPerformance.relative
   })),
-  withPropsOnChange(['marketValue'], ({ marketValue }) => ({
+  withPropsOnChange(["marketValue"], ({ marketValue }) => ({
     marketValue: roundValue(marketValue)
   }))
-)(renderStats)
+)(renderStats);

@@ -1,24 +1,24 @@
 // @ts-ignore
-import { pick, keys, reduce, get } from 'lodash/fp'
-import { decrypt, encrypt } from './crypto'
-import { getInitializedCoreState } from 'store/modules/core'
+import { pick, keys, reduce, get } from "lodash/fp";
+import { decrypt, encrypt } from "./crypto";
+import { getInitializedCoreState } from "store/modules/core";
 
-const STATE = 'state'
+const STATE = "state";
 
 /**
  * Load state from storage
  */
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem(STATE)
+    const serializedState = localStorage.getItem(STATE);
     if (serializedState === null) {
-      return undefined
+      return undefined;
     }
-    return JSON.parse(serializedState)
+    return JSON.parse(serializedState);
   } catch (e) {
-    return undefined
+    return undefined;
   }
-}
+};
 
 /**
  * Persist state in localStorage
@@ -26,28 +26,28 @@ export const loadState = () => {
  */
 export const saveState = state => {
   try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem(STATE, serializedState)
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem(STATE, serializedState);
   } catch (e) {}
-}
+};
 
 export const clearStorage = () => {
   try {
-    localStorage.removeItem(STATE)
+    localStorage.removeItem(STATE);
   } catch (e) {}
-}
+};
 
 // Decrypt wrapper (it uses JSON.parse)
 const getDecryptedJSON = (value, passphrase) => {
   try {
-    return decrypt(value, passphrase)
+    return decrypt(value, passphrase);
   } catch (e) {
-    return false
+    return false;
   }
-}
+};
 
 // Array of required keys in imported settings
-const requiredStateKeys = ['apiKeys']
+const requiredStateKeys = ["apiKeys"];
 
 /**
  * Check if a string is valid to import as a state
@@ -57,23 +57,24 @@ const requiredStateKeys = ['apiKeys']
  */
 export const isStringValidExport = (value, passphrase) => {
   try {
-    const decrypted = keys(decrypt(value, passphrase))
-    return reduce((acc, val) => acc && decrypted.includes(val), true)(
-      requiredStateKeys
-    )
+    const decrypted = keys(decrypt(value, passphrase));
+    return reduce(
+      (acc, val) => acc && decrypted.includes(val),
+      true
+    )(requiredStateKeys);
   } catch (e) {
-    return false
+    return false;
   }
-}
+};
 
 // parse state object to only contain properties relevant for export
-const parseExportState = pick(['apiKeys'])
+const parseExportState = pick(["apiKeys"]);
 
 // parse imported state into correct shape
 const parseImportState = importState => ({
   core: getInitializedCoreState(),
-  apiKeys: get('apiKeys', importState) || {}
-})
+  apiKeys: get("apiKeys", importState) || {}
+});
 
 /**
  * Import state into the localstorage
@@ -81,24 +82,24 @@ const parseImportState = importState => ({
  * @param {string} [passphrase='']
  */
 export const importStoreData = (state, passphrase) => {
-  const storeData = getDecryptedJSON(state, passphrase)
+  const storeData = getDecryptedJSON(state, passphrase);
 
-  if (!storeData) return false
+  if (!storeData) return false;
 
-  const persistState = parseImportState(storeData)
-  saveState(persistState)
-  return true
-}
+  const persistState = parseImportState(storeData);
+  saveState(persistState);
+  return true;
+};
 
 /**
  * Export current app state into string which can be imported into another app instance
  * @param {string} [passphrase='']
  */
 export const exportStoreData = passphrase => {
-  const state = parseExportState(loadState())
+  const state = parseExportState(loadState());
 
-  return encrypt(state, passphrase)
-}
+  return encrypt(state, passphrase);
+};
 
 export default {
   saveState,
@@ -107,4 +108,4 @@ export default {
   importStoreData,
   isStringValidExport,
   exportStoreData
-}
+};

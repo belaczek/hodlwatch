@@ -1,9 +1,9 @@
-import React from 'react'
-import { Box, Button } from 'bloomer'
-import { connect } from 'react-redux'
-import ModalWrapper from './ModalWrapper'
-import { resetApp } from 'store/modules/core'
-import { compose } from 'recompose'
+import React from "react";
+import { Box, Button } from "bloomer";
+import { connect } from "react-redux";
+import ModalWrapper from "./ModalWrapper";
+import { resetApp } from "store/modules/core";
+import { compose } from "recompose";
 
 const renderResetAppModalBody = ({ handleResetApp, toggleModal }) => (
   <Box hasTextAlign="centered">
@@ -18,14 +18,11 @@ const renderResetAppModalBody = ({ handleResetApp, toggleModal }) => (
       cancel
     </Button>
   </Box>
-)
+);
 
 export default compose(
   ModalWrapper,
-  connect(
-    null,
-    dispatch => ({
-      handleResetApp: () => dispatch(resetApp())
-    })
-  )
-)(renderResetAppModalBody)
+  connect(null, dispatch => ({
+    handleResetApp: () => dispatch(resetApp())
+  }))
+)(renderResetAppModalBody);

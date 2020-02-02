@@ -1,14 +1,14 @@
-import React from 'react'
-import { Box, Button, Title, Field, Label, Control, Select } from 'bloomer'
-import ModalWrapper from './ModalWrapper'
-import { connect } from 'react-redux'
-import { compose, withProps, withHandlers } from 'recompose'
-import { RESET_APP_MODAL } from 'containers/ModalContainer/modalTypes'
-import ImportExportFormContainer from 'containers/ImportExportFormContainer'
-import { openModal } from 'store/modules/modals'
-import { changeQuoteCurrency } from 'store/actions'
-import { quoteSymbolSelector } from 'store/modules/core'
-import { QUOTE_SYMBOL_LIST } from 'appConstants'
+import React from "react";
+import { Box, Button, Title, Field, Label, Control, Select } from "bloomer";
+import ModalWrapper from "./ModalWrapper";
+import { connect } from "react-redux";
+import { compose, withProps, withHandlers } from "recompose";
+import { RESET_APP_MODAL } from "containers/ModalContainer/modalTypes";
+import ImportExportFormContainer from "containers/ImportExportFormContainer";
+import { openModal } from "store/modules/modals";
+import { changeQuoteCurrency } from "store/actions";
+import { quoteSymbolSelector } from "store/modules/core";
+import { QUOTE_SYMBOL_LIST } from "appConstants";
 
 const renderResetAppModalBody = ({
   openResetModal,
@@ -47,7 +47,7 @@ const renderResetAppModalBody = ({
       </Control>
     </Field>
   </Box>
-)
+);
 
 export default compose(
   ModalWrapper,
@@ -67,4 +67,4 @@ export default compose(
     handleChangeQuoteCurrency: ({ changeQuoteCurrency }) => e =>
       changeQuoteCurrency(e.target.value)
   })
-)(renderResetAppModalBody)
+)(renderResetAppModalBody);

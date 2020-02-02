@@ -20,11 +20,11 @@
  * @returns {Promise<Object>} ExchangeApiService instance
  */
 export const importExchangeApiServiceInstance = async () => {
-  const {
-    default: getExchangeApiService
-  } = await import('utils/exchangeApiService')
-  return getExchangeApiService()
-}
+  const { default: getExchangeApiService } = await import(
+    "utils/exchangeApiService"
+  );
+  return getExchangeApiService();
+};
 
 // /**
 //  * Asynchronously load histoData module to reduce initial page load
@@ -42,9 +42,9 @@ export const importExchangeApiServiceInstance = async () => {
  * @returns {Promise<Object>} react-toastify instance
  */
 export const importToastService = async () => {
-  const Toastify = await import('react-toastify')
-  return Toastify
-}
+  const Toastify = await import("react-toastify");
+  return Toastify;
+};
 
 // /**
 //  * Asynchronously load ccxt module to reduce initial page load

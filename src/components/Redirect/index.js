@@ -1,21 +1,21 @@
-import react from 'react'
-import Router from 'next/router'
+import react from "react";
+import Router from "next/router";
 
 class Redirect extends react.PureComponent {
-  componentDidMount () {
-    const { to, as, options, replace } = this.props
+  componentDidMount() {
+    const { to, as, options, replace } = this.props;
     if (to) {
       if (replace) {
-        Router.replace(to, as, options)
+        Router.replace(to, as, options);
       } else {
-        Router.push(to, as, options)
+        Router.push(to, as, options);
       }
     }
   }
 
-  render () {
-    return null
+  render() {
+    return null;
   }
 }
 
-export default Redirect
+export default Redirect;

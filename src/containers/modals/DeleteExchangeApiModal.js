@@ -1,7 +1,7 @@
-import React from 'react'
-import { Box, Button } from 'bloomer'
-import ModalWrapper from './ModalWrapper'
-import { compose, withHandlers } from 'recompose'
+import React from "react";
+import { Box, Button } from "bloomer";
+import ModalWrapper from "./ModalWrapper";
+import { compose, withHandlers } from "recompose";
 
 const renderDeleteExchangeApiBody = ({
   handleSubmit,
@@ -20,14 +20,14 @@ const renderDeleteExchangeApiBody = ({
       cancel
     </Button>
   </Box>
-)
+);
 
 export default compose(
   ModalWrapper,
   withHandlers({
     handleSubmit: ({ toggleModal, onSubmit }) => () => {
-      onSubmit()
-      toggleModal()
+      onSubmit();
+      toggleModal();
     }
   })
-)(renderDeleteExchangeApiBody)
+)(renderDeleteExchangeApiBody);
