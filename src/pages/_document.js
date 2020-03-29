@@ -5,11 +5,6 @@ import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
-  }
-
   render() {
     return (
       <html>
@@ -45,7 +40,10 @@ export default class MyDocument extends Document {
             color="#000000"
           />
           <meta name="theme-color" content="#f6f6f6" />
-
+          <meta
+            name="description"
+            content="Simple, yet powerful web app for automatic crypto portfolio tracking"
+          />
           <link rel="manifest" href="static/manifest.json" />
         </Head>
         <body>
