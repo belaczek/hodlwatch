@@ -7,7 +7,7 @@ const defaultApiCredentials = {
   apiKey: true,
   secret: true,
   uid: false,
-  password: false
+  password: false,
 };
 
 /**
@@ -74,7 +74,7 @@ export default function ExchangeApiService() {
    * @param {Object} exchangeInstance
    * @returns {Boolean}
    */
-  const exchangeIsCompatible = exchangeInstance =>
+  const exchangeIsCompatible = (exchangeInstance) =>
     // exchangeInstance.has.CORS &&
     exchangeInstance.has.privateAPI && exchangeInstance.has.fetchBalance;
 
@@ -100,7 +100,7 @@ export default function ExchangeApiService() {
    * @param {string} exchangeId
    * @returns {Object} Required api keys
    */
-  const getExchangeRequiredCredentialsList = exchangeId => {
+  const getExchangeRequiredCredentialsList = (exchangeId) => {
     if (exchangeId) {
       const instance = getExchangeInstance(exchangeId);
       if (instance) {
@@ -114,6 +114,6 @@ export default function ExchangeApiService() {
     testExchangeConnection,
     getExchangesList,
     getExchangeInstance,
-    getExchangeRequiredCredentialsList
+    getExchangeRequiredCredentialsList,
   };
 }

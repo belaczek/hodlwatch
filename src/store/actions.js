@@ -4,12 +4,12 @@ import { initExchangesList } from "./modules/exchanges";
 import {
   fetchAllPortfolioData,
   fetchPortfolioData,
-  deletePortfolioData
+  deletePortfolioData,
 } from "./modules/portfolio";
 import { fetchHistoData, fetchCurrentPriceData } from "./modules/priceData";
 import {
   setExchangeCredentials,
-  deleteExchangeCredentials
+  deleteExchangeCredentials,
 } from "./modules/apiKeys";
 import { importToastService } from "utils/asyncImportService";
 import { setQuoteCurrency } from "./modules/core";
@@ -21,7 +21,7 @@ import { setQuoteCurrency } from "./modules/core";
 /**
  * Initialize all app data
  */
-export const fetchInitData = () => async dispatch => {
+export const fetchInitData = () => async (dispatch) => {
   await dispatch(initExchangesList());
   await dispatch(fetchAllPortfolioData());
   await dispatch(fetchCurrentPriceData());
@@ -37,7 +37,7 @@ const notifyExchangeSuccess = async () => {
  * Save credentials into store and fetch portfolio data
  * Only dispatch this action after testing validity of the credentials
  */
-export const saveApiCredentials = creds => async dispatch => {
+export const saveApiCredentials = (creds) => async (dispatch) => {
   if (isEmpty(creds)) {
     return;
   }
@@ -52,7 +52,7 @@ export const saveApiCredentials = creds => async dispatch => {
  * Change quote currency and refetch price data
  * @param {string} currency
  */
-export const changeQuoteCurrency = currency => async dispatch => {
+export const changeQuoteCurrency = (currency) => async (dispatch) => {
   if (!currency) {
     return;
   }
@@ -70,7 +70,7 @@ const notifyExchangeDeleteSuccess = async () => {
  * Delete Exchange api keys and all its portfolio data from store
  * @param {string} exchangeId
  */
-export const deleteApiKeys = exchangeId => async dispatch => {
+export const deleteApiKeys = (exchangeId) => async (dispatch) => {
   if (!exchangeId) {
     return;
   }

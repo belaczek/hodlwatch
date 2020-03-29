@@ -3,14 +3,14 @@ import {
   withHandlers,
   withState,
   withPropsOnChange,
-  lifecycle
+  lifecycle,
 } from "recompose";
 // @ts-ignore
 import { isFunction, get } from "lodash/fp";
 import { connect } from "react-redux";
 import {
   apiKeysByIdSelector,
-  activeProxySelector
+  activeProxySelector,
 } from "store/modules/apiKeys";
 import renderExchangeApiForm from "./renderApiForm";
 import { defaultErrorMessage } from "./constants";
@@ -32,7 +32,7 @@ const defaultFormDataState = {
   useProxy: false,
   proxy: DEFAULT_PROXY_URL,
   submitError: null,
-  submitting: false
+  submitting: false,
 };
 
 const ExchangeApiForm = compose(
@@ -42,19 +42,20 @@ const ExchangeApiForm = compose(
       exchanges: unusedExchangesListSelector(state),
       edittingExchange: exchangeByIdSelector(editExchangeId)(state),
       apiKeys: apiKeysByIdSelector(editExchangeId)(state),
-      activeGlobalProxy: activeProxySelector(state)
+      activeGlobalProxy: activeProxySelector(state),
     }),
-    dispatch => ({
-      saveApiCredentials: data => dispatch(saveApiCredentials(data)),
-      openDeleteModal: props => dispatch(openModal(DELETE_EXCHANGE_API, props)),
-      deleteApiKeys: id => dispatch(deleteApiKeys(id))
+    (dispatch) => ({
+      saveApiCredentials: (data) => dispatch(saveApiCredentials(data)),
+      openDeleteModal: (props) =>
+        dispatch(openModal(DELETE_EXCHANGE_API, props)),
+      deleteApiKeys: (id) => dispatch(deleteApiKeys(id)),
     })
   ),
 
   // Form state, that has exchangeId auto selected when editting existing record
   withState("formData", "setFormData", ({ editExchangeId }) => ({
     ...defaultFormDataState,
-    exchangeId: editExchangeId
+    exchangeId: editExchangeId,
   })),
 
   lifecycle({
@@ -62,12 +63,12 @@ const ExchangeApiForm = compose(
     componentDidMount() {
       const { apiKeys, setFormData } = this.props;
 
-      setFormData(data => ({
+      setFormData((data) => ({
         ...data,
         ...apiKeys,
-        useProxy: !!get("proxy", apiKeys)
+        useProxy: !!get("proxy", apiKeys),
       }));
-    }
+    },
   }),
 
   /**
@@ -84,28 +85,28 @@ const ExchangeApiForm = compose(
     ({
       formData: { exchangeId },
       getExchangeRequiredCredentialsList,
-      getExchangeInstance
+      getExchangeInstance,
     }) => {
       const exchangeInstance = getExchangeInstance(exchangeId);
       return {
         formFields: getExchangeRequiredCredentialsList(exchangeId),
         proxyRequired:
-          !!exchangeInstance && !get(["has", "CORS"], exchangeInstance)
+          !!exchangeInstance && !get(["has", "CORS"], exchangeInstance),
       };
     }
   ),
 
   withHandlers({
     setFormState: ({ setFormData }) => (isSubmitting, error) =>
-      setFormData(state => ({
+      setFormData((state) => ({
         ...state,
         submitError: isSubmitting ? null : error,
-        submitting: isSubmitting
+        submitting: isSubmitting,
       })),
     handleChange: ({ setFormData }) => ({ target }) => {
       const value = target.type === "checkbox" ? target.checked : target.value;
-      setFormData(state => ({ ...state, [target.name]: value }));
-    }
+      setFormData((state) => ({ ...state, [target.name]: value }));
+    },
   }),
 
   withHandlers({
@@ -116,8 +117,8 @@ const ExchangeApiForm = compose(
       setFormData,
       setFormState,
       onSuccess,
-      activeGlobalProxy
-    }) => async e => {
+      activeGlobalProxy,
+    }) => async (e) => {
       setFormState(true);
       e.preventDefault();
       const { exchangeId, useProxy, proxy, ...apiCredentials } = formData;
@@ -125,7 +126,7 @@ const ExchangeApiForm = compose(
         // parse proxy for api module
         const credentials = {
           ...apiCredentials,
-          proxy: useProxy ? proxy : activeGlobalProxy
+          proxy: useProxy ? proxy : activeGlobalProxy,
         };
 
         // Test api keys by trying to fetch account balance from target exchange
@@ -153,16 +154,16 @@ const ExchangeApiForm = compose(
       edittingExchange,
       editExchangeId,
       deleteApiKeys,
-      onCancel
+      onCancel,
     }) => () => {
       openDeleteModal({
         exchangeName: get("name", edittingExchange),
         onSubmit: () => {
           onCancel();
           deleteApiKeys(editExchangeId);
-        }
+        },
       });
-    }
+    },
   })
 )(renderExchangeApiForm);
 export default ExchangeApiForm;

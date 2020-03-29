@@ -6,7 +6,7 @@ import {
   histoDataSelector,
   currentPriceDataSelector,
   marketValueSelector,
-  portfolioPerformanceSelector
+  portfolioPerformanceSelector,
 } from "../selectors";
 
 describe("global selectors", () => {
@@ -16,13 +16,13 @@ describe("global selectors", () => {
       serviceWorkerUpdated: false,
       exchangeFilterId: null,
       symbolFilterId: null,
-      quoteSymbol: DEFAULT_QUOTE_SYMBOL
+      quoteSymbol: DEFAULT_QUOTE_SYMBOL,
     },
     modals: {
       modalType: "TEST_MODAL",
       props: {
-        a: "b"
-      }
+        a: "b",
+      },
     },
     priceData: {
       histoDataLoading: false,
@@ -37,7 +37,7 @@ describe("global selectors", () => {
             low: 90,
             open: 99,
             volumeFrom: 100,
-            volumeTo: 200
+            volumeTo: 200,
           },
           {
             time: 2,
@@ -46,8 +46,8 @@ describe("global selectors", () => {
             low: 90,
             open: 100,
             volumeFrom: 200,
-            volumeTo: 300
-          }
+            volumeTo: 300,
+          },
         ],
         LTC: [
           {
@@ -57,7 +57,7 @@ describe("global selectors", () => {
             close: 30,
             open: 99,
             volumeFrom: 100,
-            volumeTo: 200
+            volumeTo: 200,
           },
           {
             time: 2,
@@ -66,8 +66,8 @@ describe("global selectors", () => {
             low: 90,
             open: 100,
             volumeFrom: 200,
-            volumeTo: 300
-          }
+            volumeTo: 300,
+          },
         ],
         XMR: [
           {
@@ -77,7 +77,7 @@ describe("global selectors", () => {
             close: 100,
             open: 99,
             volumeFrom: 100,
-            volumeTo: 200
+            volumeTo: 200,
           },
           {
             time: 2,
@@ -86,9 +86,9 @@ describe("global selectors", () => {
             low: 90,
             open: 100,
             volumeFrom: 200,
-            volumeTo: 300
-          }
-        ]
+            volumeTo: 300,
+          },
+        ],
       },
       timeframe: TF_1M,
 
@@ -98,8 +98,8 @@ describe("global selectors", () => {
       currentPriceData: {
         BTC: 100,
         LTC: 50,
-        XMR: 51
-      }
+        XMR: 51,
+      },
     },
     portfolio: {
       coinmate: {
@@ -107,16 +107,16 @@ describe("global selectors", () => {
         loading: false,
         data: {
           BTC: 1,
-          LTC: 2
-        }
+          LTC: 2,
+        },
       },
       bitfinex: {
         error: null,
         loading: false,
         data: {
-          BTC: 0.05
-        }
-      }
+          BTC: 0.05,
+        },
+      },
     },
     exchanges: {
       loading: false,
@@ -124,8 +124,8 @@ describe("global selectors", () => {
       data: [
         { name: "CoinMate", id: "coinmate" },
         { name: "Bittrex", id: "bittrex" },
-        { name: "Bitfinex", id: "bitfinex" }
-      ]
+        { name: "Bitfinex", id: "bitfinex" },
+      ],
     },
     apiKeys: {
       useGlobalApiProxy: true,
@@ -134,23 +134,23 @@ describe("global selectors", () => {
         bittrex: {
           apiKey: 1234,
           exchangeId: "bittrex",
-          private: "private"
+          private: "private",
         },
         coinmate: {
           apiKey: 12345,
           exchangeId: "coinmate",
           private: "private",
-          proxy: "proxy"
-        }
-      }
-    }
+          proxy: "proxy",
+        },
+      },
+    },
   };
 
   test("should get list of connected exchanges", () => {
     const res = savedExchangesListSelector(testState);
     expect(res).toEqual([
       { name: "Bittrex", id: "bittrex" },
-      { name: "CoinMate", id: "coinmate" }
+      { name: "CoinMate", id: "coinmate" },
     ]);
   });
 
@@ -167,7 +167,7 @@ describe("global selectors", () => {
   test("should get list of unused exchanges", () => {
     const state = {
       ...testState,
-      core: { ...testState.core, exchangeFilterId: "coinmate" }
+      core: { ...testState.core, exchangeFilterId: "coinmate" },
     };
     const res = activeExchangeFilterSelector(state);
     expect(res).toEqual({ name: "CoinMate", id: "coinmate" });

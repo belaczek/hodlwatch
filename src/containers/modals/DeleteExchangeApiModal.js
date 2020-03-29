@@ -6,7 +6,7 @@ import { compose, withHandlers } from "recompose";
 const renderDeleteExchangeApiBody = ({
   handleSubmit,
   exchangeName,
-  toggleModal
+  toggleModal,
 }) => (
   <Box hasTextAlign="centered">
     <p className="mb-10 u-textBold">
@@ -28,6 +28,6 @@ export default compose(
     handleSubmit: ({ toggleModal, onSubmit }) => () => {
       onSubmit();
       toggleModal();
-    }
+    },
   })
 )(renderDeleteExchangeApiBody);

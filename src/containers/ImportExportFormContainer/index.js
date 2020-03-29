@@ -5,7 +5,7 @@ import { Field, Label, Control, TextArea, Button, Input, Help } from "bloomer";
 import {
   exportStoreData,
   importStoreData,
-  isStringValidExport
+  isStringValidExport,
 } from "utils/localStorage";
 import { openModal } from "store/modules/modals";
 import { IMPORT_SETTINGS_MODAL } from "../ModalContainer/modalTypes";
@@ -15,7 +15,7 @@ const renderImportExportForm = ({
   handleGetExportString,
   handleImportStoreData,
   handleFocus,
-  handleChange
+  handleChange,
 }) => (
   <div>
     <Field>
@@ -59,46 +59,46 @@ const renderImportExportForm = ({
 const initialFormData = {
   importString: "",
   exportString: "",
-  importError: null
+  importError: null,
 };
 
 export default compose(
-  connect(null, dispatch => ({
-    openImportSettingsModal: props =>
-      dispatch(openModal(IMPORT_SETTINGS_MODAL, props))
+  connect(null, (dispatch) => ({
+    openImportSettingsModal: (props) =>
+      dispatch(openModal(IMPORT_SETTINGS_MODAL, props)),
   })),
   withState("formData", "setFormData", initialFormData),
   withHandlers({
     handleChange: ({ setFormData }) => ({ target }) => {
-      setFormData(state => ({ ...state, [target.name]: target.value }));
+      setFormData((state) => ({ ...state, [target.name]: target.value }));
     },
 
     // Generate export string
     handleGetExportString: ({ setFormData, focusExportText }) => () => {
-      setFormData(state => ({ ...state, exportString: exportStoreData() }));
+      setFormData((state) => ({ ...state, exportString: exportStoreData() }));
     },
 
-    handleFocus: () => e => e.target.select(),
+    handleFocus: () => (e) => e.target.select(),
 
     // Check if import data are valid and open confirmation modal
     handleImportStoreData: ({
       setFormData,
       formData: { importString },
-      openImportSettingsModal
+      openImportSettingsModal,
     }) => () => {
       if (importString.length && isStringValidExport(importString)) {
         openImportSettingsModal({
           onSubmit: () => {
             importStoreData(importString);
             window.location.reload();
-          }
+          },
         });
       } else {
-        setFormData(state => ({
+        setFormData((state) => ({
           ...state,
-          importError: "Invalid import string"
+          importError: "Invalid import string",
         }));
       }
-    }
+    },
   })
 )(renderImportExportForm);

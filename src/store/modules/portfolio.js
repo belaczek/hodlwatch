@@ -8,18 +8,18 @@ import {
   omitBy,
   reduce,
   thru,
-  pick
+  pick,
 } from "lodash/fp";
 import { assignWith } from "lodash";
 import {
   importExchangeApiServiceInstance,
-  importToastService
+  importToastService,
 } from "utils/asyncImportService";
 import { createSelector } from "reselect";
 import {
   apiKeysByIdSelector,
   apiKeysSelector,
-  parseProxySettings
+  parseProxySettings,
 } from "store/modules/apiKeys";
 import { exchangesListSelector } from "store/modules/exchanges";
 import { sum } from "utils/calcFloat";
@@ -69,8 +69,8 @@ export default function reducer(state = initialState, action) {
               error: null,
               loading: false,
               lastUpdated: new Date().getTime(),
-              data: { ...data }
-            }
+              data: { ...data },
+            },
           }
         : state;
     }
@@ -82,8 +82,8 @@ export default function reducer(state = initialState, action) {
             [exchangeId]: {
               ...state[exchangeId],
               error: null,
-              loading: true
-            }
+              loading: true,
+            },
           }
         : state;
     }
@@ -97,8 +97,8 @@ export default function reducer(state = initialState, action) {
               error: error,
               // TODO remove this line later
               data: {},
-              loading: false
-            }
+              loading: false,
+            },
           }
         : state;
     }
@@ -123,9 +123,9 @@ const getTotalValues = get("total");
 
 // Action creators and actions
 
-export const deletePortfolioData = exchangeId => ({
+export const deletePortfolioData = (exchangeId) => ({
   type: DELETE_PORTFOLIO_DATA,
-  payload: { exchangeId }
+  payload: { exchangeId },
 });
 
 /**
@@ -146,12 +146,15 @@ const notifyFetchError = async (exchangeId, getState) => {
  * Fetch portfolio data from target exchange
  * @param {string} exchangeId
  */
-export const fetchPortfolioData = exchangeId => async (dispatch, getState) => {
+export const fetchPortfolioData = (exchangeId) => async (
+  dispatch,
+  getState
+) => {
   if (exchangeId) {
     dispatch({ type: PORTFOLIO_DATA_LOADING, payload: { exchangeId } });
     try {
       const {
-        fetchExchangeAccountBalance
+        fetchExchangeAccountBalance,
       } = await importExchangeApiServiceInstance();
       const state = getState();
       const apiKeys = pipe(
@@ -165,14 +168,14 @@ export const fetchPortfolioData = exchangeId => async (dispatch, getState) => {
 
       dispatch({
         type: PORTFOLIO_DATA_SUCCESS,
-        payload: { exchangeId, data: totalData }
+        payload: { exchangeId, data: totalData },
       });
     } catch (error) {
       console.error(error);
       notifyFetchError(exchangeId, getState);
       dispatch({
         type: PORTFOLIO_DATA_FAILURE,
-        payload: { exchangeId, error }
+        payload: { exchangeId, error },
       });
     }
   }
@@ -205,18 +208,20 @@ export const portfolioStateSelecor = get(PORTFOLIO_DATA_MODULE);
  */
 export const portfolioSymbolsSelector = ({
   exchangeId = null,
-  symbol = null
+  symbol = null,
 } = {}) =>
   createSelector(
     portfolioStateSelecor,
     pipe(
       // portfolioStateSelecor,
-      thru(exchanges => (exchangeId ? pick(exchangeId, exchanges) : exchanges)),
+      thru((exchanges) =>
+        exchangeId ? pick(exchangeId, exchanges) : exchanges
+      ),
       map(get("data")),
       // Iterate over all exchange data and merge it into one object
       // Duplicate values are summed together
       reduce((total, holdings) => assignWith({}, total, holdings, sum), {}),
-      omitBy(val => !val),
-      thru(values => (symbol ? pick(symbol, values) : values))
+      omitBy((val) => !val),
+      thru((values) => (symbol ? pick(symbol, values) : values))
     )
   );

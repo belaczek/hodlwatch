@@ -24,7 +24,7 @@ export const loadState = () => {
  * Persist state in localStorage
  * @param {object | string} state
  */
-export const saveState = state => {
+export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(STATE, serializedState);
@@ -71,9 +71,9 @@ export const isStringValidExport = (value, passphrase) => {
 const parseExportState = pick(["apiKeys"]);
 
 // parse imported state into correct shape
-const parseImportState = importState => ({
+const parseImportState = (importState) => ({
   core: getInitializedCoreState(),
-  apiKeys: get("apiKeys", importState) || {}
+  apiKeys: get("apiKeys", importState) || {},
 });
 
 /**
@@ -95,7 +95,7 @@ export const importStoreData = (state, passphrase) => {
  * Export current app state into string which can be imported into another app instance
  * @param {string} [passphrase='']
  */
-export const exportStoreData = passphrase => {
+export const exportStoreData = (passphrase) => {
   const state = parseExportState(loadState());
 
   return encrypt(state, passphrase);
@@ -107,5 +107,5 @@ export default {
   clearStorage,
   importStoreData,
   isStringValidExport,
-  exportStoreData
+  exportStoreData,
 };

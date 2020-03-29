@@ -6,7 +6,7 @@ import {
   compose,
   withPropsOnChange,
   withHandlers,
-  onlyUpdateForKeys
+  onlyUpdateForKeys,
 } from "recompose";
 import { portfolioSymbolsSelector } from "store/modules/portfolio";
 
@@ -25,7 +25,7 @@ const renderPortfolioSection = ({
   handleSetFilter,
   exchangeFilter,
   exchangeFilterName,
-  quoteSymbol
+  quoteSymbol,
 }) => (
   <div className="PortfolioList">
     <Title isSize={5}>
@@ -47,10 +47,12 @@ const renderPortfolioSection = ({
           symbols.map(({ name, price, amount, marketValue }) => (
             <tr className="bg-light " key={name}>
               <td className="PortfolioList--cell">
-                <Title isSize={6}>
-                  <a title="show detail" onClick={() => handleSetFilter(name)}>
-                    {name}
-                  </a>
+                <Title
+                  className="PortfolioList--symbolTitle"
+                  onClick={() => handleSetFilter(name)}
+                  isSize={6}
+                >
+                  {name}
                 </Title>
               </td>
               <td className="u-textRight PortfolioList--cell">
@@ -77,10 +79,11 @@ const PortfolioSection = compose(
       quoteSymbol: quoteSymbolSelector(state),
 
       // make market value selector callable from the component
-      getMarketValueBySymbolId: symbol => marketValueSelector({ symbol })(state)
+      getMarketValueBySymbolId: (symbol) =>
+        marketValueSelector({ symbol })(state),
     }),
-    dispatch => ({
-      setFilter: id => dispatch(setSymbolFilter(id))
+    (dispatch) => ({
+      setFilter: (id) => dispatch(setSymbolFilter(id)),
     })
   ),
   withPropsOnChange(
@@ -88,21 +91,21 @@ const PortfolioSection = compose(
     ({ symbols, prices, getMarketValueBySymbolId }) => {
       const symbolKeys = keys(symbols);
 
-      const enhancedSymbols = symbolKeys.map(key => ({
+      const enhancedSymbols = symbolKeys.map((key) => ({
         amount: symbols[key],
         price: get(key, prices),
         marketValue: roundValue(getMarketValueBySymbolId(key)),
-        name: key
+        name: key,
       }));
 
       return { symbols: enhancedSymbols };
     }
   ),
   withHandlers({
-    handleSetFilter: ({ setFilter }) => id => {
+    handleSetFilter: ({ setFilter }) => (id) => {
       setFilter(id);
       scrollToTop();
-    }
+    },
   }),
   onlyUpdateForKeys(["symbols"])
 );

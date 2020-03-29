@@ -12,7 +12,7 @@ const initialState = {
   lastUpdated: null,
   loading: false,
   error: false,
-  data: []
+  data: [],
 };
 
 // Reducer
@@ -22,7 +22,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
       };
     }
     case EXCHANGES_SUCCESS: {
@@ -31,14 +31,14 @@ export default function reducer(state = initialState, action) {
         loading: false,
         error: null,
         data: [...get(["payload", "exchangesList"], action)],
-        lastUpdated: new Date().getTime()
+        lastUpdated: new Date().getTime(),
       };
     }
     case EXCHANGES_FAILURE: {
       return {
         ...state,
         loading: false,
-        error: get(["payload", "error"], action)
+        error: get(["payload", "error"], action),
       };
     }
 
@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action) {
 
 // Action creators and actions
 
-export const initExchangesList = () => async dispatch => {
+export const initExchangesList = () => async (dispatch) => {
   dispatch({ type: EXCHANGES_LOADING });
   try {
     const { getExchangesList } = await importExchangeApiServiceInstance();
@@ -67,5 +67,5 @@ export const exchangesDataSelector = getOr({}, ["exchanges"]);
 
 export const exchangesListSelector = get(["exchanges", "data"]);
 
-export const exchangeByIdSelector = id =>
+export const exchangeByIdSelector = (id) =>
   createSelector(exchangesListSelector, find({ id }));

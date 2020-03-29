@@ -7,7 +7,7 @@ import {
   Button,
   NavbarEnd,
   NavbarBurger,
-  NavbarMenu
+  NavbarMenu,
 } from "bloomer";
 import { APP_NAME } from "appConstants";
 
@@ -19,7 +19,7 @@ const AppNavbar = ({
   handleResetFilter,
   burgerIsActive,
   handleToggleBurgerMenu,
-  openSettingsModal
+  openSettingsModal,
 }) => (
   <Navbar isTransparent className="is-light">
     <Container>

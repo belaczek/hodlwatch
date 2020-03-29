@@ -1,6 +1,6 @@
 import reducer, {
   portfolioStateSelecor,
-  portfolioSymbolsSelector
+  portfolioSymbolsSelector,
 } from "../modules/portfolio";
 
 const initialState = {};
@@ -19,7 +19,7 @@ describe("portfolio actions", () => {
   test("should set exchange loading", () => {
     const state = reducer(initialState, {
       type: PORTFOLIO_DATA_LOADING,
-      payload: { exchangeId: "test" }
+      payload: { exchangeId: "test" },
     });
     expect(state).toHaveProperty("test");
     expect(state.test).toHaveProperty("loading", true);
@@ -29,14 +29,14 @@ describe("portfolio actions", () => {
   test("should set exchange error", () => {
     let state = reducer(initialState, {
       type: PORTFOLIO_DATA_LOADING,
-      payload: { exchangeId: "test" }
+      payload: { exchangeId: "test" },
     });
     state = reducer(state, {
       type: PORTFOLIO_DATA_FAILURE,
       payload: {
         exchangeId: "test",
-        error: "testError"
-      }
+        error: "testError",
+      },
     });
     expect(state).toHaveProperty("test");
     expect(state.test).toHaveProperty("loading", false);
@@ -50,18 +50,18 @@ describe("portfolio actions", () => {
       loading: false,
       data: {
         BTC: 1,
-        LTC: 2
-      }
+        LTC: 2,
+      },
     };
 
     let state = reducer(initialState, {
       type: PORTFOLIO_DATA_SUCCESS,
-      payload: { exchangeId: testExchange.exchangeId, data: testExchange.data }
+      payload: { exchangeId: testExchange.exchangeId, data: testExchange.data },
     });
 
     state = reducer(state, {
       type: PORTFOLIO_DATA_SUCCESS,
-      payload: { exchangeId: "test2", data: testExchange.data }
+      payload: { exchangeId: "test2", data: testExchange.data },
     });
 
     expect(state).toHaveProperty(testExchange.exchangeId);
@@ -79,23 +79,23 @@ describe("portfolio actions", () => {
       loading: false,
       data: {
         BTC: 1,
-        LTC: 2
-      }
+        LTC: 2,
+      },
     };
 
     let state = reducer(initialState, {
       type: PORTFOLIO_DATA_SUCCESS,
-      payload: { ...testExchange }
+      payload: { ...testExchange },
     });
 
     state = reducer(state, {
       type: PORTFOLIO_DATA_SUCCESS,
-      payload: { ...testExchange, exchangeId: "testExchange2" }
+      payload: { ...testExchange, exchangeId: "testExchange2" },
     });
 
     state = reducer(state, {
       type: DELETE_PORTFOLIO_DATA,
-      payload: { exchangeId: "testExchange2" }
+      payload: { exchangeId: "testExchange2" },
     });
 
     expect(state).toHaveProperty(testExchange.exchangeId);
@@ -111,18 +111,18 @@ describe("portfolio selectors", () => {
         loading: false,
         data: {
           BTC: 1,
-          LTC: 2
-        }
+          LTC: 2,
+        },
       },
       bitfinex: {
         error: null,
         loading: false,
         data: {
           BTC: 0.05,
-          XMR: 1
-        }
-      }
-    }
+          XMR: 1,
+        },
+      },
+    },
   };
 
   test("should select portfolio module state", () => {

@@ -7,7 +7,7 @@ const HIDE_MODAL = "HIDE_MODAL";
 
 /** Initial State */
 const initialState = {
-  modalType: null
+  modalType: null,
 };
 
 /** Modal reducer */
@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         modalType: get(["payload", "modalType"], action),
-        props: get(["payload", "props"], action)
+        props: get(["payload", "props"], action),
       };
 
     case HIDE_MODAL:
@@ -35,14 +35,14 @@ export const openModal = (modalType, props) => {
     type: SHOW_MODAL,
     payload: {
       modalType,
-      props
-    }
+      props,
+    },
   };
 };
 
 export const closeModal = () => {
   return {
-    type: HIDE_MODAL
+    type: HIDE_MODAL,
   };
 };
 

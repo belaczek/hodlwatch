@@ -4,7 +4,7 @@ import { fetchOHLCV, fetchCurrentPrice } from "utils/priceDataService";
 import { importToastService } from "utils/asyncImportService";
 import {
   quoteSymbolSelector,
-  activeExchangeFilterIdSelector
+  activeExchangeFilterIdSelector,
 } from "store/modules/core";
 import { portfolioSymbolsSelector } from "store/modules/portfolio";
 import { TF_1M, TIME_FRAMES } from "appConstants";
@@ -31,7 +31,7 @@ const initialState = {
   currentPriceDataLoading: false,
   currentPriceDataError: false,
   currentPriceDataLastUpdated: null,
-  currentPriceData: {}
+  currentPriceData: {},
 };
 
 // Reducer
@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         histoDataLoading: true,
-        histoDataError: false
+        histoDataError: false,
       };
     }
     case HISTO_PRICE_DATA_SUCCESS: {
@@ -50,14 +50,14 @@ export default function reducer(state = initialState, action) {
         histoDataLoading: false,
         histoDataError: null,
         histoData: getOr(state.histoData, ["payload"], action),
-        histoDataLastUpdated: new Date().getTime()
+        histoDataLastUpdated: new Date().getTime(),
       };
     }
     case HISTO_PRICE_DATA_FAILURE: {
       return {
         ...state,
         histoDataLoading: false,
-        histoDataError: get(["payload"], action)
+        histoDataError: get(["payload"], action),
       };
     }
 
@@ -66,7 +66,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         // if target timeframe does not exist, keep existing
-        timeframe: TIME_FRAMES[tf] ? tf : state.timeframe
+        timeframe: TIME_FRAMES[tf] ? tf : state.timeframe,
       };
     }
 
@@ -74,7 +74,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         currentPriceDataLoading: true,
-        currentPriceDataError: false
+        currentPriceDataError: false,
       };
     }
     case CURRENT_PRICE_DATA_SUCCESS: {
@@ -83,14 +83,14 @@ export default function reducer(state = initialState, action) {
         currentPriceDataLoading: false,
         currentPriceDataError: null,
         currentPriceData: getOr(state.currentPriceData, ["payload"], action),
-        currentPriceDataLastUpdated: new Date().getTime()
+        currentPriceDataLastUpdated: new Date().getTime(),
       };
     }
     case CURRENT_PRICE_DATA_FAILURE: {
       return {
         ...state,
         currentPriceDataLoading: false,
-        currentPriceDataError: get(["payload"], action)
+        currentPriceDataError: get(["payload"], action),
       };
     }
 
@@ -105,7 +105,7 @@ export default function reducer(state = initialState, action) {
  * Show error notification
  * @param {string} message
  */
-const notifyError = async message => {
+const notifyError = async (message) => {
   const { toast } = await importToastService();
   toast.error(message);
 };
@@ -120,16 +120,16 @@ export const fetchHistoData = () => async (dispatch, getState) => {
 
   const params = {
     timeframe: get(["priceData", "timeframe"], state),
-    quoteSymbol: quoteSymbolSelector(state)
+    quoteSymbol: quoteSymbolSelector(state),
   };
 
   try {
     let data = await pipe(
       activeExchangeFilterIdSelector,
       // TODO reconsider whether or not should historical data be filtered for fetchind
-      thru(exchangeId => portfolioSymbolsSelector()(state)),
+      thru((exchangeId) => portfolioSymbolsSelector()(state)),
       keys,
-      thru(baseSymbols => fetchOHLCV({ ...params, baseSymbols }))
+      thru((baseSymbols) => fetchOHLCV({ ...params, baseSymbols }))
     )(state);
 
     dispatch({ type: HISTO_PRICE_DATA_SUCCESS, payload: data });
@@ -153,7 +153,7 @@ export const fetchCurrentPriceData = () => async (dispatch, getState) => {
     const data = await pipe(
       portfolioSymbolsSelector(),
       keys,
-      thru(baseSymbols => fetchCurrentPrice({ quoteSymbol, baseSymbols }))
+      thru((baseSymbols) => fetchCurrentPrice({ quoteSymbol, baseSymbols }))
     )(state);
 
     dispatch({ type: CURRENT_PRICE_DATA_SUCCESS, payload: data });
@@ -170,10 +170,10 @@ export const fetchCurrentPriceData = () => async (dispatch, getState) => {
  * Change timeframe and refetch all current and historical price data
  * @param {string} timeframe
  */
-export const changeTimeFrame = timeframe => async (dispatch, getState) => {
+export const changeTimeFrame = (timeframe) => async (dispatch, getState) => {
   dispatch({
     type: PRICE_DATA_SET_TIMEFRAME,
-    payload: timeframe
+    payload: timeframe,
   });
   dispatch(fetchCurrentPriceData());
   dispatch(fetchHistoData());
@@ -191,7 +191,7 @@ export const histoDataStateSelector = get([PRICE_DATA_MODULE, "histoData"]);
  */
 export const currentPriceDataStateSelector = get([
   PRICE_DATA_MODULE,
-  "currentPriceData"
+  "currentPriceData",
 ]);
 
 /**

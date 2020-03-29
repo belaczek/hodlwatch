@@ -6,7 +6,7 @@ import {
   pure,
   withState,
   flattenProp,
-  mapProps
+  mapProps,
 } from "recompose";
 // @ts-ignore
 import { isEmpty, omit } from "lodash/fp";
@@ -21,7 +21,7 @@ export default compose(
     async componentDidMount() {
       const exchangeApiMethods = await importExchangeApiServiceInstance();
       this.props.setExchangeApiMethods(exchangeApiMethods);
-    }
+    },
   }),
   flattenProp("exchangeApiMethods"),
   // Do not render children until the module with functions is loaded

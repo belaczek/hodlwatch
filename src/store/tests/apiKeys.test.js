@@ -7,13 +7,13 @@ import reducer, {
   activeProxySelector,
   parseProxySettings,
   apiKeysSelector,
-  apiKeysByIdSelector
+  apiKeysByIdSelector,
 } from "../modules/apiKeys";
 
 const initialState = {
   useGlobalApiProxy: false,
   globalProxyUrl: DEFAULT_PROXY_URL,
-  data: {}
+  data: {},
 };
 
 test("reducer should return initial state", () => {
@@ -29,7 +29,7 @@ describe("apiKeys actions", () => {
       secret: "secret",
       uid: 123,
       password: "password",
-      proxy: "proxy"
+      proxy: "proxy",
     };
     const state = reducer(initialState, setExchangeCredentials(testCreds));
     expect(state).toHaveProperty("data");
@@ -40,20 +40,20 @@ describe("apiKeys actions", () => {
     const exchange1 = {
       exchangeId: "exchange1",
       apiKey: 123243,
-      secert: "sdgsdfg"
+      secert: "sdgsdfg",
     };
     const exchange2 = {
       exchangeId: "exchange2",
       apiKey: 123243,
       secert: "sdgsdfg",
-      proxy: "https://bla.com"
+      proxy: "https://bla.com",
     };
     let state = reducer(initialState, setExchangeCredentials(exchange1));
     state = reducer(initialState, setExchangeCredentials(exchange2));
 
     state = reducer(state, {
       type: "DELETE_EXCHANGE_CREDENTIALS",
-      payload: exchange1.exchangeId
+      payload: exchange1.exchangeId,
     });
 
     expect(state.data).not.toHaveProperty(exchange1.exchangeId);
@@ -81,16 +81,16 @@ describe("apiKeys selectors", () => {
         exchange1: {
           apiKey: 1234,
           exchangeId: "bla",
-          private: "private"
+          private: "private",
         },
         exchange2: {
           apiKey: 12345,
           exchangeId: "blaa",
           private: "private",
-          proxy: "proxy"
-        }
-      }
-    }
+          proxy: "proxy",
+        },
+      },
+    },
   };
 
   test("should select global proxy settings", () => {
@@ -107,7 +107,7 @@ describe("apiKeys selectors", () => {
 
   test("should return null when global proxy not enabled", () => {
     const state = {
-      apiKeys: { ...testState.apiKeys, useGlobalApiProxy: false }
+      apiKeys: { ...testState.apiKeys, useGlobalApiProxy: false },
     };
     const res = activeProxySelector(state);
     expect(res).toBeFalsy();

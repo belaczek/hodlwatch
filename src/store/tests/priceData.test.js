@@ -1,7 +1,7 @@
 import reducer, {
   histoDataStateSelector,
   currentPriceDataStateSelector,
-  activeTimeFrameSelector
+  activeTimeFrameSelector,
 } from "../modules/priceData";
 import { TF_1M, TF_1D } from "appConstants";
 
@@ -15,7 +15,7 @@ const initialState = {
   currentPriceDataLoading: false,
   currentPriceDataError: false,
   currentPriceDataLastUpdated: null,
-  currentPriceData: {}
+  currentPriceData: {},
 };
 
 test("reducer should return initial state", () => {
@@ -35,7 +35,7 @@ describe("priceData actions", () => {
 
   test("should set histoData loading", () => {
     const state = reducer(initialState, {
-      type: HISTO_PRICE_DATA_LOADING
+      type: HISTO_PRICE_DATA_LOADING,
     });
 
     expect(state).toHaveProperty("histoDataLoading", true);
@@ -44,12 +44,12 @@ describe("priceData actions", () => {
 
   test("should set histoData failure", () => {
     let state = reducer(initialState, {
-      type: HISTO_PRICE_DATA_LOADING
+      type: HISTO_PRICE_DATA_LOADING,
     });
 
     state = reducer(state, {
       type: HISTO_PRICE_DATA_FAILURE,
-      payload: "errortest"
+      payload: "errortest",
     });
 
     expect(state).toHaveProperty("histoDataLoading", false);
@@ -66,7 +66,7 @@ describe("priceData actions", () => {
           low: 90,
           open: 99,
           volumeFrom: 100,
-          volumeTo: 200
+          volumeTo: 200,
         },
         {
           time: 2,
@@ -75,8 +75,8 @@ describe("priceData actions", () => {
           low: 90,
           open: 100,
           volumeFrom: 200,
-          volumeTo: 300
-        }
+          volumeTo: 300,
+        },
       ],
       LTC: [
         {
@@ -86,7 +86,7 @@ describe("priceData actions", () => {
           low: 90,
           open: 99,
           volumeFrom: 100,
-          volumeTo: 200
+          volumeTo: 200,
         },
         {
           time: 2,
@@ -95,18 +95,18 @@ describe("priceData actions", () => {
           low: 90,
           open: 100,
           volumeFrom: 200,
-          volumeTo: 300
-        }
-      ]
+          volumeTo: 300,
+        },
+      ],
     };
 
     let state = reducer(initialState, {
-      type: HISTO_PRICE_DATA_LOADING
+      type: HISTO_PRICE_DATA_LOADING,
     });
 
     state = reducer(state, {
       type: HISTO_PRICE_DATA_SUCCESS,
-      payload: testData
+      payload: testData,
     });
 
     expect(state).toHaveProperty("histoDataLoading", false);
@@ -116,7 +116,7 @@ describe("priceData actions", () => {
   test("should set timeframe", () => {
     const state = reducer(initialState, {
       type: PRICE_DATA_SET_TIMEFRAME,
-      payload: TF_1D
+      payload: TF_1D,
     });
 
     expect(state).toHaveProperty("timeframe", TF_1D);
@@ -125,7 +125,7 @@ describe("priceData actions", () => {
   test("should not set invalid timeframe", () => {
     const state = reducer(initialState, {
       type: PRICE_DATA_SET_TIMEFRAME,
-      payload: "bla"
+      payload: "bla",
     });
 
     expect(state).toHaveProperty("timeframe", initialState.timeframe);
@@ -133,7 +133,7 @@ describe("priceData actions", () => {
 
   test("should set currentPriceData loading", () => {
     const state = reducer(initialState, {
-      type: CURRENT_PRICE_DATA_LOADING
+      type: CURRENT_PRICE_DATA_LOADING,
     });
 
     expect(state).toHaveProperty("currentPriceDataLoading", true);
@@ -142,12 +142,12 @@ describe("priceData actions", () => {
 
   test("should set currentPriceData failure", () => {
     let state = reducer(initialState, {
-      type: CURRENT_PRICE_DATA_LOADING
+      type: CURRENT_PRICE_DATA_LOADING,
     });
 
     state = reducer(state, {
       type: CURRENT_PRICE_DATA_FAILURE,
-      payload: "errortest"
+      payload: "errortest",
     });
 
     expect(state).toHaveProperty("currentPriceDataLoading", false);
@@ -157,16 +157,16 @@ describe("priceData actions", () => {
   test("should set currentPriceData success", () => {
     const testData = {
       BTC: 100,
-      LTC: 50
+      LTC: 50,
     };
 
     let state = reducer(initialState, {
-      type: CURRENT_PRICE_DATA_LOADING
+      type: CURRENT_PRICE_DATA_LOADING,
     });
 
     state = reducer(state, {
       type: CURRENT_PRICE_DATA_SUCCESS,
-      payload: testData
+      payload: testData,
     });
 
     expect(state).toHaveProperty("currentPriceDataLoading", false);
@@ -176,20 +176,20 @@ describe("priceData actions", () => {
   test("should keep currentPriceData when no data", () => {
     const testData = {
       BTC: 100,
-      LTC: 50
+      LTC: 50,
     };
 
     let state = reducer(initialState, {
-      type: CURRENT_PRICE_DATA_LOADING
+      type: CURRENT_PRICE_DATA_LOADING,
     });
 
     state = reducer(state, {
       type: CURRENT_PRICE_DATA_SUCCESS,
-      payload: testData
+      payload: testData,
     });
 
     state = reducer(state, {
-      type: CURRENT_PRICE_DATA_SUCCESS
+      type: CURRENT_PRICE_DATA_SUCCESS,
     });
 
     expect(state).toHaveProperty("currentPriceDataLoading", false);
@@ -212,7 +212,7 @@ describe("priceData selectors", () => {
             low: 90,
             open: 99,
             volumeFrom: 100,
-            volumeTo: 200
+            volumeTo: 200,
           },
           {
             time: 2,
@@ -221,8 +221,8 @@ describe("priceData selectors", () => {
             low: 90,
             open: 100,
             volumeFrom: 200,
-            volumeTo: 300
-          }
+            volumeTo: 300,
+          },
         ],
         LTC: [
           {
@@ -232,7 +232,7 @@ describe("priceData selectors", () => {
             close: 100,
             open: 99,
             volumeFrom: 100,
-            volumeTo: 200
+            volumeTo: 200,
           },
           {
             time: 2,
@@ -241,9 +241,9 @@ describe("priceData selectors", () => {
             low: 90,
             open: 100,
             volumeFrom: 200,
-            volumeTo: 300
-          }
-        ]
+            volumeTo: 300,
+          },
+        ],
       },
       timeframe: TF_1M,
 
@@ -252,9 +252,9 @@ describe("priceData selectors", () => {
       currentPriceDataLastUpdated: null,
       currentPriceData: {
         BTC: 100,
-        LTC: 50
-      }
-    }
+        LTC: 50,
+      },
+    },
   };
 
   test("should select histoData", () => {

@@ -10,19 +10,19 @@ import {
   reduce,
   pick,
   memoize,
-  isFunction
+  isFunction,
 } from "lodash/fp";
 
 import { createSelector } from "reselect";
 import {
   exchangesListSelector,
-  exchangeByIdSelector
+  exchangeByIdSelector,
 } from "./modules/exchanges";
 import { apiKeysSelector } from "./modules/apiKeys";
 import { activeExchangeFilterIdSelector } from "./modules/core";
 import {
   histoDataStateSelector,
-  currentPriceDataStateSelector
+  currentPriceDataStateSelector,
 } from "./modules/priceData";
 import { portfolioSymbolsSelector } from "./modules/portfolio";
 import {
@@ -30,7 +30,7 @@ import {
   sum,
   roundValue,
   percentageChange,
-  absoluteChange
+  absoluteChange,
 } from "utils/calcFloat";
 
 /** ========================
@@ -52,7 +52,7 @@ const calculateTotalValue = (prices, symbols) => {
   }
   return pipe(
     keys,
-    map(key => multiply(getOr(0, key, symbols), getOr(0, key, prices))),
+    map((key) => multiply(getOr(0, key, symbols), getOr(0, key, prices))),
     reduce(sum, 0)
   )(symbols);
 };
@@ -66,7 +66,7 @@ const calculateTotalValue = (prices, symbols) => {
  */
 const mergeHistoData = (histoData = {}, index = 0, priceTransform) => {
   // If no priceTransform function is provided, use price identity
-  priceTransform = isFunction(priceTransform) ? priceTransform : x => x;
+  priceTransform = isFunction(priceTransform) ? priceTransform : (x) => x;
   return pipe(
     keys,
     reduce((acc, key) => {
@@ -104,18 +104,20 @@ const mergeAllHistoData = (histoData, priceTransform) => {
 /**
  * Get list of connected exchanges
  */
-export const savedExchangesListSelector = state => {
+export const savedExchangesListSelector = (state) => {
   const exchanges = exchangesListSelector(state);
   return pipe(
     apiKeysSelector,
-    map(({ exchangeId }) => ({ ...exchanges.find(ex => ex.id === exchangeId) }))
+    map(({ exchangeId }) => ({
+      ...exchanges.find((ex) => ex.id === exchangeId),
+    }))
   )(state);
 };
 
 /**
  * Get list of all unused exchanges
  */
-export const unusedExchangesListSelector = state => {
+export const unusedExchangesListSelector = (state) => {
   const apiKeys = apiKeysSelector(state);
   return pipe(
     exchangesListSelector,
@@ -126,7 +128,7 @@ export const unusedExchangesListSelector = state => {
 /**
  * Get detail of an exchange used for filtering
  */
-export const activeExchangeFilterSelector = state => {
+export const activeExchangeFilterSelector = (state) => {
   const exchangeId = activeExchangeFilterIdSelector(state);
   return exchangeByIdSelector(exchangeId)(state);
 };
@@ -151,7 +153,7 @@ export const histoDataSelector = ({ exchangeId = null, symbol = null } = {}) =>
  */
 export const currentPriceDataSelector = ({
   exchangeId = null,
-  symbol = null
+  symbol = null,
 } = {}) =>
   createSelector(
     portfolioSymbolsSelector({ exchangeId, symbol }),
@@ -199,7 +201,7 @@ const parseHistoDataToChartData = memoize(
  */
 export const chartDataMarketValueSelector = ({
   exchangeId = null,
-  symbol = null
+  symbol = null,
 } = {}) =>
   createSelector(
     histoDataSelector({ exchangeId, symbol }),
@@ -216,7 +218,7 @@ export const chartDataMarketValueSelector = ({
  */
 export const marketValueSelector = ({
   exchangeId = null,
-  symbol = null
+  symbol = null,
 } = {}) =>
   createSelector(
     currentPriceDataSelector({ exchangeId, symbol }),
@@ -231,7 +233,7 @@ export const marketValueSelector = ({
  */
 export const portfolioPerformanceSelector = ({
   exchangeId = null,
-  symbol = null
+  symbol = null,
 } = {}) =>
   createSelector(
     currentPriceDataSelector({ exchangeId, symbol }),
@@ -248,7 +250,7 @@ export const portfolioPerformanceSelector = ({
 
       return {
         absolute: absoluteChange(histoTotalValue, currentTotalValue),
-        relative: percentageChange(histoTotalValue, currentTotalValue)
+        relative: percentageChange(histoTotalValue, currentTotalValue),
       };
     }
   );
@@ -261,5 +263,5 @@ export default {
   currentPriceDataSelector,
   marketValueSelector,
   chartDataMarketValueSelector,
-  portfolioPerformanceSelector
+  portfolioPerformanceSelector,
 };

@@ -1,10 +1,10 @@
 import reducer, {
   modalTypeSelector,
-  modalPropsSelector
+  modalPropsSelector,
 } from "../modules/modals";
 
 const initialState = {
-  modalType: null
+  modalType: null,
 };
 
 test("reducer should return initial state", () => {
@@ -21,12 +21,12 @@ describe("modals actions", () => {
       modalType: "TEST_MODAL",
       props: {
         a: "b",
-        c: "d"
-      }
+        c: "d",
+      },
     };
     const state = reducer(initialState, {
       type: SHOW_MODAL,
-      payload: modalPayload
+      payload: modalPayload,
     });
 
     expect(state).toHaveProperty("modalType", modalPayload.modalType);
@@ -38,16 +38,16 @@ describe("modals actions", () => {
       modalType: "TEST_MODAL",
       props: {
         a: "b",
-        c: "d"
-      }
+        c: "d",
+      },
     };
     let state = reducer(initialState, {
       type: SHOW_MODAL,
-      payload: modalPayload
+      payload: modalPayload,
     });
 
     state = reducer(state, {
-      type: HIDE_MODAL
+      type: HIDE_MODAL,
     });
 
     expect(state).toEqual(initialState);
@@ -59,9 +59,9 @@ describe("modals selectors", () => {
     modals: {
       modalType: "TEST_MODAL",
       props: {
-        a: "b"
-      }
-    }
+        a: "b",
+      },
+    },
   };
 
   test("should select modalType", () => {

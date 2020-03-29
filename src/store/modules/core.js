@@ -15,7 +15,7 @@ const initialState = {
   serviceWorkerUpdated: false, // Indicates update from serviceWorker
   exchangeFilterId: null, // Global filter by exchange id
   symbolFilterId: null, // Global filter by symbol id
-  quoteSymbol: DEFAULT_QUOTE_SYMBOL // Global quote symbol, defaults to USD
+  quoteSymbol: DEFAULT_QUOTE_SYMBOL, // Global quote symbol, defaults to USD
 };
 
 /**
@@ -23,7 +23,7 @@ const initialState = {
  */
 export const getInitializedCoreState = () => ({
   ...initialState,
-  init: true
+  init: true,
 });
 
 // Reducer
@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_SERVICE_WORKER: {
       return {
         ...state,
-        serviceWorkerUpdated: true
+        serviceWorkerUpdated: true,
       };
     }
     case SET_EXCHANGE_FILTER: {
@@ -45,7 +45,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         // Right now only one type of filter is allowed at a time
         exchangeFilterId: exchangeId,
-        symbolFilterId: null
+        symbolFilterId: null,
       };
     }
     case SET_SYMBOL_FILTER: {
@@ -54,14 +54,14 @@ export default function reducer(state = initialState, action) {
         ...state,
         // Right now only one type of filter is allowed at a time
         symbolFilterId: coinId,
-        exchangeFilterId: null
+        exchangeFilterId: null,
       };
     }
 
     case SET_QUOTE_CURRENCY: {
       return {
         ...state,
-        quoteSymbol: getOr(state.quoteSymbol, ["payload"], action)
+        quoteSymbol: getOr(state.quoteSymbol, ["payload"], action),
       };
     }
 
@@ -76,39 +76,39 @@ export const setAppInitialized = () => ({ type: INIT_APP });
 
 export const updateServiceWorker = () => ({ type: UPDATE_SERVICE_WORKER });
 
-export const resetApp = () => dispatch => {
+export const resetApp = () => (dispatch) => {
   clearStorage();
   window.location.reload();
 };
 
-export const setExchangeFilter = exchangeId => ({
+export const setExchangeFilter = (exchangeId) => ({
   type: SET_EXCHANGE_FILTER,
-  payload: exchangeId
+  payload: exchangeId,
 });
 
-export const setSymbolFilter = symbol => ({
+export const setSymbolFilter = (symbol) => ({
   type: SET_SYMBOL_FILTER,
-  payload: symbol
+  payload: symbol,
 });
 
-export const resetFilters = () => dispatch => {
+export const resetFilters = () => (dispatch) => {
   dispatch(setSymbolFilter());
   dispatch(setExchangeFilter());
 };
 
-export const setQuoteCurrency = currency => {
+export const setQuoteCurrency = (currency) => {
   const quoteCurrency = QUOTE_SYMBOL_LIST.includes(currency)
     ? currency
     : DEFAULT_QUOTE_SYMBOL;
   return {
     type: SET_QUOTE_CURRENCY,
-    payload: quoteCurrency
+    payload: quoteCurrency,
   };
 };
 
 // Selectors
 
-export const activeFilterSelector = state =>
+export const activeFilterSelector = (state) =>
   get(["core", "exchangeFilterId"], state) ||
   get(["core", "symbolFilterId"], state);
 
@@ -116,7 +116,7 @@ export const appStateSelector = getOr(false, ["core", "init"]);
 
 export const serviceWorkerIsUpdatedSelector = getOr(false, [
   "core",
-  "serviceWorkerUpdated"
+  "serviceWorkerUpdated",
 ]);
 
 export const quoteSymbolSelector = get(["core", "quoteSymbol"]);

@@ -7,7 +7,7 @@ import {
   HeroBody,
   HeroFooter,
   Subtitle,
-  Title
+  Title,
 } from "bloomer";
 import { connect } from "react-redux";
 import { APP_NAME } from "appConstants";
@@ -39,7 +39,7 @@ const IndexScreen = ({ handleLoadApp, btnIsLoading }) => (
   </Hero>
 );
 
-const Intro = props => (
+const Intro = (props) => (
   <React.Fragment>
     {props.appIsInitialized ? (
       <Redirect to="/app" replace />
@@ -51,13 +51,13 @@ const Intro = props => (
 
 const App = compose(
   connect(
-    state => ({
+    (state) => ({
       // Get info abou app init state
-      appIsInitialized: appStateSelector(state)
+      appIsInitialized: appStateSelector(state),
     }),
-    dispatch => ({
+    (dispatch) => ({
       // Set app initialized
-      setAppInitialized: () => dispatch(setAppInitialized())
+      setAppInitialized: () => dispatch(setAppInitialized()),
     })
   ),
   withState("btnIsLoading", "setBtnLoading", false),
@@ -68,7 +68,7 @@ const App = compose(
     handleLoadApp: ({ setAppInitialized, setBtnLoading }) => () => {
       setBtnLoading(true);
       setAppInitialized();
-    }
+    },
   })
 )(Intro);
 

@@ -15,17 +15,17 @@ import PortfolioListContainer from "containers/PortfolioListContainer";
 import {
   marketValueSelector,
   portfolioPerformanceSelector,
-  activeExchangeFilterSelector
+  activeExchangeFilterSelector,
 } from "store/selectors";
 import {
   quoteSymbolSelector,
   activeExchangeFilterIdSelector,
   activeSymbolFilterSelector,
-  appStateSelector
+  appStateSelector,
 } from "store/modules/core";
 import {
   activeTimeFrameSelector,
-  currentPriceDataStateSelector
+  currentPriceDataStateSelector,
 } from "store/modules/priceData";
 import { apiKeysSelector } from "store/modules/apiKeys";
 import Redirect from "components/Redirect";
@@ -42,7 +42,7 @@ const MainScreen = ({
   activeTimeFrame,
   symbolFilterPrice,
   portfolioPerformance,
-  appIsNotEmpty
+  appIsNotEmpty,
 }) => (
   <AppLayout>
     {appIsNotEmpty ? (
@@ -74,7 +74,7 @@ const MainScreen = ({
                   mobile: "full",
                   tablet: "full",
                   desktop: "full",
-                  widescreen: "1/2"
+                  widescreen: "1/2",
                 }}
               >
                 <PortfolioListContainer
@@ -88,7 +88,7 @@ const MainScreen = ({
                   mobile: "full",
                   tablet: "full",
                   desktop: "full",
-                  widescreen: "1/2"
+                  widescreen: "1/2",
                 }}
               >
                 <ExchangesListContainer />
@@ -107,7 +107,7 @@ const MainScreen = ({
   </AppLayout>
 );
 
-const renderMainScreen = props => (
+const renderMainScreen = (props) => (
   <React.Fragment>
     {!props.appIsInitialized ? (
       <Redirect to="/" replace />
@@ -123,7 +123,7 @@ const renderMainScreen = props => (
 const Main = compose(
   connect(
     // Map store data to props
-    state => {
+    (state) => {
       // Get id of current exchange filter
       const exchangeFilterId = activeExchangeFilterIdSelector(state);
       // Get current symbol filter
@@ -137,7 +137,7 @@ const Main = compose(
         // Get correct market value to be displayed (based on current filter)
         marketValue: marketValueSelector({
           exchangeId: exchangeFilterId,
-          symbol: symbolFilterId
+          symbol: symbolFilterId,
         })(state),
         // Get quote symbol (currency)
         quoteSymbol: quoteSymbolSelector(state),
@@ -148,31 +148,31 @@ const Main = compose(
         // Get computed portfolio performance based on current filters
         portfolioPerformance: portfolioPerformanceSelector({
           exchangeId: exchangeFilterId,
-          symbol: symbolFilterId
+          symbol: symbolFilterId,
         })(state),
         // Get list of all connected exchanges
-        exchanges: apiKeysSelector(state)
+        exchanges: apiKeysSelector(state),
       };
     },
     // Map handler which dispatch an action to store
-    dispatch => ({
-      fetchInitData: () => dispatch(fetchInitData())
+    (dispatch) => ({
+      fetchInitData: () => dispatch(fetchInitData()),
     })
   ),
   // When exchanges property changes, check whether or not there are any exchanges connected
   withPropsOnChange(["exchanges"], ({ exchanges }) => {
     return {
-      appIsNotEmpty: !!keys(exchanges).length
+      appIsNotEmpty: !!keys(exchanges).length,
     };
   }),
   // When filterExchanges changes, set new prop with its name
   withPropsOnChange(["filterExchange"], ({ filterExchange }) => ({
-    exchangeFilterName: filterExchange ? get("name", filterExchange) : null
+    exchangeFilterName: filterExchange ? get("name", filterExchange) : null,
   })),
   withPropsOnChange(
     ["currentPriceData", "symbolFilterId"],
     ({ currentPriceData = {}, symbolFilterId }) => ({
-      symbolFilterPrice: currentPriceData[symbolFilterId]
+      symbolFilterPrice: currentPriceData[symbolFilterId],
     })
   ),
   lifecycle({
@@ -183,7 +183,7 @@ const Main = compose(
       }
       // When the screen is loaded, trigger price data refetch
       this.props.fetchInitData();
-    }
+    },
   }),
   // Only refresh the component on props change
   pure

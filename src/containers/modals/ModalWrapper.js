@@ -5,7 +5,7 @@ import { compose, pure } from "recompose";
 /**
  * Higher-order component providing default wrapper for modal components
  */
-const ModalWrapper = Component => ({ isActive, closeModal, ...props }) => (
+const ModalWrapper = (Component) => ({ isActive, closeModal, ...props }) => (
   <Modal isActive={isActive}>
     <ModalBackground onClick={() => closeModal(false)} />
     <ModalContent>
