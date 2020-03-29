@@ -18,6 +18,21 @@ The main idea behind this project is to create portfolio tracking web applicatio
 
 All user data are stored in browser local storage.
 
+## How to run locally
+__Requirements:__ 
+ - [Node.js 10](https://nodejs.org/) or later
+ - [Yarn 1.22](https://classic.yarnpkg.com/)
+
+```sh
+# 1. install npm dependencies
+yarn
+
+# 2. build the project
+yarn build
+
+# 3. run built application
+yarn start
+```
 
 ## Features
 
