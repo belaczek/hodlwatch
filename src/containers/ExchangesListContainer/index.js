@@ -20,7 +20,7 @@ import { portfolioStateSelecor } from "store/modules/portfolio";
 import { roundValue } from "utils/calcFloat";
 import Spinner from "components/Spinner";
 
-import "./index.sass";
+import styles from "./index.module.sass";
 import { fetchInitData } from "store/actions";
 import scrollToTop from "utils/scrollToTop";
 
@@ -37,9 +37,9 @@ const renderExchangeSection = ({
   refreshData,
   appIsNotEmpty,
 }) => (
-  <div className="ExchangesList">
+  <div className={styles.ExchangesList}>
     {appIsNotEmpty && (
-      <div className="ExchangesList--title">
+      <div className={styles.ExchangesList__title}>
         <Title isSize={5}>exchanges</Title>
         <Button
           className="ml-10"
@@ -77,9 +77,9 @@ const renderExchangeSection = ({
               ({ name, id, marketValue, portfolioError, portfolioLoading }) => (
                 <tr key={id}>
                   <td>
-                    <div className="ExchangesList--exchangeNameColumn">
+                    <div className={styles.ExchangesList__exchangeNameColumn}>
                       <Title
-                        className="ExchangesList--exchangeTitle"
+                        className={styles.ExchangesList__exchangeTitle}
                         onClick={() => handleSetFilter(id)}
                         isSize={6}
                       >

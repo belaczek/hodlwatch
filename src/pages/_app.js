@@ -5,6 +5,7 @@ import withStore from "utils/decorators/withStore";
 import Head from "next/head";
 
 import "styles/app.sass";
+import "react-toastify/dist/ReactToastify.min.css";
 
 class MyApp extends App {
   render() {

@@ -1,14 +1,14 @@
-@import styles/colors.sass
+@import src/styles/colors.sass
 
 .ExchangesList
     table, tr, td, th
         background-color: $bg-color
     
-    &--exchangeNameColumn, &--title
+    &__exchangeNameColumn, &__title
       display: inline-flex
 
-    &--exchangeTitle
-       color: #3273dc
+    &__exchangeTitle
+       color: $blue
        cursor: pointer
        &:hover
            text-decoration: underline

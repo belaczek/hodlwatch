@@ -9,15 +9,14 @@ import {
   onlyUpdateForKeys,
 } from "recompose";
 import { portfolioSymbolsSelector } from "store/modules/portfolio";
-
 import { Title } from "bloomer/lib/elements/Title";
 import { Table } from "bloomer/lib/elements/Table";
-
-import "./index.sass";
 import { setSymbolFilter, quoteSymbolSelector } from "store/modules/core";
 import scrollToTop from "utils/scrollToTop";
 import { currentPriceDataSelector, marketValueSelector } from "store/selectors";
 import { roundValue } from "utils/calcFloat";
+
+import styles from "./index.module.sass";
 
 // TODO
 const renderPortfolioSection = ({
@@ -27,11 +26,11 @@ const renderPortfolioSection = ({
   exchangeFilterName,
   quoteSymbol,
 }) => (
-  <div className="PortfolioList">
+  <div className={styles.PortfolioList}>
     <Title isSize={5}>
       portfolio {exchangeFilterName && ` at ${exchangeFilterName}`}
     </Title>
-    <Table className="PortfolioList--table is-fullwidth">
+    <Table className={`is-fullwidth ${styles.PortfolioList__table}`}>
       <tbody>
         <tr>
           <td />
@@ -46,20 +45,20 @@ const renderPortfolioSection = ({
         {symbols &&
           symbols.map(({ name, price, amount, marketValue }) => (
             <tr className="bg-light " key={name}>
-              <td className="PortfolioList--cell">
+              <td className={styles.PortfolioList__cell}>
                 <Title
-                  className="PortfolioList--symbolTitle"
+                  className={styles.PortfolioList__symbolTitle}
                   onClick={() => handleSetFilter(name)}
                   isSize={6}
                 >
                   {name}
                 </Title>
               </td>
-              <td className="u-textRight PortfolioList--cell">
+              <td className={`u-textRight ${styles.PortfolioList__cell}`}>
                 {price} {quoteSymbol}
               </td>
 
-              <td className="u-textCenter PortfolioList--cell">
+              <td className={`u-textCenter ${styles.PortfolioList__cell}`}>
                 {amount}
                 <br />
                 {marketValue} {quoteSymbol}

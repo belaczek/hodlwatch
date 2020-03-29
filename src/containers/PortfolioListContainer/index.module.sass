@@ -1,12 +1,13 @@
-@import styles/colors.sass
+@import src/styles/colors.sass
 
 .PortfolioList
-    &--table, &--table-tr, &--table-td
+    &__table, &__table-tr, &__table-td
         background-color: $bg-color
-    &--cell
+    &__cell
        vertical-align: middle !important
-    &--symbolTitle
-        color: #3273dc
+    &__symbolTitle
+        color: $blue
         cursor: pointer
+        word-break: keep-all
         &:hover
             text-decoration: underline
