@@ -1,0 +1,7 @@
+{
+  "*.js": [
+    "yarn format:single --",
+    "eslint --max-warnings=0",
+    "git add"
+  ]
+}
