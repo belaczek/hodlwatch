@@ -7,12 +7,12 @@ import {
   withHandlers,
   withState,
   withProps,
-  onlyUpdateForKeys
+  onlyUpdateForKeys,
 } from "recompose";
 import { connect } from "react-redux";
 import {
   savedExchangesListSelector,
-  marketValueSelector
+  marketValueSelector,
 } from "store/selectors";
 import { setExchangeFilter, quoteSymbolSelector } from "store/modules/core";
 import ExchangeApiForm from "containers/ExchangeApiForm";
@@ -35,7 +35,7 @@ const renderExchangeSection = ({
   quoteSymbol,
   handleOpenExchangeForm,
   refreshData,
-  appIsNotEmpty
+  appIsNotEmpty,
 }) => (
   <div className="ExchangesList">
     {appIsNotEmpty && (
@@ -78,8 +78,12 @@ const renderExchangeSection = ({
                 <tr key={id}>
                   <td>
                     <div className="ExchangesList--exchangeNameColumn">
-                      <Title isSize={6}>
-                        <a onClick={() => handleSetFilter(id)}>{name}</a>
+                      <Title
+                        className="ExchangesList--exchangeTitle"
+                        onClick={() => handleSetFilter(id)}
+                        isSize={6}
+                      >
+                        {name}
                       </Title>
                       {portfolioLoading && <Spinner />}
                     </div>
@@ -128,18 +132,18 @@ const renderExchangeSection = ({
 
 const ExchangeSection = compose(
   connect(
-    state => ({
+    (state) => ({
       exchanges: savedExchangesListSelector(state),
       portfolio: portfolioStateSelecor(state),
       quoteSymbol: quoteSymbolSelector(state),
 
       // make market value selector callable from the component
-      getMarketValueByExchangeId: exchangeId =>
-        marketValueSelector({ exchangeId })(state)
+      getMarketValueByExchangeId: (exchangeId) =>
+        marketValueSelector({ exchangeId })(state),
     }),
-    dispatch => ({
-      setFilter: id => dispatch(setExchangeFilter(id)),
-      refreshData: () => dispatch(fetchInitData())
+    (dispatch) => ({
+      setFilter: (id) => dispatch(setExchangeFilter(id)),
+      refreshData: () => dispatch(fetchInitData()),
     })
   ),
   withProps(({ exchanges, portfolio, getMarketValueByExchangeId }) => {
@@ -151,13 +155,13 @@ const ExchangeSection = compose(
         ...ex,
         portfolioError: portfolioData.error,
         portfolioLoading: portfolioData.loading,
-        marketValue: roundValue(getMarketValueByExchangeId(id))
+        marketValue: roundValue(getMarketValueByExchangeId(id)),
       };
     });
 
     return {
       exchanges: enhancedExchanges,
-      appIsNotEmpty: !!enhancedExchanges.length
+      appIsNotEmpty: !!enhancedExchanges.length,
     };
   }),
   withState("showExchangeForm", "setExchangeFormState", false),
@@ -171,17 +175,16 @@ const ExchangeSection = compose(
       setExchangeFormState(false);
       setEditExchangeId(null);
     },
-    handleOpenExchangeForm: ({
-      setExchangeFormState,
-      setEditExchangeId
-    }) => id => {
+    handleOpenExchangeForm: ({ setExchangeFormState, setEditExchangeId }) => (
+      id
+    ) => {
       setEditExchangeId(() => id);
       setExchangeFormState(true);
     },
-    handleSetFilter: ({ setFilter }) => id => {
+    handleSetFilter: ({ setFilter }) => (id) => {
       setFilter(id);
       scrollToTop();
-    }
+    },
   }),
   onlyUpdateForKeys(["exchanges", "showExchangeForm"])
 );

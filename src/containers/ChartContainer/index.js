@@ -22,7 +22,7 @@ const renderChart = ({
   activeTimeFrame,
   handleTfChange,
   baseSymbols,
-  quoteSymbol
+  quoteSymbol,
 }) => (
   <Container className="is-widescreen">
     <Chart
@@ -50,12 +50,12 @@ export default compose(
       ),
       chartData: chartDataMarketValueSelector({
         exchangeId,
-        symbol
+        symbol,
       })(state),
-      quoteSymbol: quoteSymbolSelector(state)
+      quoteSymbol: quoteSymbolSelector(state),
     }),
-    dispatch => ({
-      handleTfChange: tf => dispatch(changeTimeFrame(tf))
+    (dispatch) => ({
+      handleTfChange: (tf) => dispatch(changeTimeFrame(tf)),
     })
   ),
 
@@ -67,25 +67,25 @@ export default compose(
         first,
         omit("time"),
         keys,
-        map(name => ({
+        map((name) => ({
           name,
-          colour: stringToColour(name)
+          colour: stringToColour(name),
         }))
       )(chartData);
 
       const dateFormat = TIME_FRAMES[activeTimeFrame].chartDateFormat;
 
       // Parse timestamp into radable format
-      const chartDataWithTime = chartData.map(value => {
+      const chartDataWithTime = chartData.map((value) => {
         return {
           ...value,
-          time: format(new Date(value.time), dateFormat)
+          time: format(new Date(value.time), dateFormat),
         };
       });
 
       return {
         baseSymbols,
-        chartData: chartDataWithTime
+        chartData: chartDataWithTime,
       };
     }
   )

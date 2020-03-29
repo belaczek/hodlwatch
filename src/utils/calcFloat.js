@@ -46,11 +46,7 @@ export const percentageChange = (first, second) => {
   }
   return parseFloat(
     // @ts-ignore
-    Big(second)
-      .div(first)
-      .times(100)
-      .minus(100)
-      .round(2)
+    Big(second).div(first).times(100).minus(100).round(2)
   );
 };
 
@@ -62,7 +58,5 @@ export const percentageChange = (first, second) => {
 export const absoluteChange = (first, second) =>
   parseFloat(
     // @ts-ignore
-    Big(second)
-      .minus(first)
-      .round(2)
+    Big(second).minus(first).round(2)
   );

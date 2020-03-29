@@ -15,7 +15,7 @@ const reducer = combineReducers({
   exchanges,
   apiKeys,
   priceData,
-  modals
+  modals,
 });
 
 // @ts-ignore
@@ -48,7 +48,7 @@ export const configureStore = (initialState = {}) => {
         portfolio,
         core: pick(core, ["init", "quoteSymbol"]),
         priceData: pick(priceData, ["timeframe"]),
-        apiKeys
+        apiKeys,
       });
     }, 500)
   );

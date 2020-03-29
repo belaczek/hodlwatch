@@ -3,7 +3,7 @@ import {
   multiply,
   roundValue,
   percentageChange,
-  absoluteChange
+  absoluteChange,
 } from "../calcFloat";
 
 test("should sum two numbers", () => {

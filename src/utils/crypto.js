@@ -29,5 +29,5 @@ export const decrypt = (value, passphrase = "") => {
  */
 export default {
   encrypt,
-  decrypt
+  decrypt,
 };

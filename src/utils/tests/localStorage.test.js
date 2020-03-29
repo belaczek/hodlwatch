@@ -5,14 +5,14 @@ import {
   loadState,
   importStoreData,
   exportStoreData,
-  clearStorage
+  clearStorage,
 } from "../localStorage";
 import { getInitializedCoreState } from "store/modules/core";
 
 test("should validate import string", () => {
   const testState = {
     core: {},
-    apiKeys: {}
+    apiKeys: {},
   };
 
   const encrypted = encrypt(testState);
@@ -23,7 +23,7 @@ test("should validate import string", () => {
 test("should validate import string as invalid", () => {
   const testState = {
     bla: {},
-    core: {}
+    core: {},
   };
 
   const encrypted = encrypt(testState);
@@ -48,9 +48,9 @@ test("should clear state in localstorage", () => {
 test("should load state from localstorage", () => {
   const testState = {
     core: {
-      ahoj: "cau"
+      ahoj: "cau",
     },
-    values: [1, 2, 43]
+    values: [1, 2, 43],
   };
 
   saveState(testState);
@@ -63,12 +63,12 @@ test("should load state from localstorage", () => {
 test("should import encrypted string state", () => {
   const testState = {
     core: {},
-    apiKeys: {}
+    apiKeys: {},
   };
 
   const resultState = {
     core: getInitializedCoreState(),
-    apiKeys: {}
+    apiKeys: {},
   };
 
   const encrypted = encrypt(testState);
@@ -81,7 +81,7 @@ test("should omit irrelevat properties from imported string state", () => {
   const testState = {
     core: {},
     apiKeys: {},
-    bla: 2
+    bla: 2,
   };
 
   const encrypted = encrypt(testState);
@@ -93,7 +93,7 @@ test("should omit irrelevat properties from imported string state", () => {
 test("should export encrypted store values from localStorage", () => {
   const testState = {
     core: {},
-    apiKeys: { exchange: { bla: 1 } }
+    apiKeys: { exchange: { bla: 1 } },
   };
 
   saveState(testState);
@@ -107,7 +107,7 @@ test("should omit irrelevant values from exported state", () => {
     core: {},
     apiKeys: {},
     bla: 4,
-    ble: {}
+    ble: {},
   };
 
   saveState(testState);

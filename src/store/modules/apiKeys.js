@@ -13,7 +13,7 @@ const SET_GLOBAL_PROXY_URL = "SET_PROXY_URL";
 const initialState = {
   useGlobalApiProxy: false,
   globalProxyUrl: DEFAULT_PROXY_URL,
-  data: {}
+  data: {},
 };
 
 // Reducer
@@ -25,8 +25,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          [exchangeId]: { exchangeId, ...creds }
-        }
+          [exchangeId]: { exchangeId, ...creds },
+        },
       };
     }
     case DELETE_EXCHANGE_CREDENTIALS: {
@@ -34,21 +34,21 @@ export default function reducer(state = initialState, action) {
       const { [exchangeId]: deleted, ...newStateData } = state.data;
       return {
         ...state,
-        data: newStateData
+        data: newStateData,
       };
     }
 
     case SET_GLOBAL_PROXY_URL: {
       return {
         ...state,
-        globalProxyUrl: action.payload
+        globalProxyUrl: action.payload,
       };
     }
 
     case TOGGLE_GLOBAL_PROXY_SETTINGS: {
       return {
         ...state,
-        useGlobalApiProxy: !state.useApiProxy
+        useGlobalApiProxy: !state.useApiProxy,
       };
     }
 
@@ -64,7 +64,7 @@ export const setExchangeCredentials = ({
   secret,
   uid,
   password,
-  proxy
+  proxy,
 }) => ({
   type: SET_EXCHANGE_CREDENTIALS,
   payload: {
@@ -73,26 +73,26 @@ export const setExchangeCredentials = ({
     secret,
     uid,
     password,
-    proxy
-  }
+    proxy,
+  },
 });
 
-export const deleteExchangeCredentials = exchangeId => dispatch => {
+export const deleteExchangeCredentials = (exchangeId) => (dispatch) => {
   dispatch({
     type: DELETE_EXCHANGE_CREDENTIALS,
-    payload: exchangeId
+    payload: exchangeId,
   });
 
   dispatch(deletePortfolioData(exchangeId));
 };
 
 export const toggleProxySettings = () => ({
-  type: TOGGLE_GLOBAL_PROXY_SETTINGS
+  type: TOGGLE_GLOBAL_PROXY_SETTINGS,
 });
 
-export const setProxyUrl = url => ({
+export const setProxyUrl = (url) => ({
   type: SET_GLOBAL_PROXY_URL,
-  payload: url
+  payload: url,
 });
 
 // Selectors
@@ -102,20 +102,20 @@ export const proxySettingsSelector = pipe(
   pick(["useGlobalApiProxy", "globalProxyUrl"])
 );
 
-export const activeProxySelector = state => {
+export const activeProxySelector = (state) => {
   const { useGlobalApiProxy, globalProxyUrl } = proxySettingsSelector(state);
   return useGlobalApiProxy && globalProxyUrl;
 };
 
-export const parseProxySettings = state => apiKey => {
+export const parseProxySettings = (state) => (apiKey) => {
   const globalProxy = activeProxySelector(state);
   return {
     ...apiKey,
-    proxy: apiKey.proxy || globalProxy
+    proxy: apiKey.proxy || globalProxy,
   };
 };
 
 export const apiKeysSelector = get(["apiKeys", "data"]);
 
-export const apiKeysByIdSelector = exchangeId =>
+export const apiKeysByIdSelector = (exchangeId) =>
   pipe(apiKeysSelector, get(exchangeId));

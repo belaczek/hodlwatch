@@ -24,6 +24,6 @@ export default compose(
   withProps(({ settingsString, toggleModal, onSubmit }) => ({
     settingsString,
     toggleModal,
-    onSubmit
+    onSubmit,
   }))
 )(renderResetAppModalBody);

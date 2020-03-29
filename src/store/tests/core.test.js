@@ -9,7 +9,7 @@ import reducer, {
   serviceWorkerIsUpdatedSelector,
   quoteSymbolSelector,
   activeExchangeFilterIdSelector,
-  getInitializedCoreState
+  getInitializedCoreState,
 } from "store/modules/core";
 import { DEFAULT_QUOTE_SYMBOL } from "appConstants";
 
@@ -18,7 +18,7 @@ const initialState = {
   serviceWorkerUpdated: false,
   exchangeFilterId: null,
   symbolFilterId: null,
-  quoteSymbol: DEFAULT_QUOTE_SYMBOL
+  quoteSymbol: DEFAULT_QUOTE_SYMBOL,
 };
 
 test("reducer should return initial state", () => {

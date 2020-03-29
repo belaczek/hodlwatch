@@ -22,7 +22,7 @@ const renderStats = ({
   quoteSymbol,
   symbolCurrentPrice,
   protfolioPerformanceAbs,
-  protfolioPerformancePerc
+  protfolioPerformancePerc,
 }) => (
   <Level>
     {symbolFilter || exchangeFilterName ? (
@@ -78,9 +78,9 @@ export default compose(
   withProps(({ activeTimeFrame, portfolioPerformance = {} }) => ({
     tfLongName: get([activeTimeFrame, "longName"], TIME_FRAMES),
     protfolioPerformanceAbs: portfolioPerformance.absolute,
-    protfolioPerformancePerc: portfolioPerformance.relative
+    protfolioPerformancePerc: portfolioPerformance.relative,
   })),
   withPropsOnChange(["marketValue"], ({ marketValue }) => ({
-    marketValue: roundValue(marketValue)
+    marketValue: roundValue(marketValue),
   }))
 )(renderStats);

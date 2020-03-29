@@ -1,14 +1,14 @@
 import reducer, {
   exchangesDataSelector,
   exchangesListSelector,
-  exchangeByIdSelector
+  exchangeByIdSelector,
 } from "../modules/exchanges";
 
 const initialState = {
   lastUpdated: null,
   loading: false,
   error: false,
-  data: []
+  data: [],
 };
 
 test("reducer should return initial state", () => {
@@ -25,7 +25,7 @@ describe("exchanges actions", () => {
   test("should set an error", () => {
     const state = reducer(initialState, {
       type: "EXCHANGES_FAILURE",
-      payload: { error: "test" }
+      payload: { error: "test" },
     });
     expect(state).toHaveProperty("error", "test");
   });
@@ -33,11 +33,11 @@ describe("exchanges actions", () => {
   test("should set exchanges data", () => {
     const exchangesList = [
       { name: "CoinMate", id: "coinmate" },
-      { name: "Bittrex", id: "bittrex" }
+      { name: "Bittrex", id: "bittrex" },
     ];
     const state = reducer(initialState, {
       type: "EXCHANGES_SUCCESS",
-      payload: { exchangesList }
+      payload: { exchangesList },
     });
     expect(state).toHaveProperty("data", exchangesList);
   });
@@ -46,15 +46,15 @@ describe("exchanges actions", () => {
 describe("exchanges selectors", () => {
   const exchangesList = [
     { name: "CoinMate", id: "coinmate" },
-    { name: "Bittrex", id: "bittrex" }
+    { name: "Bittrex", id: "bittrex" },
   ];
 
   const testState = {
     exchanges: {
       loading: false,
       error: "testerror",
-      data: exchangesList
-    }
+      data: exchangesList,
+    },
   };
 
   test("should select whole exchanges module", () => {

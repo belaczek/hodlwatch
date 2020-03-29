@@ -6,12 +6,12 @@ import {
   YAxis,
   Tooltip,
   Area,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 
 import { roundValue } from "utils/calcFloat";
 
-const formatYAxis = quoteSymbol => val => {
+const formatYAxis = (quoteSymbol) => (val) => {
   if (val && val !== Infinity && val !== -Infinity) {
     return `${roundValue(val)} ${quoteSymbol}`;
   } else {
@@ -21,7 +21,7 @@ const formatYAxis = quoteSymbol => val => {
 
 const tooltipSorter = () => 1;
 
-const tooltipLabelFormatter = time => {
+const tooltipLabelFormatter = (time) => {
   return (
     <>
       <p className="u-text11px u-textUpperCase">portfolio market value</p>
@@ -32,7 +32,7 @@ const tooltipLabelFormatter = time => {
   );
 };
 
-const formatTooltipValue = quoteSymbol => value => (
+const formatTooltipValue = (quoteSymbol) => (value) => (
   <span>
     {value} {quoteSymbol}
   </span>
@@ -93,6 +93,6 @@ export default compose(
   pure,
   withProps(({ chartData, baseSymbols, quoteSymbol }) => ({
     data: chartData,
-    baseSymbols
+    baseSymbols,
   }))
 )(renderChart);

@@ -6,8 +6,8 @@ test("should encrypt and decrypt to the same value", () => {
     value1: 4,
     value3: {
       xx: 3,
-      yy: [3, 4, 5, 66, "a"]
-    }
+      yy: [3, 4, 5, 66, "a"],
+    },
   };
 
   const cipher = encrypt(testObject, passphrase);
@@ -21,8 +21,8 @@ test("should encrypt and decrypt using no password", () => {
     value1: 4,
     value3: {
       xx: 3,
-      yy: [3, 4, 5, 66, "a"]
-    }
+      yy: [3, 4, 5, 66, "a"],
+    },
   };
 
   const cipher = encrypt(testObject);

@@ -14,7 +14,7 @@ const renderResetAppModalBody = ({
   openResetModal,
   quoteSymbol,
   quoteSymbolList,
-  handleChangeQuoteCurrency
+  handleChangeQuoteCurrency,
 }) => (
   <Box hasTextAlign="left">
     <Title>settings</Title>
@@ -27,7 +27,7 @@ const renderResetAppModalBody = ({
           onChange={handleChangeQuoteCurrency}
           required
         >
-          {quoteSymbolList.map(name => (
+          {quoteSymbolList.map((name) => (
             <option key={name} value={name}>
               {name}
             </option>
@@ -52,19 +52,20 @@ const renderResetAppModalBody = ({
 export default compose(
   ModalWrapper,
   connect(
-    state => ({
-      quoteSymbol: quoteSymbolSelector(state)
+    (state) => ({
+      quoteSymbol: quoteSymbolSelector(state),
     }),
-    dispatch => ({
+    (dispatch) => ({
       openResetModal: () => dispatch(openModal(RESET_APP_MODAL)),
-      changeQuoteCurrency: currency => dispatch(changeQuoteCurrency(currency))
+      changeQuoteCurrency: (currency) =>
+        dispatch(changeQuoteCurrency(currency)),
     })
   ),
   withProps({
-    quoteSymbolList: QUOTE_SYMBOL_LIST
+    quoteSymbolList: QUOTE_SYMBOL_LIST,
   }),
   withHandlers({
-    handleChangeQuoteCurrency: ({ changeQuoteCurrency }) => e =>
-      changeQuoteCurrency(e.target.value)
+    handleChangeQuoteCurrency: ({ changeQuoteCurrency }) => (e) =>
+      changeQuoteCurrency(e.target.value),
   })
 )(renderResetAppModalBody);

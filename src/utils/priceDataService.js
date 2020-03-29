@@ -8,7 +8,7 @@ import {
   TF_1M,
   TF_6M,
   TF_1Y,
-  TF_2Y
+  TF_2Y,
 } from "appConstants";
 // @ts-ignore
 import { get, join, flatten, pipe, mapValues, reject } from "lodash/fp";
@@ -30,39 +30,39 @@ const URL_PATH_DAY = "histoday";
 export const timeFrames = {
   [TF_1H]: {
     urlPath: URL_PATH_MINUTE,
-    limit: 60
+    limit: 60,
   },
   [TF_1D]: {
     urlPath: URL_PATH_MINUTE,
-    limit: 1440
+    limit: 1440,
   },
   [TF_1W]: {
     urlPath: URL_PATH_HOUR,
-    limit: 168
+    limit: 168,
   },
   [TF_1M]: {
     urlPath: URL_PATH_HOUR,
-    limit: 744
+    limit: 744,
   },
   [TF_6M]: {
     urlPath: URL_PATH_DAY,
-    limit: 180
+    limit: 180,
   },
   [TF_1Y]: {
     urlPath: URL_PATH_DAY,
-    limit: 360
+    limit: 360,
   },
   [TF_2Y]: {
     urlPath: URL_PATH_DAY,
-    limit: 720
-  }
+    limit: 720,
+  },
 };
 
 /**
  * Axios instance to make http requests
  */
 const priceDataApiInstance = axios.create({
-  baseURL: PRICE_DATA_BASE_URL
+  baseURL: PRICE_DATA_BASE_URL,
 });
 
 /**
@@ -73,14 +73,14 @@ const priceDataApiInstance = axios.create({
 const makePriceApiCall = async (path, params) =>
   priceDataApiInstance.get(path, {
     // By the request of cryptocompare as a data provider, we include app name in the request
-    params: { ...params, extraParam: APP_NAME }
+    params: { ...params, extraParam: APP_NAME },
   });
 
 const histoDataResultSelector = get(["data", "Data"]);
 
-const parseHistoDataTimestamp = value => ({
+const parseHistoDataTimestamp = (value) => ({
   ...value,
-  time: multiply(value.time, 1000)
+  time: multiply(value.time, 1000),
 });
 
 /**
@@ -96,7 +96,7 @@ const parseHistoDataResult = (resData, baseSymbol) => {
   const data = histoDataResultSelector(resData) || [];
 
   return {
-    [baseSymbol]: data.map(parseHistoDataTimestamp)
+    [baseSymbol]: data.map(parseHistoDataTimestamp),
   };
 };
 
@@ -116,10 +116,10 @@ const parseCurrentPriceResult = (resData, quoteSymbol) =>
  * @param {string} path url subpath
  * @param {Object} params
  */
-const getHistoDataApiInstance = (path, params) => async baseSymbol => {
+const getHistoDataApiInstance = (path, params) => async (baseSymbol) => {
   const res = await makePriceApiCall(path, {
     ...params,
-    fsym: baseSymbol
+    fsym: baseSymbol,
   });
 
   return parseHistoDataResult(res, baseSymbol);
@@ -137,7 +137,7 @@ const fetchMultiHistoData = async (baseSymbols = [], fetchHistoDataFunc) => {
   const res = data.reduce(
     (acc, currentData) => ({
       ...acc,
-      ...currentData
+      ...currentData,
     }),
     {}
   );
@@ -169,7 +169,7 @@ const fetchMultiHistoData = async (baseSymbols = [], fetchHistoDataFunc) => {
 export const fetchOHLCV = async ({
   baseSymbols,
   quoteSymbol,
-  timeframe = TF_1M
+  timeframe = TF_1M,
 }) => {
   // Turn params into arrays and remove possible duplicities with quoteSymbol
   // (preventing error when fetching bitcoin data while having btc as quote currency)
@@ -181,7 +181,7 @@ export const fetchOHLCV = async ({
   // get api instance which can be then called multiple times with different symbols
   const histoDataApiInstance = getHistoDataApiInstance(urlPath, {
     tsym: quoteSymbol || DEFAULT_QUOTE_SYMBOL,
-    limit: limit
+    limit: limit,
   });
 
   const res =
@@ -211,7 +211,7 @@ export const fetchCurrentPrice = async ({ baseSymbols, quoteSymbol }) => {
   const res = await makePriceApiCall(path, {
     // TODO delete default 'BTC' later
     fsyms: baseSymbols || "BTC",
-    tsyms: quoteSymbol
+    tsyms: quoteSymbol,
   });
 
   return parseCurrentPriceResult(res, quoteSymbol);
@@ -219,5 +219,5 @@ export const fetchCurrentPrice = async ({ baseSymbols, quoteSymbol }) => {
 
 export default {
   fetchOHLCV,
-  fetchCurrentPrice
+  fetchCurrentPrice,
 };

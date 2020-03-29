@@ -9,7 +9,7 @@ import {
   Select,
   Button,
   Notification,
-  Help
+  Help,
 } from "bloomer";
 import { DEFAULT_PROXY_URL } from "appConstants";
 
@@ -17,7 +17,7 @@ const defaultApiCredentials = {
   apiKey: true,
   secret: true,
   uid: false,
-  password: false
+  password: false,
 };
 
 const renderExchangeApiForm = ({
@@ -33,7 +33,7 @@ const renderExchangeApiForm = ({
     apiKey: apiKeyField,
     secret: secretField,
     uid: uidField,
-    password: passwordField
+    password: passwordField,
   } = defaultApiCredentials,
   formData: {
     exchangeId,
@@ -44,8 +44,8 @@ const renderExchangeApiForm = ({
     submitting,
     submitError,
     proxy,
-    useProxy
-  }
+    useProxy,
+  },
 }) => {
   // const exchangeName = getExchangeName(exchanges, exchangeId)
   return (
