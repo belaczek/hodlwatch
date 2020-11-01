@@ -4,10 +4,7 @@ import { map } from "lodash/fp";
 import { Tabs, TabLink, TabList, Tab } from "bloomer";
 import { TIME_FRAMES } from "appConstants";
 
-/**
- * Timeframe selector component
- */
-export default ({ onChange, activeTf, className = "" }) => (
+const TimeFrames = ({ onChange, activeTf, className = "" }) => (
   <Tabs isAlign="centered" isSize="small" className="is-fullwidth">
     <TabList>
       {map(
@@ -21,3 +18,8 @@ export default ({ onChange, activeTf, className = "" }) => (
     </TabList>
   </Tabs>
 );
+
+/**
+ * Timeframe selector component
+ */
+export default TimeFrames;
