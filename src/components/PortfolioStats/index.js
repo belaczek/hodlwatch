@@ -1,7 +1,6 @@
 import React from "react";
 // @ts-ignore
 import { get } from "lodash/fp";
-import classnames from "classnames";
 import { compose, pure, withPropsOnChange, withProps } from "recompose";
 import { Level, LevelItem, Heading, Title } from "bloomer";
 import { roundValue } from "utils/calcFloat";
@@ -59,9 +58,7 @@ const renderStats = ({
         <Heading>{tfLongName} change</Heading>
         <Title
           isSize={5}
-          hasTextColor={classnames(
-            protfolioPerformanceAbs >= 0 ? "success" : "danger"
-          )}
+          hasTextColor={protfolioPerformanceAbs >= 0 ? "success" : "danger"}
         >
           {!!protfolioPerformancePerc && (
             <Performace value={protfolioPerformancePerc} />

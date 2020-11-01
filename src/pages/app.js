@@ -179,7 +179,7 @@ const Main = compose(
     componentDidMount() {
       const { appIsInitialized } = this.props;
       if (!appIsInitialized) {
-        return Router.push("/index");
+        return Router.push("/");
       }
       // When the screen is loaded, trigger price data refetch
       this.props.fetchInitData();
