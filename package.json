@@ -28,7 +28,7 @@
     }
   },
   "dependencies": {
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "big.js": "5.2.2",
     "bignumber.js": "^8.1.1",
     "bloomer": "0.6.5",
