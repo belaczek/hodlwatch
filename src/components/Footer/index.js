@@ -13,6 +13,12 @@ const AppFooter = () => (
           </a>
         </p>
         <p>
+          Price data powered by{" "}
+          <a href="https://min-api.cryptocompare.com/" target="blank">
+            CryptoCompare
+          </a>
+        </p>
+        <p>
           The source code is available on{" "}
           <a href="https://github.com/belaczek/hodlwatch" target="blank">
             GitHub
