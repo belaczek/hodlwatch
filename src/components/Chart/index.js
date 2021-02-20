@@ -24,10 +24,10 @@ const tooltipSorter = () => 1;
 const tooltipLabelFormatter = (time) => {
   return (
     <>
-      <p className="u-text11px u-textUpperCase">portfolio market value</p>
-      <p>
-        <strong>{time}</strong>
-      </p>
+      <span className="u-text11px u-textUpperCase">portfolio market value</span>
+      <br />
+      <strong>{time}</strong>
+      <br />
     </>
   );
 };

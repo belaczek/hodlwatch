@@ -60,11 +60,11 @@ const renderExchangeApiForm = ({
               <Control>
                 <Select
                   name="exchangeId"
-                  value={exchangeId}
+                  value={exchangeId ?? ""}
                   onChange={handleChange}
                   required
                 >
-                  <option value="" key="placeholder" disabled selected>
+                  <option value="" key="placeholder" disabled>
                     select exchange
                   </option>
                   {exchanges.map(({ name, id }) => (

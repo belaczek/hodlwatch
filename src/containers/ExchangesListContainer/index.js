@@ -74,8 +74,11 @@ const renderExchangeSection = ({
               <td />
             </tr>
             {exchanges.map(
-              ({ name, id, marketValue, portfolioError, portfolioLoading }) => (
-                <tr key={id}>
+              (
+                { name, id, marketValue, portfolioError, portfolioLoading },
+                index
+              ) => (
+                <tr key={id ?? index}>
                   <td>
                     <div className={styles.ExchangesList__exchangeNameColumn}>
                       <Title
