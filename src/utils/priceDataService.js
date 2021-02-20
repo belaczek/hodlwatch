@@ -117,12 +117,16 @@ const parseCurrentPriceResult = (resData, quoteSymbol) =>
  * @param {Object} params
  */
 const getHistoDataApiInstance = (path, params) => async (baseSymbol) => {
-  const res = await makePriceApiCall(path, {
-    ...params,
-    fsym: baseSymbol,
-  });
+  try {
+    const res = await makePriceApiCall(path, {
+      ...params,
+      fsym: baseSymbol,
+    });
 
-  return parseHistoDataResult(res, baseSymbol);
+    return parseHistoDataResult(res, baseSymbol);
+  } catch (error) {
+    return {};
+  }
 };
 
 /**
@@ -215,9 +219,4 @@ export const fetchCurrentPrice = async ({ baseSymbols, quoteSymbol }) => {
   });
 
   return parseCurrentPriceResult(res, quoteSymbol);
-};
-
-export default {
-  fetchOHLCV,
-  fetchCurrentPrice,
 };

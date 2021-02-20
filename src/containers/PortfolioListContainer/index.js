@@ -12,7 +12,7 @@ import { portfolioSymbolsSelector } from "store/modules/portfolio";
 import { Title } from "bloomer/lib/elements/Title";
 import { Table } from "bloomer/lib/elements/Table";
 import { setSymbolFilter, quoteSymbolSelector } from "store/modules/core";
-import scrollToTop from "utils/scrollToTop";
+import { scrollToTop } from "utils/scrollToTop";
 import { currentPriceDataSelector, marketValueSelector } from "store/selectors";
 import { roundValue } from "utils/calcFloat";
 

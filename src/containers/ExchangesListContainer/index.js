@@ -22,7 +22,7 @@ import Spinner from "components/Spinner";
 
 import styles from "./index.module.sass";
 import { fetchInitData } from "store/actions";
-import scrollToTop from "utils/scrollToTop";
+import { scrollToTop } from "utils/scrollToTop";
 
 // TODO
 const renderExchangeSection = ({
