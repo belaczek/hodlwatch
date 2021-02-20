@@ -5,38 +5,48 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Use Node.js 15
-      uses: actions/setup-node@v1
-      with:
-        node-version: 15
-          
-    - name: Cache  💾
-      uses: actions/cache@v2
-      with:
-        path: ${{ github.workspace }}/.next/cache
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
-          
-    - name: install, test and build
-      run: |
-        npm i -g yarn
-        yarn install --frozen-lockfile
-        yarn test
-        yarn build
-        
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@3.6.2
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages # The branch the action should deploy to.
-        FOLDER: dist # The folder the action should deploy.
-        CLEAN: true # Automatically remove deleted files from the deploy branch
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 15
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache  💾
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+            ${{ github.workspace }}/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+
+      - name: install ⬇️
+        run: |
+          npm i -g yarn
+          yarn install --frozen-lockfile
+
+      - name: test ✅
+        run: yarn test
+
+      - name: build 🔧
+        run: yarn build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
