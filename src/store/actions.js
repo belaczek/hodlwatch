@@ -63,7 +63,7 @@ export const changeQuoteCurrency = (currency) => async (dispatch) => {
 
 const notifyExchangeDeleteSuccess = async () => {
   const { toast } = await importToastService();
-  toast.warning(`Exchange successfully remover`);
+  toast.warning(`Exchange successfully removed`);
 };
 
 /**
