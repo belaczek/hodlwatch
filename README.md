@@ -32,6 +32,9 @@ yarn build
 
 # 3. run built application
 yarn start
+
+# 4. (optional): Starts local CORS proxy server
+yarn cors-server
 ```
 
 ## Features
